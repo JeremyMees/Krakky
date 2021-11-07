@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&family=Pacifico&display=swap");
+
+html,
+body {
+  padding: 0 0.25rem;
+  background-color: rgb(245, 245, 245);
+  font-family: "Lato", sans-serif;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.primary {
+  color: #0d89ec;
+}
+
+.primary-bg {
+  background-color: #0d89ec;
+}
+
+.accent {
+  color: #fbc02d;
+}
+
+.accent-bg {
+  background-color: #fbc02d;
+}
+
+.brand {
+  font-family: "Pacifico", sans-serif;
+}
+
+.under-text {
+  color: rgb(100, 100, 100);
+  position: relative;
+  bottom: 1rem;
+}
+
+html,
+body {
+  height: 100%;
+}

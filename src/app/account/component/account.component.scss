@@ -1,0 +1,91 @@
+.image-container {
+  width: 5rem;
+  border: 1px solid #333;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 2rem auto;
+}
+
+.info {
+  padding-bottom: 1rem;
+}
+
+.profile {
+  padding: 0;
+  max-width: 30rem !important;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.top > mat-card {
+  width: 20rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.number {
+  text-align: center;
+  font-size: 8rem;
+  line-height: 1;
+  position: relative;
+  bottom: 2rem;
+  word-break: break-all;
+}
+
+.bottom {
+  max-width: 83rem;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
+
+h3 {
+  text-align: center;
+}
+
+.workspace-title {
+  font-size: 2rem;
+  margin-left: 1rem;
+}
+
+.workspaces {
+  align-content: center;
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.img-card {
+  width: 20rem;
+}
+
+.img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.flex-bottom {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 83rem;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.carousel-card {
+  max-width: 62rem;
+}

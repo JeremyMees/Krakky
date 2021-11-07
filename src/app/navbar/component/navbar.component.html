@@ -1,0 +1,47 @@
+<div class="navbar">
+  <div class="left">
+    <p
+      class="brand"
+      routerLinkActive="underline"
+      routerLink="/home"
+      aria-hidden="false"
+    >
+      Krakky<span class="accent">.</span>
+    </p>
+  </div>
+  <div class="middle">
+    <p routerLinkActive="underline" routerLink="/home" aria-hidden="false">
+      Home
+    </p>
+    <p routerLinkActive="underline" routerLink="/contact" aria-hidden="false">
+      Contact
+    </p>
+    <p routerLinkActive="underline" routerLink="/workspace" aria-hidden="false">
+      Workspaces
+    </p>
+    <p routerLinkActive="underline" routerLink="/account" aria-hidden="false">
+      Account
+    </p>
+  </div>
+  <div class="right">
+    <p (click)="openLoginDialog()">Log in</p>
+    <button
+      (click)="openRegisterDialog()"
+      pButton
+      pRipple
+      type="button"
+      label="Sign up"
+    ></button>
+  </div>
+  <div class="hamburger">
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-bars"
+      class="p-button-rounded p-button-text"
+      (click)="menu.toggle($event)"
+    ></button>
+  </div>
+</div>

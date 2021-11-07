@@ -1,0 +1,106 @@
+<section class="top">
+  <mat-card>
+    <div class="image-container">
+      <p-image
+        src="https://avatars.dicebear.com/api/croodles-neutral/meesjeremy.svg"
+        alt="avatar"
+      ></p-image>
+    </div>
+    <div class="info">
+      <p>Name: Mees Jeremy</p>
+      <p>Email: jeremy@test.com</p>
+      <p>ID: 347678bc654f677f56</p>
+    </div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Edit account"
+      class="btn-full"
+    ></button>
+  </mat-card>
+
+  <mat-card>
+    <h1>Different workspaces</h1>
+    <p class="number">2</p>
+  </mat-card>
+
+  <mat-card>
+    <h1>Cards created</h1>
+    <p class="number">420</p>
+  </mat-card>
+
+  <mat-card>
+    <h1>Cards doing</h1>
+    <p class="number">6999</p>
+  </mat-card>
+</section>
+
+<section class="bottom">
+  <div class="flex-bottom">
+    <mat-card class="carousel-card">
+      <h1>Workspaces</h1>
+      <p-carousel
+        [style]="{ 'max-width': '62rem', 'margin-top': '2rem' }"
+        [value]="workspaces"
+        [numVisible]="3"
+        [numScroll]="1"
+        [responsiveOptions]="responsiveOptions"
+      >
+        <ng-template let-workspace pTemplate="item">
+          <div class="workspaces">
+            <div class="avatars">
+              <p-avatar
+                [label]="workspace.workspace.charAt(0).toUpperCase()"
+                styleClass="p-mr-2"
+                size="xlarge"
+                shape="circle"
+              ></p-avatar>
+              <span class="workspace-title">{{ workspace.workspace }}</span>
+            </div>
+            <p>{{ workspace.team.length }} Team members</p>
+            <p-avatarGroup styleClass="p-mb-3">
+              <p-avatar
+                [label]="workspace.workspace.charAt(0).toUpperCase()"
+                styleClass="p-mr-2"
+                size="large"
+                shape="circle"
+              ></p-avatar>
+              <p-avatar
+                [label]="workspace.workspace.charAt(0).toUpperCase()"
+                styleClass="p-mr-2"
+                size="large"
+                shape="circle"
+              ></p-avatar>
+              <p-avatar
+                [label]="workspace.workspace.charAt(0).toUpperCase()"
+                styleClass="p-mr-2"
+                size="large"
+                shape="circle"
+              ></p-avatar>
+              <p-avatar
+                [label]="workspace.workspace.charAt(0).toUpperCase()"
+                styleClass="p-mr-2"
+                size="large"
+                shape="circle"
+              ></p-avatar>
+              <p-avatar
+                [label]="'+2'"
+                styleClass="p-mr-2"
+                size="large"
+                shape="circle"
+              ></p-avatar>
+            </p-avatarGroup>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </mat-card>
+    <mat-card class="img-card">
+      <img
+        src="../../../assets/images/account.svg"
+        alt="self growth"
+        class="img"
+      />
+    </mat-card>
+  </div>
+</section>

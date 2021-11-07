@@ -1,0 +1,87 @@
+.flex-top {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.img-container {
+  max-width: 30rem;
+  width: 100%;
+}
+
+.slogan {
+  font-size: 3.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.slogan-first {
+  text-align: right;
+}
+
+.slogan-box {
+  margin: auto;
+}
+
+.flex-container {
+  display: flex;
+  gap: 3rem;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  font-family: "Open Sans", sans-serif;
+
+  .child {
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+.why {
+  background-color: rgb(235, 235, 235);
+  border-radius: 15px;
+  max-width: 75rem;
+  width: 100%;
+  display: block;
+  margin: 2rem auto;
+  padding: 0.5rem;
+}
+
+.title {
+  text-align: center;
+  font-weight: 700;
+}
+
+.why-btn {
+  display: block;
+  margin: 0 auto 0.5rem auto;
+}
+
+@media (max-width: 950px) {
+  .flex-top {
+    gap: 0rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .slogan {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .slogan {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,41 @@
+<div class="flex">
+  <div class="img-container">
+    <img src="../../../assets/images/login.svg" alt="login image" />
+  </div>
+  <div class="inputs">
+    <p class="title">Let's log you in</p>
+    <p class="under-text">You've been missed</p>
+    <span class="p-float-label">
+      <input
+        id="float-input"
+        type="text"
+        pInputText
+        placeholder="Email address"
+      />
+    </span>
+    <span class="p-float-label">
+      <input id="float-input" type="text" pInputText placeholder="Password" />
+    </span>
+    <div class="buttons">
+      <button
+        label="Log in"
+        pRipple
+        pButton
+        class="login-btn p-button-raised"
+      ></button>
+      <button
+        icon="pi pi-google"
+        pRipple
+        pButton
+        type="button"
+        class="p-button-raised p-button-info p-button-text"
+        pTooltip="Log in with Google"
+        [showDelay]="500"
+      ></button>
+    </div>
+    <div class="footer">
+      <p class="footer-text">New user</p>
+      <p class="footer-text">Forgot password</p>
+    </div>
+  </div>
+</div>
