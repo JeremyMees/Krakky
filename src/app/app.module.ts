@@ -10,11 +10,14 @@ import { LoginModule } from './login/login.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { RegisterModule } from './register/register.module';
 import { StylingModule } from './styling/styling.module';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
     StylingModule,
     AppRoutingModule,
     NavbarModule,

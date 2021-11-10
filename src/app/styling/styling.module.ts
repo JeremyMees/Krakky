@@ -13,6 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { MatCardModule } from '@angular/material/card';
 import { CarouselModule } from 'primeng/carousel';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { TooltipModule } from 'primeng/tooltip';
     ImageModule,
     CarouselModule,
     TooltipModule,
+    ToastModule,
   ],
 })
 export class StylingModule {}

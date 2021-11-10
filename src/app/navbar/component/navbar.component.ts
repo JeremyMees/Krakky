@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component } from '@angular/core';
+import { MenuItem, MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from 'src/app/login/component/login.component';
 import { RegisterComponent } from 'src/app/register/component/register.component';
@@ -8,8 +8,9 @@ import { RegisterComponent } from 'src/app/register/component/register.component
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  providers: [MessageService],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   items: Array<MenuItem> = [
     { label: 'Home', icon: 'pi pi-fw pi-home' },
     { label: 'Contact', icon: 'pi pi-fw pi-phone' },
@@ -19,23 +20,45 @@ export class NavbarComponent implements OnInit {
     { label: 'Sign up', icon: 'pi pi-user-plus' },
   ];
 
-  constructor(public dialog: MatDialog) {}
-
-  ngOnInit(): void {}
+  constructor(
+    public dialog: MatDialog,
+    private messageService: MessageService
+  ) {}
 
   openLoginDialog(): void {
     const dialogRefLogin = this.dialog.open(LoginComponent);
-
     dialogRefLogin.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        if (result.redirect) {
+          this.openRegisterDialog();
+        } else {
+          if (result.data) {
+            console.log(result.data);
+          }
+          console.log(result);
+          this._showSnackbar('success', result.message);
+        }
+      }
     });
   }
 
   openRegisterDialog(): void {
     const dialogRefLogin = this.dialog.open(RegisterComponent);
-
     dialogRefLogin.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        if (result.redirect) {
+          this.openLoginDialog();
+        } else {
+          this._showSnackbar('success', result.message);
+        }
+      }
+    });
+  }
+
+  _showSnackbar(severity: string, detail: string): void {
+    this.messageService.add({
+      severity,
+      detail,
     });
   }
 }

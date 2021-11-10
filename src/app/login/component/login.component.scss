@@ -29,8 +29,23 @@ input {
   margin-bottom: 0.5rem;
 }
 
+.p-inputgroup {
+  width: 250px;
+  margin-bottom: 0.5rem;
+}
+
 p-password {
   width: 250px;
+}
+
+.btn {
+  max-width: 250px;
+  width: 100%;
+}
+
+.reset-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .buttons {

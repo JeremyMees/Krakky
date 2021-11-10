@@ -4,35 +4,72 @@
   </div>
   <div class="right">
     <p class="title">Let's sign you up</p>
-    <div class="inputs">
+    <p class="under-text">Welcome to the club.</p>
+    <form
+      (submit)="onRegister(registerForm)"
+      #registerForm="ngForm"
+      class="inputs"
+    >
       <input
-        id="float-input"
-        type="text"
+        type="email"
         pInputText
         placeholder="Email address"
+        ngModel
+        required
+        name="email"
+        #email="ngModel"
       />
-      <input id="float-input" type="text" pInputText placeholder="Username" />
-      <input id="float-input" type="text" pInputText placeholder="Password" />
-    </div>
-    <div class="buttons">
-      <button
-        label="Sign up"
-        pRipple
-        pButton
-        class="login-btn p-button-raised"
-      ></button>
-      <button
-        icon="pi pi-google"
-        pRipple
-        pButton
-        type="button"
-        class="p-button-raised p-button-info p-button-text"
-        pTooltip="Sign up with Google"
-        [showDelay]="500"
-      ></button>
-    </div>
+      <input
+        type="text"
+        pInputText
+        placeholder="Username"
+        ngModel
+        required
+        name="username"
+        #username="ngModel"
+        [maxlength]="12"
+        (keyup)="_checkUsername(username.control.value)"
+      />
+      <span class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          placeholder="Password"
+          ngModel
+          required
+          [type]="inputType"
+          name="password"
+          #password="ngModel"
+        />
+        <button
+          type="button"
+          pButton
+          pRipple
+          [icon]="inputIcon"
+          (click)="_changeInputType()"
+        ></button>
+      </span>
+      <div class="buttons">
+        <button
+          label="Sign up"
+          pRipple
+          pButton
+          class="login-btn p-button-raised"
+        ></button>
+        <button
+          icon="pi pi-google"
+          pRipple
+          pButton
+          type="button"
+          class="p-button-raised p-button-info p-button-text"
+          pTooltip="Sign up with Google"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
     <div class="footer">
-      <p class="footer-text">Already a user</p>
+      <p class="footer-text" (click)="onLogin()">Already a user</p>
     </div>
   </div>
+  <p-toast></p-toast>
 </div>

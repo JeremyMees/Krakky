@@ -3,39 +3,105 @@
     <img src="../../../assets/images/login.svg" alt="login image" />
   </div>
   <div class="inputs">
-    <p class="title">Let's log you in</p>
-    <p class="under-text">You've been missed</p>
-    <span class="p-float-label">
+    <p class="title" *ngIf="!forgotPassword">Let's log you in</p>
+    <p class="title" *ngIf="forgotPassword">Let's reset your password</p>
+    <p class="under-text" *ngIf="!forgotPassword">You've been missed</p>
+    <p class="under-text" *ngIf="forgotPassword">We are missing you</p>
+    <form
+      (submit)="onLogin(loginForm)"
+      #loginForm="ngForm"
+      *ngIf="!forgotPassword"
+    >
       <input
-        id="float-input"
-        type="text"
         pInputText
         placeholder="Email address"
+        ngModel
+        required
+        email
+        type="email"
+        name="email"
+        #email="ngModel"
       />
-    </span>
-    <span class="p-float-label">
-      <input id="float-input" type="text" pInputText placeholder="Password" />
-    </span>
-    <div class="buttons">
+      <span class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          placeholder="Password"
+          ngModel
+          required
+          [type]="inputType"
+          name="password"
+          #password="ngModel"
+        />
+        <button
+          type="button"
+          pButton
+          pRipple
+          [icon]="inputIcon"
+          (click)="_changeInputType()"
+        ></button>
+      </span>
+      <div class="buttons">
+        <button
+          label="Log in"
+          pRipple
+          pButton
+          type="submit"
+          class="login-btn p-button-raised"
+        ></button>
+        <button
+          icon="pi pi-google"
+          pRipple
+          pButton
+          type="button"
+          class="p-button-raised p-button-info p-button-text"
+          pTooltip="Log in with Google"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+    <form
+      (submit)="onChangeToResetPassword(resetForm)"
+      #resetForm="ngForm"
+      *ngIf="forgotPassword"
+      class="reset-form"
+    >
+      <input
+        id="float-input"
+        pInputText
+        placeholder="Email address"
+        ngModel
+        required
+        email
+        type="email"
+        name="email"
+        #email="ngModel"
+      />
       <button
-        label="Log in"
+        label="Reset Password"
         pRipple
         pButton
-        class="login-btn p-button-raised"
+        type="submit"
+        class="p-button-raised btn"
       ></button>
-      <button
-        icon="pi pi-google"
-        pRipple
-        pButton
-        type="button"
-        class="p-button-raised p-button-info p-button-text"
-        pTooltip="Log in with Google"
-        [showDelay]="500"
-      ></button>
-    </div>
+    </form>
     <div class="footer">
-      <p class="footer-text">New user</p>
-      <p class="footer-text">Forgot password</p>
+      <p class="footer-text" (click)="onRegister()">New user</p>
+      <p
+        class="footer-text"
+        (click)="forgotPassword = true"
+        *ngIf="!forgotPassword"
+      >
+        Forgot password
+      </p>
+      <p
+        class="footer-text"
+        (click)="forgotPassword = false"
+        *ngIf="forgotPassword"
+      >
+        Log in
+      </p>
     </div>
   </div>
 </div>
+<p-toast></p-toast>
