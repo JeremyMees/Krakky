@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from 'src/app/login/component/login.component';
 import { RegisterComponent } from 'src/app/register/component/register.component';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Router } from '@angular/router';
+import { HttpResponse } from 'src/app/shared/models/http-response.model';
 
 @Component({
   selector: 'app-navbar',
@@ -10,22 +13,23 @@ import { RegisterComponent } from 'src/app/register/component/register.component
   styleUrls: ['./navbar.component.scss'],
   providers: [MessageService],
 })
-export class NavbarComponent {
-  items: Array<MenuItem> = [
-    { label: 'Home', icon: 'pi pi-fw pi-home' },
-    { label: 'Contact', icon: 'pi pi-fw pi-phone' },
-    { label: 'Workspaces', icon: 'pi pi-fw pi-calendar' },
-    { label: 'Account', icon: 'pi pi-fw pi-user' },
-    { label: 'Log in', icon: 'pi pi-fw pi-id-card' },
-    { label: 'Sign up', icon: 'pi pi-user-plus' },
-  ];
+export class NavbarComponent implements OnInit {
+  username: string | undefined;
 
   constructor(
     public dialog: MatDialog,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
-  openLoginDialog(): void {
+  public ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      user ? (this.username = user.username) : null;
+    });
+  }
+
+  public openLoginDialog(): void {
     const dialogRefLogin = this.dialog.open(LoginComponent);
     dialogRefLogin.afterClosed().subscribe((result) => {
       if (result) {
@@ -33,32 +37,104 @@ export class NavbarComponent {
           this.openRegisterDialog();
         } else {
           if (result.data) {
-            console.log(result.data);
+            this.username = result.data.username;
+            this._showSnackbar('success', 'Logged in succesfully');
           }
-          console.log(result);
-          this._showSnackbar('success', result.message);
         }
       }
     });
   }
 
-  openRegisterDialog(): void {
+  public openRegisterDialog(): void {
     const dialogRefLogin = this.dialog.open(RegisterComponent);
     dialogRefLogin.afterClosed().subscribe((result) => {
       if (result) {
         if (result.redirect) {
           this.openLoginDialog();
         } else {
-          this._showSnackbar('success', result.message);
+          this.authService.login(result.data).subscribe({
+            next: (res: HttpResponse) => {
+              this.username = res.data.username;
+              this._showSnackbar('success', result.message);
+            },
+          });
         }
       }
     });
   }
 
-  _showSnackbar(severity: string, detail: string): void {
+  public onLogout(): void {
+    this.username = undefined;
+    this.authService.logout();
+    this._showSnackbar('success', 'Logged out succesfully');
+  }
+
+  private _navigate(component: string): void {
+    this.router.navigateByUrl(component);
+  }
+
+  private _showSnackbar(severity: string, detail: string): void {
     this.messageService.add({
       severity,
       detail,
     });
   }
+
+  items: Array<MenuItem> = [
+    {
+      label: 'Home',
+      icon: 'pi pi-fw pi-home',
+      command: () => {
+        this._navigate('home');
+      },
+    },
+    { label: 'Contact', icon: 'pi pi-fw pi-phone' },
+    { label: 'Workspaces', icon: 'pi pi-fw pi-calendar' },
+    {
+      label: 'Account',
+      icon: 'pi pi-fw pi-user',
+      command: () => {
+        this._navigate('account');
+      },
+    },
+    {
+      label: 'Log in',
+      icon: 'pi pi-fw pi-sign-in',
+      command: () => {
+        this.openLoginDialog();
+      },
+    },
+    {
+      label: 'Sign up',
+      icon: 'pi pi-user-plus',
+      command: () => {
+        this.openRegisterDialog();
+      },
+    },
+  ];
+  itemsLoggedin: Array<MenuItem> = [
+    {
+      label: 'Home',
+      icon: 'pi pi-fw pi-home',
+      command: () => {
+        this._navigate('home');
+      },
+    },
+    { label: 'Contact', icon: 'pi pi-fw pi-phone' },
+    { label: 'Workspaces', icon: 'pi pi-fw pi-calendar' },
+    {
+      label: 'Account',
+      icon: 'pi pi-fw pi-user',
+      command: () => {
+        this._navigate('account');
+      },
+    },
+    {
+      label: 'Log out',
+      icon: 'pi pi-fw pi-sign-out',
+      command: () => {
+        this.onLogout();
+      },
+    },
+  ];
 }

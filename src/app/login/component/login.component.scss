@@ -25,17 +25,20 @@ img {
 }
 
 input {
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
   margin-bottom: 0.5rem;
 }
 
 .p-inputgroup {
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
   margin-bottom: 0.5rem;
 }
 
 p-password {
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
 }
 
 .btn {
@@ -49,7 +52,8 @@ p-password {
 }
 
 .buttons {
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 0.25rem;

@@ -18,7 +18,8 @@ export class AuthService {
   username: string | undefined;
   auth_status_listener$ = new BehaviorSubject<boolean>(false);
   token_timer: any;
-  current_user = new BehaviorSubject<User | null>(null);
+  current_user$ = new BehaviorSubject<User | null>(null);
+  storage = window.localStorage;
   constructor(private http: HttpClient, private router: Router) {}
 
   public getToken(): string {
@@ -33,28 +34,50 @@ export class AuthService {
     return this.is_authenticated;
   }
 
+  public getCurrentUser(): BehaviorSubject<User | null> {
+    return this.current_user$;
+  }
+
   public login(credentials: LoginCredentials): Observable<HttpResponse> {
     return this.http
       .post<HttpResponse>('http://localhost:3000/auth/login', credentials)
       .pipe(
-        map((res) => {
+        map((res: HttpResponse) => {
           if (res.statusCode === 200) {
             this.token = res.data.acces_token;
             const expiresInDuration: number =
-              res.data.token_expires_time - Date.now();
+              res.data.token_expire_time - Date.now();
             this._setAuthTimer(expiresInDuration);
             this.auth_status_listener$.next(true);
             this.user_id = res.data._id;
             this.user_email = res.data.email;
             this.username = res.data.username;
-            this._saveAuthData(`${expiresInDuration}`);
+            this.is_authenticated = true;
+            this.saveAuthData(res.data);
           }
           return res;
         })
       );
   }
 
-  public logoutUser(): void {
+  public autoLogin(): void {
+    const user: AuthData = this.getAuthData();
+    this.token = user.acces_token;
+    this.is_authenticated = true;
+    this.user_id = user._id;
+    this.user_email = user.email;
+    this.username = user.username;
+    this.current_user$.next({
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+    });
+    const expires_in = user.token_expire_time - Date.now();
+    this._setAuthTimer(expires_in);
+    this.auth_status_listener$.next(true);
+  }
+
+  public logout(): void {
     this.token = undefined;
     this.is_authenticated = false;
     this.auth_status_listener$.next(false);
@@ -62,49 +85,40 @@ export class AuthService {
     clearTimeout(this.token_timer);
     this._clearAuthData();
     this.user_id = undefined;
-    this.current_user.next(null);
-    this.router.navigate(['/home']);
+    this.current_user$.next(null);
+    this.router.navigateByUrl('home');
   }
 
   private _setAuthTimer(duration: number): void {
     this.token_timer = setTimeout(() => {
-      this.logoutUser();
+      this.logout();
     }, duration);
   }
 
-  _saveAuthData(expires_in: string): void {
-    this.current_user.next({
+  public saveAuthData(user: User): void {
+    this.current_user$.next({
       email: this.user_email as string,
       _id: this.user_id as string,
       username: this.username as string,
     });
-    console.log('test', this.token);
-    localStorage.setItem('token', this.token as string);
-    localStorage.setItem('expiration', expires_in as string);
-    localStorage.setItem('userId', this.user_id as string);
-    localStorage.setItem('userEmail', this.user_email as string);
-    localStorage.setItem('username', this.username as string);
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token_expiration', `${user.token_expire_time}`);
   }
 
   private _clearAuthData(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('username');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token_expiration');
   }
 
-  private _getAuthData(): AuthData | undefined {
-    const auth_data: AuthData = {
-      token: localStorage.getItem('token') as string,
-      expiration_date: Number(localStorage.getItem('expiration')),
-      user_id: localStorage.getItem('userId') as string,
-      user_email: localStorage.getItem('userEmail') as string,
-      username: localStorage.getItem('username') as string,
-    };
-    if (!auth_data.token || !auth_data.expiration_date) {
-      return;
+  public getAuthData(): AuthData {
+    const user = JSON.parse(localStorage.getItem('user') as string);
+    if (0 > user.token_expire_time - Date.now()) {
+      user.valid_token = false;
+      this.is_authenticated = false;
+    } else {
+      user.valid_token = true;
+      this.is_authenticated = true;
     }
-    return auth_data;
+    return user;
   }
 }

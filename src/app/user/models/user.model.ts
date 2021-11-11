@@ -5,4 +5,6 @@ export interface User {
   username?: string;
   password?: string;
   verified?: boolean;
+  acces_token?: string;
+  token_expire_time?: number;
 }

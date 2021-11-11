@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
-import { UserAdd } from './models/add_user.model';
+import { UserAdd } from '../models/add_user.model';
 
 @Injectable({
   providedIn: 'root',

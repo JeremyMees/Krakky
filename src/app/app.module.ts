@@ -12,6 +12,7 @@ import { RegisterModule } from './register/register.module';
 import { StylingModule } from './styling/styling.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -27,7 +28,7 @@ import { FormsModule } from '@angular/forms';
     RegisterModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

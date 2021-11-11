@@ -5,6 +5,23 @@
   max-height: 4rem;
 }
 
+.image-container {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #333;
+  border-radius: 50%;
+  transform: scaleX(-1);
+}
+
+.online {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: rgb(2, 204, 2);
+  border-radius: 50%;
+  position: relative;
+  bottom: 1rem;
+}
+
 .middle {
   display: flex;
   flex-direction: row;

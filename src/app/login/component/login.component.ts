@@ -20,7 +20,7 @@ export class LoginComponent {
     private dialogRef: MatDialogRef<LoginComponent>
   ) {}
 
-  onLogin(form: NgForm): void {
+  public onLogin(form: NgForm): void {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");
@@ -30,11 +30,10 @@ export class LoginComponent {
       next: (res: HttpResponse) => {
         if (res.statusCode === 200) {
           this._showSnackbar('succes', res.message);
-          console.log(res);
           this.dialogRef.close({
             redirect: false,
             message: res.message,
-            data: {email:form.value.email},
+            data: res.data,
           });
         } else {
           form.reset();
@@ -48,7 +47,7 @@ export class LoginComponent {
     });
   }
 
-  onChangeToResetPassword(form: NgForm): void {
+  public onChangeToResetPassword(form: NgForm): void {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");
@@ -60,11 +59,11 @@ export class LoginComponent {
     });
   }
 
-  onRegister(): void {
+  public onRegister(): void {
     this.dialogRef.close({ redirect: true });
   }
 
-  _changeInputType(): void {
+  public changeInputType(): void {
     if (this.inputType === 'password') {
       this.inputType = 'text';
       this.inputIcon = 'pi pi-eye-slash';
@@ -74,7 +73,7 @@ export class LoginComponent {
     }
   }
 
-  _showSnackbar(severity: string, detail: string): void {
+  private _showSnackbar(severity: string, detail: string): void {
     this.messageService.add({
       severity,
       detail,

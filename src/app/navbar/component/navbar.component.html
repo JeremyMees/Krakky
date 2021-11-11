@@ -23,7 +23,7 @@
       Account
     </p>
   </div>
-  <div class="right">
+  <div class="right" *ngIf="!username">
     <p (click)="openLoginDialog()">Log in</p>
     <button
       (click)="openRegisterDialog()"
@@ -33,15 +33,45 @@
       label="Sign up"
     ></button>
   </div>
+  <div class="right" *ngIf="username">
+    <p (click)="onLogout()">Log out</p>
+    <div class="image-container">
+      <p-image
+        [src]="
+          'https://avatars.dicebear.com/api/croodles-neutral/' +
+          username +
+          '.svg'
+        "
+        alt="avatar"
+      ></p-image>
+      <div class="online"></div>
+    </div>
+  </div>
   <div class="hamburger">
-    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+    <p-menu #menu [popup]="true" [model]="items" [hidden]="username"></p-menu>
+    <p-menu
+      #menuLogged
+      [popup]="true"
+      [model]="itemsLoggedin"
+      [hidden]="!username"
+    ></p-menu>
     <button
+      *ngIf="!username"
       pButton
       pRipple
       type="button"
       icon="pi pi-bars"
       class="p-button-rounded p-button-text"
       (click)="menu.toggle($event)"
+    ></button>
+    <button
+      *ngIf="username"
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-bars"
+      class="p-button-rounded p-button-text"
+      (click)="menuLogged.toggle($event)"
     ></button>
   </div>
 </div>

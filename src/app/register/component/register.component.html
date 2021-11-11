@@ -28,7 +28,7 @@
         name="username"
         #username="ngModel"
         [maxlength]="12"
-        (keyup)="_checkUsername(username.control.value)"
+        (keyup)="checkUsername(username.control.value)"
       />
       <span class="p-inputgroup">
         <input
@@ -46,7 +46,7 @@
           pButton
           pRipple
           [icon]="inputIcon"
-          (click)="_changeInputType()"
+          (click)="changeInputType()"
         ></button>
       </span>
       <div class="buttons">
