@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from 'src/app/login/component/login.component';
-import { RegisterComponent } from 'src/app/register/component/register.component';
+import { LoginComponent } from 'src/app/login/components/login.component';
+import { RegisterComponent } from 'src/app/register/components/register.component';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { UserService } from 'src/app/user/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,11 +21,13 @@ export class NavbarComponent implements OnInit {
     public dialog: MatDialog,
     private messageService: MessageService,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {}
 
   public ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe((user) => {
+    const current_user = this.userService.getCurrentUser();
+    current_user.subscribe((user) => {
       user ? (this.username = user.username) : null;
     });
   }

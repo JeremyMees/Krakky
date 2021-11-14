@@ -14,9 +14,15 @@ import { MatCardModule } from '@angular/material/card';
 import { CarouselModule } from 'primeng/carousel';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastModule } from 'primeng/toast';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LoadingComponent } from './components/loading/loading.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BadgeModule } from 'primeng/badge';
+import { ColorPickerModule } from 'primeng/colorpicker';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
-  declarations: [],
+  declarations: [LoadingComponent],
+  imports: [ProgressSpinnerModule, BrowserAnimationsModule],
   exports: [
     BrowserAnimationsModule,
     InputSwitchModule,
@@ -33,6 +39,12 @@ import { ToastModule } from 'primeng/toast';
     CarouselModule,
     TooltipModule,
     ToastModule,
+    ProgressSpinnerModule,
+    LoadingComponent,
+    MatIconModule,
+    BadgeModule,
+    ColorPickerModule,
+    OverlayPanelModule,
   ],
 })
 export class StylingModule {}

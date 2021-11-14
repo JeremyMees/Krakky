@@ -1,0 +1,46 @@
+<form (submit)="onAddWorkspace(workspaceForm)" #workspaceForm="ngForm">
+  <div class="img-container">
+    <img src="../../../assets/images/kaban.svg" alt="planning image" />
+  </div>
+  <div>
+    <p class="title">Let's create a new workspace</p>
+    <p class="under-text">And start planning directly.</p>
+    <input
+      type="text"
+      pInputText
+      ngModel
+      required
+      name="workspace_name"
+      #workspace_name="ngModel"
+      placeholder="Workspace title"
+      maxlength="20"
+    />
+    <div class="buttons">
+      <button
+        pButton
+        pRipple
+        label="Go back"
+        type="button"
+        class="p-button-raised p-button-text p-button-secondary"
+        (click)="onGoBack()"
+      ></button>
+      <button
+        [disabled]="
+          workspace_name.value === undefined
+            ? true
+            : workspace_name.value?.length < 4
+            ? true
+            : workspace_name.value.length > 20
+            ? true
+            : false
+        "
+        pButton
+        pRipple
+        label="Create workspace"
+        type="submit"
+        class="p-button-raised"
+      ></button>
+    </div>
+  </div>
+</form>
+<p-toast></p-toast>

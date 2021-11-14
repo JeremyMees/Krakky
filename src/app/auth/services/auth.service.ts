@@ -7,6 +7,7 @@ import { LoginCredentials } from '../../login/models/login-credentials.model';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/user/models/user.model';
 import { AuthData } from './models/auth-data.model';
+import { UserService } from 'src/app/user/services/user.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,9 +19,12 @@ export class AuthService {
   username: string | undefined;
   auth_status_listener$ = new BehaviorSubject<boolean>(false);
   token_timer: any;
-  current_user$ = new BehaviorSubject<User | null>(null);
   storage = window.localStorage;
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   public getToken(): string {
     return this.token as string;
@@ -32,10 +36,6 @@ export class AuthService {
 
   public getIsAuth(): boolean {
     return this.is_authenticated;
-  }
-
-  public getCurrentUser(): BehaviorSubject<User | null> {
-    return this.current_user$;
   }
 
   public login(credentials: LoginCredentials): Observable<HttpResponse> {
@@ -67,7 +67,7 @@ export class AuthService {
     this.user_id = user._id;
     this.user_email = user.email;
     this.username = user.username;
-    this.current_user$.next({
+    this.userService.setCurrentUser({
       _id: user._id,
       email: user.email,
       username: user.username,
@@ -85,7 +85,7 @@ export class AuthService {
     clearTimeout(this.token_timer);
     this._clearAuthData();
     this.user_id = undefined;
-    this.current_user$.next(null);
+    this.userService.setCurrentUser(null);
     this.router.navigateByUrl('home');
   }
 
@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   public saveAuthData(user: User): void {
-    this.current_user$.next({
+    this.userService.setCurrentUser({
       email: this.user_email as string,
       _id: this.user_id as string,
       username: this.username as string,

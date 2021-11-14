@@ -1,0 +1,101 @@
+.team {
+  display: flex;
+  flex-flow: row no-wrap;
+}
+
+.team-title {
+  margin-left: 1rem;
+  font-weight: 600;
+  margin: 0.5rem;
+}
+
+mat-icon {
+  position: relative;
+  top: 3px;
+  font-size: 1rem;
+}
+
+.card {
+  background-color: #e0f1ff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+}
+
+.card:hover {
+  background-color: #d0eaff;
+  cursor: pointer;
+}
+
+.workspace-flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.toolbar {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.dashboards {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+.dashboard {
+  width: 12rem;
+  height: 6rem;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.dashboard:hover {
+  cursor: pointer;
+}
+
+.create-dashboard:hover {
+  background-color: rgb(216, 216, 216);
+  cursor: pointer;
+}
+
+.create-dashboard {
+  width: 12rem;
+  height: 6rem;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 6rem;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+}
+
+.add-btn {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 550px) {
+  .workspace-flex {
+    flex-flow: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 425px) {
+  .toolbar {
+    flex-flow: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}

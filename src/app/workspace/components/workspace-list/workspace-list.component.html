@@ -1,0 +1,103 @@
+<button
+  type="button"
+  pButton
+  pRipple
+  icon="pi pi-users"
+  class="p-button-raised add-btn"
+  label="Create a new workspace"
+  (click)="onAddWorkspace()"
+></button>
+<div class="workspace" *ngFor="let workspace of workspaces">
+  <div class="workspace-flex">
+    <div class="team">
+      <p-avatar
+        [label]="workspace.workspace.charAt(0).toUpperCase()"
+        styleClass="p-mr-2"
+        size="medium"
+        class="team-avatar"
+      ></p-avatar>
+      <h3 class="team-title" (click)="opw.toggle($event)">
+        {{
+          workspace.workspace.charAt(0).toUpperCase() +
+            workspace.workspace.slice(1)
+        }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit workspace title"
+          [showDelay]="500"
+        ></i>
+      </h3>
+      <p-overlayPanel #opw>
+        <ng-template pTemplate>
+          <form
+            (submit)="onSaveWorkspaceTitle(updateWorkspaceForm, workspace)"
+            #updateWorkspaceForm="ngForm"
+          >
+            <div class="p-inputgroup">
+              <input
+                type="text"
+                pInputText
+                ngModel
+                required
+                name="workspace_name"
+                #workspace_name="ngModel"
+                placeholder="Workspace title"
+                maxlength="20"
+              />
+              <button
+                pButton
+                pRipple
+                icon="pi pi-save"
+                type="submit"
+                class="p-button-raised"
+                [disabled]="
+                  workspace_name.value === undefined
+                    ? true
+                    : workspace_name.value?.length < 4
+                    ? true
+                    : workspace_name.value.length > 20
+                    ? true
+                    : false
+                "
+                pTooltip="Save new workspace title"
+                [showDelay]="500"
+              ></button>
+            </div>
+          </form>
+        </ng-template>
+      </p-overlayPanel>
+    </div>
+    <div class="toolbar">
+      <div class="card">
+        <mat-icon class="material-icons-outlined">people</mat-icon>
+        Members ({{ workspace.team.length }})
+      </div>
+      <div class="card">
+        <mat-icon class="material-icons-outlined">dashboard</mat-icon>
+        Boards ({{ workspace.dashboards?.length }})
+      </div>
+      <div
+        class="card"
+        (click)="selected_workspace = workspace"
+        (click)="menu.toggle($event)"
+        pRipple
+      >
+        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        Settings
+      </div>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+    </div>
+    <div class="line light-grey-bg"></div>
+  </div>
+  <div class="dashboards">
+    <div
+      class="dashboard light-grey-bg"
+      *ngFor="let dashboard of workspace.dashboards | slice: 0:5"
+    >
+      {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+    </div>
+    <div class="create-dashboard light-grey-bg">create dashboard</div>
+  </div>
+</div>
+<p-toast></p-toast>

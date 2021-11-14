@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RegisterComponent } from './component/register.component';
+import { RegisterComponent } from './components/register.component';
 import { StylingModule } from '../styling/styling.module';
 import { FormsModule } from '@angular/forms';
 

@@ -10,9 +10,11 @@ import { LoginModule } from './login/login.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { RegisterModule } from './register/register.module';
 import { StylingModule } from './styling/styling.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import { WorkspaceModule } from './workspace/workspace.module';
+import { AuthorizationInterceptor } from './interceptors/authorization/authorization.interceptor';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,15 +22,23 @@ import { CookieService } from 'ngx-cookie-service';
     HttpClientModule,
     FormsModule,
     StylingModule,
+    SharedModule,
     AppRoutingModule,
     NavbarModule,
     LandingModule,
     AccountModule,
     LoginModule,
     RegisterModule,
+    WorkspaceModule,
     BrowserAnimationsModule,
   ],
-  providers: [CookieService],
   bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
+      multi: true,
+    },
+  ],
 })
 export class AppModule {}

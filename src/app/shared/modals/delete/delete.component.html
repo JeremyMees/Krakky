@@ -1,0 +1,31 @@
+<h2>Delete {{ data.title }}</h2>
+<p>
+  To delete the {{ data.title }} and all coherent data, type
+  <span class="warn-text">{{ data.workspace }}</span> to confirm
+</p>
+<input
+  type="text"
+  pInputText
+  #username
+  [placeholder]="data.title + ' name'"
+  (keyup)="checkName(username.value)"
+/>
+<div class="buttons">
+  <button
+    label="Go back"
+    pRipple
+    pButton
+    type="button"
+    name="username"
+    class="p-button-raised p-button-secondary p-button-text"
+  ></button>
+  <button
+    label="Delete"
+    pRipple
+    pButton
+    type="submit"
+    (click)="onDelete()"
+    [disabled]="blocked"
+    class="p-button-raised p-button-danger"
+  ></button>
+</div>
