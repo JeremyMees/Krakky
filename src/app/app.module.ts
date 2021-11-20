@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { AuthorizationInterceptor } from './interceptors/authorization/authorization.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { TeamModule } from './team/team.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,6 +31,7 @@ import { SharedModule } from './shared/shared.module';
     LoginModule,
     RegisterModule,
     WorkspaceModule,
+    TeamModule,
     BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],

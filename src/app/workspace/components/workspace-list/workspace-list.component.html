@@ -44,6 +44,7 @@
                 #workspace_name="ngModel"
                 placeholder="Workspace title"
                 maxlength="20"
+                autofocus
               />
               <button
                 pButton
@@ -69,7 +70,10 @@
       </p-overlayPanel>
     </div>
     <div class="toolbar">
-      <div class="card">
+      <div
+        class="card"
+        (click)="router.navigateByUrl('team/' + workspace.workspace_id)"
+      >
         <mat-icon class="material-icons-outlined">people</mat-icon>
         Members ({{ workspace.team.length }})
       </div>

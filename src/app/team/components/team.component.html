@@ -1,0 +1,204 @@
+<div *ngIf="not_found && !is_loading">
+  <div class="not-found-container">
+    <img src="./../../../assets/images/not_found.svg" alt="404" />
+  </div>
+  <div class="not-found">
+    <p class="not-found-txt">Could't find selected team</p>
+    <button
+      type="button"
+      pButton
+      pRipple
+      class="p-button-raised"
+      label="Go to workspaces"
+      (click)="router.navigateByUrl('workspace')"
+    ></button>
+  </div>
+</div>
+
+<loading-spinner class="loading" *ngIf="is_loading"></loading-spinner>
+
+<div *ngIf="!not_found && !is_loading">
+  <div class="header">
+    <div class="team">
+      <p-avatar
+        [label]="workspace.workspace.charAt(0).toUpperCase()"
+        styleClass="p-mr-2"
+        size="medium"
+        class="team-avatar"
+      ></p-avatar>
+      <h3 class="team-title">
+        {{
+          workspace.workspace.charAt(0).toUpperCase() +
+            workspace.workspace.slice(1)
+        }}
+      </h3>
+    </div>
+    <div class="card" (click)="router.navigateByUrl('workspace')">
+      <div class="card-content">
+        <mat-icon class="material-icons-outlined">arrow_back</mat-icon>
+        Back to workspace
+      </div>
+    </div>
+  </div>
+  <div class="line light-grey-bg"></div>
+
+  <button
+    type="button"
+    pButton
+    pRipple
+    icon="pi pi-users"
+    class="p-button-raised btn"
+    label="Add team member"
+    (click)="opu.toggle($event)"
+  ></button>
+  <p-overlayPanel #opu>
+    <ng-template pTemplate>
+      <div class="add-member">
+        <form
+          (submit)="onAddMember(addForm)"
+          (submit)="opu.hide()"
+          #addForm="ngForm"
+        >
+          <input
+            type="email"
+            name="email"
+            pInputText
+            placeholder="Krakky@kaban.com"
+            ngModel
+            required
+            #email="ngModel"
+            class="add-input"
+            autocomplete="off"
+            autofocus
+          />
+          <div class="flex-add">
+            <button
+              type="submit"
+              pButton
+              pRipple
+              icon="pi pi-user-plus"
+              class="p-button-raised btn-add"
+              label="Add team member"
+            ></button>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-question"
+              class="p-button-raised p-button-text"
+              pTooltip=" If the team member u want to add doesn't use Krakky yet we will send
+              them an invintation email. They'll automatically receive access to
+              the Workspace once they sign up and confirm their email address."
+              [showDelay]="250"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </p-overlayPanel>
+
+  <p-table [value]="aggregated_members" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-member>
+      <tr>
+        <td>
+          <div class="img-container">
+            <img
+              [src]="
+                'https://avatars.dicebear.com/api/micah/' +
+                member.username +
+                '.svg'
+              "
+              alt="avatar"
+            />
+          </div>
+        </td>
+        <td>{{ member.username }}</td>
+        <td>{{ member.email }}</td>
+        <td>
+          <p-overlayPanel #opTeam>
+            <ng-template pTemplate>
+              <div class="role-box">
+                <p class="role-text">
+                  <span class="role-header">Owner</span>
+                  <br />
+                  <br />
+                  <span class="under-text">
+                    Can view, join and edit all dashboards and acces/manage
+                    workspace settings. A Owner can also delete the workspace.
+                  </span>
+                </p>
+                <div class="checked" *ngIf="member.role === 'Owner'">
+                  <mat-icon color="primary">check</mat-icon>
+                </div>
+              </div>
+              <div
+                class="role-box"
+                (click)="onChangeRole(member, 'Admin')"
+                (click)="opTeam.hide()"
+              >
+                <p class="role-text">
+                  <span class="role-header">Admin</span>
+                  <br />
+                  <br />
+                  <span class="under-text">
+                    Can view, join and edit all dashboards and acces/manage
+                    workspace settings.
+                  </span>
+                </p>
+                <div class="checked" *ngIf="member.role === 'Admin'">
+                  <mat-icon color="primary">check</mat-icon>
+                </div>
+              </div>
+              <div
+                class="role-box"
+                (click)="onChangeRole(member, 'Member')"
+                (click)="opTeam.hide()"
+              >
+                <p class="role-text">
+                  <span class="role-header">Member</span>
+                  <br />
+                  <br />
+                  <span class="under-text">
+                    Can view and acces all public dashboards.
+                  </span>
+                </p>
+                <div class="checked" *ngIf="member.role === 'Member'">
+                  <mat-icon color="primary">check</mat-icon>
+                </div>
+              </div>
+            </ng-template>
+          </p-overlayPanel>
+          <button
+            (click)="opTeam.toggle($event)"
+            pButton
+            pRipple
+            [label]="member.role"
+            [disabled]="member.role === 'Owner'"
+            class="p-button-raised"
+          ></button>
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-raised p-button-danger"
+            (click)="onConfirm($event, member)"
+            [disabled]="workspace.team.length < 2 || member.role === 'Owner'"
+          ></button>
+          <p-confirmPopup></p-confirmPopup>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-toast></p-toast>

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
@@ -23,7 +24,8 @@ export class WorkspaceListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private messageService: MessageService,
-    private workspaceService: WorkspaceService
+    private workspaceService: WorkspaceService,
+    public router: Router
   ) {}
 
   public ngOnInit(): void {}

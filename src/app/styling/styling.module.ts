@@ -20,6 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { BadgeModule } from 'primeng/badge';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { TableModule } from 'primeng/table';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 @NgModule({
   declarations: [LoadingComponent],
   imports: [ProgressSpinnerModule, BrowserAnimationsModule],
@@ -45,6 +48,9 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     BadgeModule,
     ColorPickerModule,
     OverlayPanelModule,
+    TableModule,
+    DropdownModule,
+    ConfirmPopupModule,
   ],
 })
 export class StylingModule {}

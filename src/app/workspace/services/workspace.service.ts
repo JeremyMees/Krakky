@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { Member } from '../models/member.model';
 import { Workspace } from '../models/workspace.model';
 
 @Injectable({
@@ -13,14 +14,13 @@ export class WorkspaceService {
 
   public getWorkspaces(id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
-      `http://localhost:3000/workspace?id=${id}`
+      `http://localhost:3000/workspace?workspace_id=${id}`
     );
   }
 
   public getAggregatedWorkspaces(user_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
-      `http://localhost:3000/workspace/aggregated?member=${user_id}`,
-      { headers: { Authorization: 'Bearer ' + this.authService.getToken() } }
+      `http://localhost:3000/workspace/aggregated?member=${user_id}`
     );
   }
 
@@ -41,6 +41,13 @@ export class WorkspaceService {
     return this.http.post<HttpResponse>(
       `http://localhost:3000/workspace`,
       workspace
+    );
+  }
+
+  public getMembersInfo(members: Array<Member>): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `http://localhost:3000/workspace/members`,
+      members
     );
   }
 }
