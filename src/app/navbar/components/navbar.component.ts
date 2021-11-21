@@ -92,12 +92,11 @@ export class NavbarComponent implements OnInit {
       },
     },
     { label: 'Contact', icon: 'pi pi-fw pi-phone' },
-    { label: 'Workspaces', icon: 'pi pi-fw pi-calendar' },
     {
-      label: 'Account',
-      icon: 'pi pi-fw pi-user',
+      label: 'Docs',
+      icon: 'pi pi-fw pi-list',
       command: () => {
-        this._navigate('account');
+        this._navigate('docs');
       },
     },
     {
@@ -130,6 +129,13 @@ export class NavbarComponent implements OnInit {
       icon: 'pi pi-fw pi-user',
       command: () => {
         this._navigate('account');
+      },
+    },
+    {
+      label: 'Docs',
+      icon: 'pi pi-fw pi-list',
+      command: () => {
+        this._navigate('docs');
       },
     },
     {

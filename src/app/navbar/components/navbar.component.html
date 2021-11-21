@@ -16,10 +16,23 @@
     <p routerLinkActive="underline" routerLink="/contact" aria-hidden="false">
       Contact
     </p>
-    <p routerLinkActive="underline" routerLink="/workspace" aria-hidden="false">
+    <p routerLinkActive="underline" routerLink="/docs" aria-hidden="false">
+      Docs
+    </p>
+    <p
+      routerLinkActive="underline"
+      routerLink="/workspace"
+      aria-hidden="false"
+      *ngIf="username"
+    >
       Workspaces
     </p>
-    <p routerLinkActive="underline" routerLink="/account" aria-hidden="false">
+    <p
+      routerLinkActive="underline"
+      routerLink="/account"
+      aria-hidden="false"
+      *ngIf="username"
+    >
       Account
     </p>
   </div>
@@ -37,7 +50,11 @@
     <p (click)="onLogout()">Log out</p>
     <div class="image-container">
       <p-image
-        [src]="'https://avatars.dicebear.com/api/micah/' + username + '.svg'"
+        [src]="
+          'https://avatars.dicebear.com/api/micah/' +
+          username +
+          '.svg?mouth=laughing'
+        "
         alt="avatar"
       ></p-image>
       <div class="online"></div>
