@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountModule } from './account/account.module';
 import { LandingModule } from './landing/landing.module';
 import { LoginModule } from './login/login.module';
@@ -32,7 +31,6 @@ import { TeamModule } from './team/team.module';
     RegisterModule,
     WorkspaceModule,
     TeamModule,
-    BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],
   providers: [
