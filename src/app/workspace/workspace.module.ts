@@ -7,7 +7,6 @@ import { WorkspaceSingleComponent } from './components/workspace-single/workspac
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateWorkspaceComponent } from './modals/create-workspace/create-workspace.component';
-
 @NgModule({
   declarations: [
     WorkspaceComponent,

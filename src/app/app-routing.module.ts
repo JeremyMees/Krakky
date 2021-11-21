@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountComponent } from './account/components/account.component';
+import { AccountComponent } from './account/components/account/account.component';
 import { LandingComponent } from './landing/components/landing.component';
 import { TeamComponent } from './team/components/team.component';
 import { WorkspaceComponent } from './workspace/components/workspace-parent/workspace.component';

@@ -38,12 +38,15 @@
 
 <section class="bottom">
   <div class="flex-bottom">
+    <mat-card class="card">
+      <app-api-token></app-api-token>
+    </mat-card>
     <mat-card class="carousel-card">
       <h1>Workspaces</h1>
       <p-carousel
         [style]="{ 'max-width': '62rem', 'margin-top': '2rem' }"
         [value]="workspaces"
-        [numVisible]="3"
+        [numVisible]="2"
         [numScroll]="1"
         [responsiveOptions]="responsiveOptions"
       >
@@ -95,7 +98,7 @@
         </ng-template>
       </p-carousel>
     </mat-card>
-    <mat-card class="img-card">
+    <mat-card class="card">
       <img
         src="../../../assets/images/account.svg"
         alt="self growth"

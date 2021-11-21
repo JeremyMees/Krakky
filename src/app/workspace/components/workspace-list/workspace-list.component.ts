@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
-import { OverlayPanel } from 'primeng/overlaypanel';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { CreateWorkspaceComponent } from '../../modals/create-workspace/create-workspace.component';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
@@ -15,11 +14,10 @@ import { WorkspaceService } from '../../services/workspace.service';
   styleUrls: ['./workspace-list.component.scss'],
   providers: [MessageService],
 })
-export class WorkspaceListComponent implements OnInit {
+export class WorkspaceListComponent {
   selected_workspace: AggregatedWorkspace | null = null;
   editWorkspace: boolean = false;
   @Input() workspaces: Array<AggregatedWorkspace> = [];
-  @ViewChild('opw') opw!: OverlayPanel;
 
   constructor(
     public dialog: MatDialog,
@@ -28,13 +26,11 @@ export class WorkspaceListComponent implements OnInit {
     public router: Router
   ) {}
 
-  public ngOnInit(): void {}
-
   private _onDeleteWorkspace(workspace: AggregatedWorkspace): void {
-    const dialogRefLogin = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteComponent, {
       data: { workspace: workspace.workspace, title: 'workspace' },
     });
-    dialogRefLogin.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.workspaceService
           .deleteWorkspace(workspace.workspace_id)
@@ -50,8 +46,7 @@ export class WorkspaceListComponent implements OnInit {
                 `Deleted ${this.selected_workspace?.workspace} succesfully`
               );
             },
-            error: (err) => {
-              console.log(err);
+            error: () => {
               this._showSnackbar('error', 'Error while deleting workspace');
             },
           });
@@ -60,8 +55,8 @@ export class WorkspaceListComponent implements OnInit {
   }
 
   public onAddWorkspace(): void {
-    const dialogRefLogin = this.dialog.open(CreateWorkspaceComponent);
-    dialogRefLogin.afterClosed().subscribe((result) => {
+    const dialogRef = this.dialog.open(CreateWorkspaceComponent);
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result.statusCode === 201) {
           result.data.dashboards = [];
@@ -89,7 +84,6 @@ export class WorkspaceListComponent implements OnInit {
           (item) => item.workspace_id === workspace.workspace_id
         );
         this.workspaces[updateIndex].workspace = form.value.workspace_name;
-        this.opw.hide();
       },
       error: () => {
         this._showSnackbar('error', 'Error while updating workspace');

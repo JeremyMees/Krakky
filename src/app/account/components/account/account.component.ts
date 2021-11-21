@@ -8,12 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AccountComponent implements OnInit {
   responsiveOptions = [
     {
-      breakpoint: '1000px',
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '700px',
+      breakpoint: '500px',
       numVisible: 1,
       numScroll: 1,
     },
