@@ -1,0 +1,219 @@
+<div class="container">
+  <div class="img-container">
+    <p-image
+      [src]="
+        'https://avatars.dicebear.com/api/micah/' + img + '.svg' + img_query
+      "
+      alt="avatar"
+    ></p-image>
+    <button
+      pTooltip="Randomize"
+      pButton
+      pRipple
+      (click)="randomize()"
+      type="button"
+      class="p-button-raised p-button-rounded random-btn"
+    >
+      <mat-icon class="material-icons-outlined"> shuffle </mat-icon>
+    </button>
+  </div>
+  <div class="buttons">
+    <div class="button-group-top">
+      <button
+        pButton
+        pRipple
+        label="Skintone"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          top-btn
+        "
+        (click)="changeCharacter('baseColor')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Nose"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          top-btn
+        "
+        (click)="changeCharacter('nose')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Mouth"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          top-btn
+        "
+        (click)="changeCharacter('mouth')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Ears"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          top-btn
+        "
+        (click)="changeCharacter('ears')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Eyes"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('eyes')"
+      ></button>
+    </div>
+
+    <div class="button-group">
+      <button
+        pButton
+        pRipple
+        label="Hair"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('hair')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          icon-btn
+        "
+        (click)="changeCharacter('hairColor')"
+      >
+        <mat-icon class="material-icons-outlined icon"> palette</mat-icon>
+      </button>
+    </div>
+    <div class="button-group">
+      <button
+        pButton
+        pRipple
+        label="Eyebrows"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('eyebrows')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+          icon-btn
+        "
+        (click)="changeCharacter('eyebrowColor')"
+      >
+        <mat-icon class="material-icons-outlined icon"> palette</mat-icon>
+      </button>
+    </div>
+    <div class="button-group">
+      <button
+        pButton
+        pRipple
+        label="Shirt"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('shirt')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="
+          p-button-rounded p-button-secondary
+          icon-btn
+          p-button-text p-button-raised
+        "
+        (click)="changeCharacter('shirtColor')"
+      >
+        <mat-icon class="material-icons-outlined icon"> palette</mat-icon>
+      </button>
+    </div>
+    <div class="button-group">
+      <button
+        pButton
+        pRipple
+        label="Facial hair"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('facialHair')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="
+          p-button-rounded p-button-danger
+          icon-btn
+          p-button-text p-button-raised
+        "
+        icon="pi pi-trash"
+        (click)="deleteCharacterTrade('facialHair', 'facialHairProbability')"
+      ></button>
+    </div>
+    <div class="button-group">
+      <button
+        pButton
+        pRipple
+        label="Glasses"
+        class="
+          p-button-rounded p-button-secondary p-button-text p-button-raised
+        "
+        (click)="changeCharacter('glasses')"
+      ></button>
+      <div class="double-btn">
+        <button
+          pButton
+          pRipple
+          class="
+            p-button-rounded p-button-secondary p-button-text p-button-raised
+            icon-btn
+          "
+          (click)="changeCharacter('glassesColor')"
+        >
+          <mat-icon
+            class="material-icons-outlined p-button-text p-button-raised icon"
+          >
+            palette</mat-icon
+          >
+        </button>
+        <button
+          pButton
+          pRipple
+          class="
+            p-button-rounded p-button-danger p-button-text p-button-raised
+            icon-btn
+          "
+          icon="pi pi-trash"
+          (click)="deleteCharacterTrade('glasses', 'glassesProbability')"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bottom-btn">
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Go back"
+    class="p-button-raised p-button-text p-button-secondary bottom-btn-item"
+    (click)="saveAvatar()"
+  ></button>
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Save"
+    class="p-button-raised save-btn bottom-btn-item"
+    (click)="saveAvatar()"
+  ></button>
+</div>

@@ -26,6 +26,8 @@ export class RegisterComponent {
     if (this._validateInputs(form)) {
       const newUser: UserAdd = form.value;
       newUser.verified = false;
+      newUser.img = newUser.username;
+      newUser.img_query = '?mouth=laughing';
       this.userService.register(newUser).subscribe({
         next: (res: HttpResponse) => {
           if (res.statusCode === 201) {

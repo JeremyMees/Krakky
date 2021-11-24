@@ -2,21 +2,35 @@
   <mat-card>
     <div class="image-container">
       <p-image
-        src="https://avatars.dicebear.com/api/micah/meesjeremy.svg?mouth=laughing"
+        [src]="
+          'https://avatars.dicebear.com/api/micah/' +
+          user.img +
+          '.svg' +
+          user.img_query
+        "
         alt="avatar"
       ></p-image>
+      <button
+        pTooltip="Edit character"
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-user-edit"
+        class="p-button-raised p-button-rounded p-button-secondary update-btn"
+        (click)="openDialogCharacter()"
+      ></button>
     </div>
     <div class="info">
-      <p>Name: Mees Jeremy</p>
-      <p>Email: jeremy@test.com</p>
-      <p>ID: 347678bc654f677f56</p>
+      <p class="info-content">Name: {{ user.username }}</p>
+      <p class="info-content">Email: {{ user.email }}</p>
+      <p class="info-content">ID: {{ user._id }}</p>
     </div>
     <button
       pButton
       pRipple
       type="button"
       label="Edit account"
-      class="btn-full"
+      class="btn-full p-button-raised"
     ></button>
   </mat-card>
 

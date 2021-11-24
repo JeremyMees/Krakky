@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserService } from 'src/app/user/services/user.service';
+import { User } from 'src/app/user/models/user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,7 @@ import { UserService } from 'src/app/user/services/user.service';
   providers: [MessageService],
 })
 export class NavbarComponent implements OnInit {
-  username: string | undefined;
+  user: User | null = null;
 
   constructor(
     public dialog: MatDialog,
@@ -28,7 +29,7 @@ export class NavbarComponent implements OnInit {
   public ngOnInit(): void {
     const current_user = this.userService.getCurrentUser();
     current_user.subscribe((user) => {
-      user ? (this.username = user.username) : null;
+      user ? (this.user = user) : null;
     });
   }
 
@@ -40,7 +41,7 @@ export class NavbarComponent implements OnInit {
           this.openRegisterDialog();
         } else {
           if (result.data) {
-            this.username = result.data.username;
+            this.user!.username = result.data.username;
             this._showSnackbar('success', 'Logged in succesfully');
           }
         }
@@ -57,7 +58,7 @@ export class NavbarComponent implements OnInit {
         } else {
           this.authService.login(result.data).subscribe({
             next: (res: HttpResponse) => {
-              this.username = res.data.username;
+              this.user!.username = res.data.username;
               this._showSnackbar('success', result.message);
             },
           });
@@ -67,7 +68,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public onLogout(): void {
-    this.username = undefined;
+    this.user = null;
     this.authService.logout();
     this._showSnackbar('success', 'Logged out succesfully');
   }

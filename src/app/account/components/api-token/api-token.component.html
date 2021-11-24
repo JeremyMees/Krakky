@@ -18,6 +18,7 @@
       pButton
       pRipple
       icon="pi pi-copy"
+      class="p-button-raised"
       label="Copy api key"
       [cdkCopyToClipboard]="api_key"
       (click)="showSnackbar('success', 'Api key copied to clipboard')"

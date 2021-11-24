@@ -4,4 +4,6 @@ export interface UserAdd {
   string: string;
   password: string;
   verified?: boolean;
+  img?: string;
+  img_query?: string;
 }

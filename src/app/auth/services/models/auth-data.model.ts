@@ -5,6 +5,8 @@ export interface AuthData {
   username: string;
   verified: boolean;
   valid_token?: boolean;
+  img?: string;
+  img_query?: string;
   acces_token: string;
   token_expire_time: number;
 }

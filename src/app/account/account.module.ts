@@ -4,8 +4,9 @@ import { AccountComponent } from './components/account/account.component';
 import { StylingModule } from '../styling/styling.module';
 import { ApiTokenComponent } from './components/api-token/api-token.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { CharacterComponent } from './components/character/character.component';
 @NgModule({
-  declarations: [AccountComponent, ApiTokenComponent],
+  declarations: [AccountComponent, ApiTokenComponent, CharacterComponent],
   imports: [CommonModule, StylingModule, ClipboardModule],
 })
 export class AccountModule {}

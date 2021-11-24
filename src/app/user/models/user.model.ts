@@ -4,6 +4,8 @@ export interface User {
   email: string;
   username?: string;
   password?: string;
+  img?: string;
+  img_query?: string;
   verified?: boolean;
   acces_token?: string;
   token_expire_time?: number;
