@@ -22,7 +22,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   selected_workspace: AggregatedWorkspace | undefined;
   workspace_id: string | undefined;
   destroy$: Subject<boolean> = new Subject();
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   constructor(
     private userService: UserService,
     private workspaceService: WorkspaceService,
@@ -31,7 +31,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.isLoading = true;
     this.current_user_sub$ = this.userService
       .getCurrentUser()
       .subscribe((user) => {
@@ -53,10 +52,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   public getWorkspace(id: string): void {
-    this.workspaceService.getWorkspaces(id).subscribe({
+    this.workspaceService.getAggregatedWorkspace(id).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 200) {
-          this.selected_workspace = res.data;
+          this.selected_workspace = res.data[0];
         } else {
           this._showSnackbar('error', res.message);
         }

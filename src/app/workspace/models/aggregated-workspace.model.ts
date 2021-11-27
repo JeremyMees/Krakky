@@ -5,7 +5,7 @@ export interface AggregatedWorkspace {
   created_by: string;
   workspace: string;
   workspace_id: string;
-  dashboards?: Array<Dashboard>;
+  dashboards: Array<Dashboard>;
   team: Array<Member>;
   _id?: string;
   __v?: number;

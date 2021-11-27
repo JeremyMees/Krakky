@@ -7,12 +7,14 @@ import { WorkspaceSingleComponent } from './components/workspace-single/workspac
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateWorkspaceComponent } from './modals/create-workspace/create-workspace.component';
+import { CreateDashboardComponent } from './modals/create-dashboard/create-dashboard.component';
 @NgModule({
   declarations: [
     WorkspaceComponent,
     WorkspaceListComponent,
     WorkspaceSingleComponent,
     CreateWorkspaceComponent,
+    CreateDashboardComponent,
   ],
   imports: [CommonModule, StylingModule, FormsModule, SharedModule],
 })

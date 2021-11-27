@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { Member } from '../models/member.model';
 import { Workspace } from '../models/workspace.model';
@@ -10,11 +9,17 @@ import { Workspace } from '../models/workspace.model';
   providedIn: 'root',
 })
 export class WorkspaceService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   public getWorkspaces(id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `http://localhost:3000/workspace?workspace_id=${id}`
+    );
+  }
+
+  public getAggregatedWorkspace(id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/workspace/aggregated?workspace_id=${id}`
     );
   }
 

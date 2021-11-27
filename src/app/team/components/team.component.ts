@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { AggregatedMember } from 'src/app/workspace/models/aggregated-member.model';
+import { AggregatedWorkspace } from 'src/app/workspace/models/aggregated-workspace.model';
 import { Member } from 'src/app/workspace/models/member.model';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
@@ -21,7 +22,7 @@ import { TeamService } from '../services/team.service';
 })
 export class TeamComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
-  workspace!: Workspace;
+  workspace!: AggregatedWorkspace;
   not_found: boolean = false;
   is_loading: boolean = true;
   display_dialog: boolean = false;
@@ -44,7 +45,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params.id) {
-        this.workspaceService.getWorkspaces(params.id).subscribe({
+        this.workspaceService.getAggregatedWorkspace(params.id).subscribe({
           next: (res: HttpResponse) => {
             this.workspace = res.data[0];
             this.getMembers(this.workspace);

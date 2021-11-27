@@ -1,7 +1,7 @@
 <h2>Delete {{ data.title }}</h2>
 <p>
   To delete the {{ data.title }} and all coherent data, type
-  <span class="warn-text">{{ data.workspace }}</span> to confirm
+  <span class="warn-text">{{ data.name }}</span> to confirm
 </p>
 <input
   type="text"
@@ -17,6 +17,7 @@
     pButton
     type="button"
     name="username"
+    (click)="onGoBack()"
     class="p-button-raised p-button-secondary p-button-text"
   ></button>
   <button

@@ -36,7 +36,7 @@ mat-icon {
   flex-grow: 1;
   display: flex;
   flex-flow: row wrap;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: flex-start;
   justify-content: flex-end;
 }
@@ -49,8 +49,14 @@ mat-icon {
   gap: 1rem;
 }
 
+.dashboard-container {
+  max-width: 97.5%;
+  display: block;
+  margin: 0 auto;
+}
+
 .dashboard {
-  width: 12rem;
+  width: 12.2rem;
   height: 6rem;
   border-radius: 5px;
   padding: 0.5rem;
@@ -80,6 +86,12 @@ mat-icon {
 
 .add-btn {
   margin-bottom: 1rem;
+}
+
+.icon {
+  position: relative;
+  top: 2px;
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 550px) {

@@ -28,7 +28,7 @@ export class WorkspaceListComponent {
 
   private _onDeleteWorkspace(workspace: AggregatedWorkspace): void {
     const dialogRef = this.dialog.open(DeleteComponent, {
-      data: { workspace: workspace.workspace, title: 'workspace' },
+      data: { name: workspace.workspace, title: 'workspace' },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

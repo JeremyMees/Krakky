@@ -117,12 +117,17 @@ img {
   flex-grow: 1;
 }
 
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  padding-left: 0.5rem;
+}
+
 .card {
   background-color: #e0f1ff;
   border-radius: 5px;
   padding: 0.25rem 0.5rem;
-  display: block;
-  margin-left: 1rem;
 }
 
 .card:hover {
@@ -141,4 +146,10 @@ mat-icon {
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
+}
+
+.icon {
+  position: relative;
+  top: 2px;
+  margin-right: 0.5rem;
 }

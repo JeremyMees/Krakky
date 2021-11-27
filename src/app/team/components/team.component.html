@@ -33,11 +33,21 @@
         }}
       </h3>
     </div>
-    <div class="card" (click)="router.navigateByUrl('workspace')">
-      <div class="card-content">
-        <mat-icon class="material-icons-outlined">arrow_back</mat-icon>
-        Back to workspace
+    <div class="cards">
+      <div class="card" (click)="router.navigateByUrl('workspace')">
+        <div class="card-content">
+          <i class="pi pi-arrow-left icon"></i>
+          Back to workspaces
+        </div>
       </div>
+      <div
+        class="card"
+        (click)="router.navigateByUrl('workspace/' + workspace.workspace_id)"
+      >
+        <i class="pi pi-table icon"></i>
+        Boards
+      </div>
+      <div class="spacer"></div>
     </div>
   </div>
   <div class="line light-grey-bg"></div>

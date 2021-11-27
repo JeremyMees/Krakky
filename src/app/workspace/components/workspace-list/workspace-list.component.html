@@ -74,11 +74,14 @@
         class="card"
         (click)="router.navigateByUrl('team/' + workspace.workspace_id)"
       >
-        <mat-icon class="material-icons-outlined">people</mat-icon>
+        <i class="pi pi-users icon"></i>
         Members ({{ workspace.team.length }})
       </div>
-      <div class="card">
-        <mat-icon class="material-icons-outlined">dashboard</mat-icon>
+      <div
+        class="card"
+        (click)="router.navigateByUrl('workspace/' + workspace.workspace_id)"
+      >
+        <i class="pi pi-table icon"></i>
         Boards ({{ workspace.dashboards?.length }})
       </div>
       <div
@@ -94,14 +97,16 @@
     </div>
     <div class="line light-grey-bg"></div>
   </div>
-  <div class="dashboards">
-    <div
-      class="dashboard light-grey-bg"
-      *ngFor="let dashboard of workspace.dashboards | slice: 0:5"
-    >
-      {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+  <div class="dashboard-container">
+    <div class="dashboards">
+      <div
+        class="dashboard light-grey-bg"
+        *ngFor="let dashboard of workspace.dashboards | slice: 0:5"
+      >
+        {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+      </div>
+      <div class="create-dashboard light-grey-bg">create dashboard</div>
     </div>
-    <div class="create-dashboard light-grey-bg">create dashboard</div>
   </div>
 </div>
 <p-toast></p-toast>

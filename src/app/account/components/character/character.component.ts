@@ -115,6 +115,10 @@ export class CharacterComponent {
       });
   }
 
+  public goBack(): void {
+    this.dialogRef.close();
+  }
+
   private _showSnackbar(severity: string, detail: string): void {
     this.messageService.add({
       severity,

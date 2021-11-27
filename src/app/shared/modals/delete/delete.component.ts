@@ -11,13 +11,11 @@ export class DeleteComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { workspace: string; title: string }
+    @Inject(MAT_DIALOG_DATA) public data: { name: string; title: string }
   ) {}
 
-  public checkName(username: string): void {
-    username === this.data.workspace
-      ? (this.blocked = false)
-      : (this.blocked = true);
+  public checkName(name: string): void {
+    name === this.data.name ? (this.blocked = false) : (this.blocked = true);
   }
 
   public onDelete(): void {
