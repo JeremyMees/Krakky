@@ -6,7 +6,7 @@ import { LandingComponent } from './landing/components/landing.component';
 import { TeamComponent } from './team/components/team.component';
 import { WorkspaceComponent } from './workspace/components/workspace-parent/workspace.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: LandingComponent },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
