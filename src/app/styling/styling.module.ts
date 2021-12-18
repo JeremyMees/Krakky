@@ -23,6 +23,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { RippleModule } from 'primeng/ripple';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [LoadingComponent],
   imports: [ProgressSpinnerModule, BrowserAnimationsModule],
@@ -51,6 +53,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     TableModule,
     DropdownModule,
     ConfirmPopupModule,
+    RippleModule,
+    DragDropModule,
   ],
 })
 export class StylingModule {}

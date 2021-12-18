@@ -43,7 +43,7 @@ export class RegisterComponent {
         },
         error: (res: HttpResponse) => {
           form.reset();
-          this._showSnackbar('error', res.message);
+          this._showSnackbar('error', "Error couldn't register");
         },
       });
     } else {
@@ -99,7 +99,7 @@ export class RegisterComponent {
         res.statusCode === 200 ? (this.used = false) : (this.used = true);
       },
       (res: HttpResponse) => {
-        this._showSnackbar('error', res.message);
+        this._showSnackbar('error', "Error couldn't check if username is used");
       }
     );
   }

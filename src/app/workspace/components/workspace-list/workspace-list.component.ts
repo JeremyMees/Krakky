@@ -3,7 +3,10 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { User } from 'src/app/user/models/user.model';
 import { CreateWorkspaceComponent } from '../../modals/create-workspace/create-workspace.component';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
 import { WorkspaceService } from '../../services/workspace.service';
@@ -18,6 +21,9 @@ export class WorkspaceListComponent {
   selected_workspace: AggregatedWorkspace | null = null;
   editWorkspace: boolean = false;
   @Input() workspaces: Array<AggregatedWorkspace> = [];
+  current_user: User | null = null;
+  current_user_sub$: Subscription = new Subscription();
+  selected_dashboard: Dashboard | undefined;
 
   constructor(
     public dialog: MatDialog,
@@ -96,6 +102,10 @@ export class WorkspaceListComponent {
       severity,
       detail,
     });
+  }
+
+  public navigateToDashboard(id: string): void {
+    this.router.navigateByUrl(`dashboard/${id}`);
   }
 
   items: Array<MenuItem> = [

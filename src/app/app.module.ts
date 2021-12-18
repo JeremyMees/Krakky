@@ -15,12 +15,22 @@ import { WorkspaceModule } from './workspace/workspace.module';
 import { AuthorizationInterceptor } from './interceptors/authorization/authorization.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { TeamModule } from './team/team.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { NotMemberModule } from './not-member/not-member.module';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from 'src/environments/environment';
+
+const config: SocketIoConfig = {
+  url: environment.SOCKET_ENDPOINT,
+  options: {},
+};
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    SocketIoModule.forRoot(config),
     StylingModule,
     SharedModule,
     AppRoutingModule,
@@ -31,6 +41,8 @@ import { TeamModule } from './team/team.module';
     RegisterModule,
     WorkspaceModule,
     TeamModule,
+    DashboardModule,
+    NotMemberModule,
   ],
   bootstrap: [AppComponent],
   providers: [

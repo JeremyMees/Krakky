@@ -1,0 +1,247 @@
+<loading-spinner class="loading" *ngIf="is_loading"></loading-spinner>
+
+<div class="not-found" *ngIf="!is_loading && !found">
+  <div class="not-found-container">
+    <img src="./../../../assets/images/not_found.svg" alt="404" />
+  </div>
+  <div class="not-found">
+    <p class="not-found-txt">Could't find selected dashboard</p>
+    <button
+      type="button"
+      pButton
+      pRipple
+      class="p-button-raised"
+      label="Go to workspaces"
+      (click)="router.navigateByUrl('workspace')"
+    ></button>
+  </div>
+</div>
+
+<div class="container" *ngIf="!is_loading && found && dashboard">
+  <div class="dashboard-title-flex">
+    <div class="team">
+      <p-avatar
+        [label]="dashboard.title.charAt(0).toUpperCase()"
+        styleClass="p-mr-2"
+        size="medium"
+        class="team-avatar"
+      ></p-avatar>
+      <h3 class="title" (click)="opTitle.toggle($event)">
+        {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit list title"
+          [showDelay]="500"
+        ></i>
+      </h3>
+    </div>
+    <div class="toolbar">
+      <div
+        class="card"
+        (click)="router.navigateByUrl('workspace/' + dashboard.workspace_id)"
+      >
+        <div class="card-content">
+          <i class="pi pi-arrow-left icon"></i>
+          Back to workspace
+        </div>
+      </div>
+      <div class="card">
+        <i class="pi pi-users icon"></i>
+        Members ({{ dashboard.team.length }})
+      </div>
+      <div class="card" pRipple>
+        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        Settings
+      </div>
+    </div>
+  </div>
+  <div class="line light-grey-bg"></div>
+
+  <div
+    class="container-lists"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <mat-card *ngFor="let list of dashboard.lists" class="list" cdkDrag>
+      <div class="title">
+        {{ list.title }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit dashboard title"
+          [showDelay]="500"
+          (click)="selected_list = list; opListTitle.toggle($event)"
+        ></i>
+        <button
+          pButton
+          pRipple
+          class="
+            p-icon-button p-button-text p-button-rounded
+            menu-btn
+            p-button-danger
+          "
+          icon="pi pi-trash"
+          (click)="onDeleteList(list)"
+        ></button>
+      </div>
+      <div
+        class="container-content"
+        cdkDropList
+        (cdkDropListDropped)="dropCard($event)"
+        id="{{ list._id }}"
+        [cdkDropListConnectedTo]="connected_to"
+        [cdkDropListData]="filteredCards(list._id)"
+      >
+        <mat-card
+          class="list-card"
+          *ngFor="let card of filteredCards(list._id)"
+          id="{{ card._id }}"
+          cdkDrag
+          [class]="card.color"
+        >
+          <div class="badge" [class]="card.priority">{{ card.priority }}</div>
+          <p class="title-card">{{ card.title }}</p>
+        </mat-card>
+      </div>
+      <button
+        pButton
+        pRipple
+        class="p-button-text"
+        icon="pi pi-plus"
+        label="Add a card"
+      ></button>
+    </mat-card>
+    <button
+      pButton
+      pRipple
+      class="p-button-raised p-button-text add"
+      icon="pi pi-plus"
+      label="Add a list"
+      (click)="opNewList.toggle($event)"
+    ></button>
+  </div>
+</div>
+
+<p-toast></p-toast>
+<p-overlayPanel #opTitle>
+  <ng-template pTemplate>
+    <form
+      (submit)="onSaveDashboardTitle(updateDashboardForm); opTitle.hide()"
+      #updateDashboardForm="ngForm"
+    >
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          ngModel
+          required
+          name="dashboard_name"
+          #dashboard_name="ngModel"
+          placeholder="Dashboard title"
+          maxlength="20"
+          autofocus
+        />
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            dashboard_name.value === undefined
+              ? true
+              : dashboard_name.value?.length < 4
+              ? true
+              : dashboard_name.value.length > 20
+              ? true
+              : false
+          "
+          pTooltip="Save new dashboard title"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel #opNewList>
+  <ng-template pTemplate>
+    <form
+      (submit)="onAddList(addListForm); opNewList.hide()"
+      #addListForm="ngForm"
+    >
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          ngModel
+          required
+          name="list_name"
+          #list_name="ngModel"
+          placeholder="List title"
+          maxlength="20"
+          autofocus
+        />
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            list_name.value === undefined
+              ? true
+              : list_name.value?.length < 4
+              ? true
+              : list_name.value.length > 20
+              ? true
+              : false
+          "
+          pTooltip="Save new list"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel #opListTitle>
+  <ng-template pTemplate>
+    <form
+      (submit)="onUpdateListTitle(updateListTitleForm); opListTitle.hide()"
+      #updateListTitleForm="ngForm"
+    >
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          ngModel
+          required
+          name="list_name"
+          #list_name="ngModel"
+          placeholder="List title"
+          maxlength="20"
+          autofocus
+        />
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            list_name.value === undefined
+              ? true
+              : list_name.value?.length < 4
+              ? true
+              : list_name.value.length > 20
+              ? true
+              : false
+          "
+          pTooltip="Update list title"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>

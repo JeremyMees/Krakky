@@ -12,6 +12,7 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
+import { Member } from '../../models/member.model';
 import { WorkspaceService } from '../../services/workspace.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   current_user: User | null = null;
   current_user_sub$: Subscription = new Subscription();
   selected_dashboard: Dashboard | undefined;
+  dashboards: Array<Dashboard> = [];
 
   constructor(
     public router: Router,
@@ -40,6 +42,13 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       .getCurrentUser()
       .subscribe((user) => {
         this.current_user = user;
+        this.workspace.dashboards.forEach((dashboard: Dashboard) => {
+          dashboard.team.forEach((member: Member) => {
+            if (member._id === (this.current_user?._id as string)) {
+              this.dashboards.push(dashboard);
+            }
+          });
+        });
       });
   }
 
@@ -61,8 +70,9 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
       },
-      error: () => {
-        this._showSnackbar('error', 'Error while adding workspace');
+      error: (err) => {
+        console.log(err);
+        this._showSnackbar('error', 'Error while adding dashboard');
       },
     });
   }
@@ -115,11 +125,19 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     });
   }
 
+  public navigateToDashboard(id: string): void {
+    this.router.navigateByUrl(`dashboard/${id}`);
+  }
+
   items: Array<MenuItem> = [
     {
       label: 'Dashboard',
       icon: 'pi pi-fw pi-table',
-      command: () => {},
+      command: () => {
+        this.router.navigateByUrl(
+          `dashboard/${this.selected_dashboard?.board_id}`
+        );
+      },
     },
     {
       label: 'Statistics',

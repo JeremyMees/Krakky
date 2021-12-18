@@ -32,7 +32,7 @@ export class CreateWorkspaceComponent {
     const newWorkspace: Workspace = {
       created_by: user._id as string,
       workspace: form.value.workspace_name,
-      team: [{ _id: user._id as string, role: 'Member' }],
+      team: [{ _id: user._id as string, role: 'Owner' }],
     };
     this.workspaceService.addWorkspace(newWorkspace).subscribe({
       next: (res: HttpResponse) => {

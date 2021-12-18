@@ -12,7 +12,7 @@ import { UserService } from 'src/app/user/services/user.service';
   providedIn: 'root',
 })
 export class AuthService {
-  is_authenticated = false;
+  is_authenticated: boolean = false;
   token: string | undefined;
   user_id: string | undefined;
   user_email: string | undefined;

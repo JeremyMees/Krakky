@@ -22,7 +22,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   selected_workspace: AggregatedWorkspace | undefined;
   workspace_id: string | undefined;
   destroy$: Subject<boolean> = new Subject();
-  isLoading: boolean = true;
+  is_loading: boolean = true;
   constructor(
     private userService: UserService,
     private workspaceService: WorkspaceService,
@@ -61,10 +61,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         }
       },
       error: (res: HttpResponse) => {
-        this._showSnackbar('error', res.message);
+        this._showSnackbar('error', "Error couldn't fetch workspace");
       },
     });
-    this.isLoading = false;
+    this.is_loading = false;
   }
 
   public getAggregatedWorkspaces(user_id: string): void {
@@ -77,10 +77,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         }
       },
       error: (res: HttpResponse) => {
-        this._showSnackbar('error', res.message);
+        this._showSnackbar('error', "Error couldn't fetch workspace");
       },
     });
-    this.isLoading = false;
+    this.is_loading = false;
   }
 
   private _showSnackbar(severity: string, detail: string): void {

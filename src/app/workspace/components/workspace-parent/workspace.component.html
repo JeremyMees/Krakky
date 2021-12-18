@@ -1,12 +1,12 @@
 <div class="container">
-  <loading-spinner class="loading" *ngIf="isLoading"></loading-spinner>
+  <loading-spinner class="loading" *ngIf="is_loading"></loading-spinner>
   <app-workspace-single
     [workspace]="selected_workspace"
-    *ngIf="selected_workspace && !isLoading"
+    *ngIf="selected_workspace && !is_loading"
   ></app-workspace-single>
   <app-workspace-list
     [workspaces]="workspaces"
-    *ngIf="workspaces && !selected_workspace && !isLoading"
+    *ngIf="workspaces && !selected_workspace && !is_loading"
   ></app-workspace-list>
 </div>
 <p-toast></p-toast>

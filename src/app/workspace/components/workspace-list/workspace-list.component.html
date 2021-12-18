@@ -102,6 +102,7 @@
       <div
         class="dashboard light-grey-bg"
         *ngFor="let dashboard of workspace.dashboards | slice: 0:5"
+        (click)="navigateToDashboard(dashboard.board_id)"
       >
         {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
       </div>

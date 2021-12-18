@@ -42,7 +42,7 @@ export class LoginComponent {
       },
       error: (res: HttpResponse) => {
         form.reset();
-        this._showSnackbar('error', res.message);
+        this._showSnackbar('error', "Error couldn't log in");
       },
     });
   }
