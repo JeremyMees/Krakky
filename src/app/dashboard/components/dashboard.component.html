@@ -31,7 +31,7 @@
         <i
           class="pi pi-pencil"
           style="font-size: 0.75rem"
-          pTooltip="Edit list title"
+          pTooltip="Edit dashboard title"
           [showDelay]="500"
         ></i>
       </h3>
@@ -59,13 +59,13 @@
   <div class="line light-grey-bg"></div>
 
   <div
-    class="container-lists"
+    class="cdk-container-lists"
     cdkDropList
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="drop($event)"
   >
-    <mat-card *ngFor="let list of dashboard.lists" class="list" cdkDrag>
-      <div class="title">
+    <mat-card *ngFor="let list of dashboard.lists" class="cdk-list" cdkDrag>
+      <div class="cdk-title">
         {{ list.title }}
         <i
           class="pi pi-pencil"
@@ -87,7 +87,7 @@
         ></button>
       </div>
       <div
-        class="container-content"
+        class="cdk-container-content"
         cdkDropList
         (cdkDropListDropped)="dropCard($event)"
         id="{{ list._id }}"
@@ -95,14 +95,25 @@
         [cdkDropListData]="filteredCards(list._id)"
       >
         <mat-card
-          class="list-card"
+          class="cdk-list-card"
           *ngFor="let card of filteredCards(list._id)"
           id="{{ card._id }}"
           cdkDrag
           [class]="card.color"
+          (click)="onUpdateCard(card)"
         >
-          <div class="badge" [class]="card.priority">{{ card.priority }}</div>
-          <p class="title-card">{{ card.title }}</p>
+          <div class="cdk-badge" [class]="card.priority">
+            {{ card.priority }}
+          </div>
+          <p class="cdk-title-card">
+            {{ card.title }}
+            <i
+              icon="pi pi-pencil"
+              style="font-size: 0.75rem"
+              pTooltip="Edit Card"
+              [showDelay]="500"
+            ></i>
+          </p>
         </mat-card>
       </div>
       <button
@@ -111,12 +122,13 @@
         class="p-button-text"
         icon="pi pi-plus"
         label="Add a card"
+        (click)="opCardTitle.toggle($event); selected_list = list"
       ></button>
     </mat-card>
     <button
       pButton
       pRipple
-      class="p-button-raised p-button-text add"
+      class="p-button-raised p-button-text cdk-add"
       icon="pi pi-plus"
       label="Add a list"
       (click)="opNewList.toggle($event)"
@@ -239,6 +251,46 @@
               : false
           "
           pTooltip="Update list title"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel #opCardTitle>
+  <ng-template pTemplate>
+    <form
+      (submit)="onAddQuickCard(addCardForm); opCardTitle.hide()"
+      #addCardForm="ngForm"
+    >
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          ngModel
+          required
+          name="card_name"
+          #card_name="ngModel"
+          placeholder="Card title"
+          maxlength="100"
+          autofocus
+        />
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            card_name.value === undefined
+              ? true
+              : card_name.value?.length < 4
+              ? true
+              : card_name.value.length > 100
+              ? true
+              : false
+          "
+          pTooltip="Create card title"
           [showDelay]="500"
         ></button>
       </div>

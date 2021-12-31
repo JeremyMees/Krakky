@@ -5,6 +5,7 @@ import { Card } from 'src/app/card/models/card.model';
 import { List } from 'src/app/list/models/list.model';
 import { AddList } from '../models/add-list.model';
 import { Socket } from 'ngx-socket-io';
+import { AddCard } from '../models/add-card.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,8 +41,8 @@ export class SocketDashboardService {
     }
   }
 
-  public addCard(list: AddList): void {
-    this.socket.emit('add-card', list);
+  public addCard(card: AddCard): void {
+    this.socket.emit('add-card', card);
   }
 
   public updateCard(card: Card): void {

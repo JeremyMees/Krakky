@@ -1,0 +1,321 @@
+<div class="flex-content" [class]="data.card.color">
+  <div class="left">
+    <h2>
+      {{ data.card.title }}
+      <i
+        (click)="opUpdateCardTitle.toggle($event)"
+        class="pi pi-pencil icon"
+        pTooltip="Edit workspace title"
+        [showDelay]="500"
+      ></i>
+      <div class="badge" [class]="data.card.priority">
+        {{ data.card.priority }}
+      </div>
+    </h2>
+    <p class="under-text">{{ list.title }}</p>
+    <p-avatarGroup class="avatar-group">
+      <p-avatar
+        *ngFor="let assignee of assignees"
+        [image]="
+          'https://avatars.dicebear.com/api/micah/' +
+          assignee.img +
+          '.svg' +
+          assignee.img_query
+        "
+        shape="circle"
+        class="avatar-img"
+      ></p-avatar>
+      <p-avatar
+        label="+"
+        shape="circle"
+        [style]="{ 'background-color': '#0d89ec', color: '#ffffff' }"
+        class="avatar-plus-img"
+        pTooltip="Add assignee to card"
+        (click)="possibleAssignee.toggle($event)"
+      ></p-avatar>
+    </p-avatarGroup>
+    <h2>Description</h2>
+    <mat-card
+      class="card-description"
+      *ngIf="!edit_description"
+      (click)="onStartEditDescription()"
+      pTooltip="Edit cards description"
+    >
+      {{ data.card.content ? data.card.content : "No description yet" }}
+    </mat-card>
+
+    <div *ngIf="edit_description">
+      <textarea
+        #description
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        autofocus
+        autocomplete="off"
+        rows="3"
+        cols="55"
+        pInputTextarea
+        [autoResize]="true"
+        >{{ data.card.content }}</textarea
+      >
+      <div class="description-buttons">
+        <button
+          pRipple
+          pButton
+          icon="pi pi-save"
+          label="Save"
+          class="p-button-raised"
+          (click)="onUpdateDescription(description.value)"
+        ></button>
+        <button
+          pRipple
+          pButton
+          label="Go back"
+          class="
+            p-button-raised p-button-text p-button-secondary
+            see-trough-btn
+          "
+          (click)="edit_description = false"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <button
+      pRipple
+      pButton
+      icon="pi pi-times"
+      label="Close"
+      class="p-button-raised p-button-text p-button-danger see-trough-btn"
+      (click)="dialogRef.close()"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-clock"
+      label="Dates"
+      class="p-button-raised p-button-text p-button-secondary see-trough-btn"
+      (click)="calenderList.toggle($event)"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-tag"
+      label="Priority"
+      class="p-button-raised p-button-text p-button-secondary see-trough-btn"
+      (click)="priorityList.toggle($event)"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-palette"
+      label="Theme"
+      class="p-button-raised p-button-text p-button-secondary see-trough-btn"
+      (click)="themeList.toggle($event)"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-arrow-right"
+      label="Move to"
+      class="p-button-raised p-button-text p-button-secondary see-trough-btn"
+      (click)="possibleLists.toggle($event)"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-trash"
+      label="Delete"
+      class="p-button-raised p-button-text p-button-danger see-trough-btn"
+      (click)="onConfirmDelete($event)"
+    ></button>
+  </div>
+</div>
+
+<p-overlayPanel #opUpdateCardTitle>
+  <ng-template pTemplate>
+    <form
+      (submit)="
+        onUpdateCardTitle(updateCardTitleForm); opUpdateCardTitle.hide()
+      "
+      #updateCardTitleForm="ngForm"
+    >
+      <div class="p-inputgroup">
+        <input
+          type="text"
+          pInputText
+          ngModel
+          required
+          name="card_name"
+          #card_name="ngModel"
+          placeholder="Card title"
+          maxlength="20"
+          autofocus
+        />
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            card_name.value === undefined
+              ? true
+              : card_name.value?.length < 4
+              ? true
+              : card_name.value.length > 20
+              ? true
+              : false
+          "
+          pTooltip="Save new card title"
+          [showDelay]="500"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #possibleAssignee>
+  <ng-template pTemplate>
+    <div class="avatars">
+      <div
+        class="team-member"
+        *ngFor="let member of members"
+        (click)="onAddAssignee(member); possibleAssignee.hide()"
+      >
+        <p-avatar
+          [image]="
+            'https://avatars.dicebear.com/api/micah/' +
+            member.img +
+            '.svg' +
+            member.img_query
+          "
+          [style]="{
+            'background-color': 'rgb(236, 235, 255)',
+            color: '#ffffff'
+          }"
+          shape="circle"
+          class="selection"
+          size="large"
+        ></p-avatar>
+        <div class="username">{{ member.username }}</div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #possibleLists>
+  <ng-template pTemplate>
+    <div *ngFor="let list of data.dashboard.lists">
+      <button
+        *ngIf="list._id !== data.card.list_id"
+        pRipple
+        pButton
+        [label]="list.title"
+        class="p-button-text p-button-secondary"
+        (click)="onChangeList(list)"
+      ></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #themeList>
+  <ng-template pTemplate>
+    <div class="container-colors">
+      <div
+        class="color"
+        *ngFor="let theme of themes"
+        [style]="{ 'background-color': theme }"
+        (click)="onChangeColor(theme)"
+        [pTooltip]="theme"
+        [showDelay]="500"
+      ></div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #calenderList>
+  <ng-template pTemplate>
+    <div class="date-inputs">
+      <span class="p-float-label">
+        <p-calendar
+          [disabledDates]="invalid_dates"
+          id="start_date"
+          [(ngModel)]="start_date"
+          dateFormat="dd-mm-yy"
+          [showButtonBar]="true"
+        ></p-calendar>
+        <label for="start_date">Start date</label>
+      </span>
+      <span class="p-float-label">
+        <p-calendar
+          [(ngModel)]="due_date"
+          dateFormat="dd-mm-yy"
+          id="end_date"
+          [showButtonBar]="true"
+        ></p-calendar>
+        <label for="end_date">Due date</label>
+      </span>
+    </div>
+    <!-- <div class="checkbox">
+      <p-inputSwitch class="check" [(ngModel)]="checked"></p-inputSwitch>
+      <span class="reminder"> Reminder </span>
+      <br />
+      A reminder will be send 1 day before the due date this will be sent to all
+      the members that are assigned to this card
+    </div> -->
+    <div class="buttons">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-save"
+        label="Save"
+        class="p-button-raised"
+        (click)="onSaveDates(); calenderList.hide()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Go back"
+        class="p-button-raised p-button-secondary p-button-text"
+        (click)="onResetDates(); calenderList.hide()"
+      ></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #priorityList>
+  <ng-template pTemplate>
+    <div class="priority-buttons">
+      <button
+        pButton
+        pRipple
+        *ngFor="let priority of prioritys"
+        [label]="priority"
+        class="p-button-raised p-button-rounded priority-btn"
+        [class]="
+          priority === 'high'
+            ? 'p-button-danger'
+            : priority === 'low'
+            ? 'p-button-primary'
+            : 'p-button-success'
+        "
+        (click)="onSetPriority(priority)"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="No priority"
+        class="
+          p-button-raised p-button-rounded p-button-text
+          priority-btn
+          p-button-secondary
+        "
+        (click)="onSetPriority()"
+      ></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>

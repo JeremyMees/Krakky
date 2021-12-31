@@ -1,0 +1,171 @@
+.flex-content {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  max-width: 40rem;
+}
+
+.right {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.25rem;
+}
+
+.left {
+  flex-grow: 1;
+}
+
+.right {
+  width: 10rem;
+}
+
+.avatar-img {
+  background: rgb(236, 235, 255);
+  border-radius: 50%;
+  margin-right: 0.3rem;
+}
+
+.avatar-plus-img {
+  border-radius: 50%;
+  margin-right: 0.3rem;
+  z-index: 1;
+}
+
+.avatar-plus-img:hover {
+  cursor: pointer;
+}
+
+.avatar-group {
+  max-width: 100%;
+  position: relative;
+  bottom: 0.5rem;
+}
+
+.avatars {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 15rem;
+}
+
+.team-member {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  transition: 0.5s;
+}
+
+.team-member:hover {
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgb(236, 235, 255);
+}
+
+.color {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0px 2px 5px 0px rgba(90, 90, 90, 0.44);
+}
+
+.color:hover {
+  cursor: pointer;
+}
+
+.container-colors {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 15rem;
+}
+
+.see-trough-btn {
+  background-color: rgba(250, 250, 250, 0.75) !important;
+}
+
+.card-description {
+  margin-top: 1rem;
+  max-width: 35.25rem;
+  min-height: 4.5rem;
+}
+
+.card-description:hover {
+  cursor: pointer;
+}
+
+.description-buttons {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.priority-btn {
+  max-width: 7rem;
+  width: 100%;
+}
+
+.priority-buttons {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.badge {
+  float: right;
+  font-size: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 25px;
+  max-width: 50px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.date-inputs {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.checkbox {
+  margin-top: 0.5rem;
+  max-width: 240px;
+}
+
+.reminder {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.check {
+  position: relative;
+  top: 5px;
+}
+
+.icon:hover {
+  cursor: pointer;
+}

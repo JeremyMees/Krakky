@@ -16,6 +16,7 @@ import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
+import { EditCardComponent } from '../../card/edit-card/edit-card.component';
 import { AggregatedDashboard } from '../models/aggregated-dashboard.model';
 import { DashboardService } from '../service/dashboard.service';
 import { SocketDashboardService } from '../service/socket-dashboard.service';
@@ -79,7 +80,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.dashboard = this._onTransformData(res.data);
             this._onFinish(true);
           } else {
-            this._notFound();
+            this._showSnackbar('error', 'Error while updating dashboard');
           }
         },
         error: () => {
@@ -205,6 +206,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  public onAddQuickCard(form: NgForm): void {
+    if (form.invalid) {
+      form.reset();
+      return;
+    }
+    this.socketDashboardService.addCard({
+      board_id: this.dashboard.board_id,
+      title: form.value.card_name,
+      list_id: this.selected_list?._id as string,
+      created_by: this.user._id as string,
+      created_at: Date.now(),
+      color: 'grey',
+    });
+  }
+
   public onDeleteList(list: List): void {
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: { name: list.title, title: 'list' },
@@ -212,6 +228,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.socketDashboardService.deleteList(list);
+      }
+    });
+  }
+
+  public onUpdateCard(card: Card): void {
+    const dialogRef = this.dialog.open(EditCardComponent, {
+      data: { card, dashboard: this.dashboard },
+      maxWidth: '850px',
+      width: '100%',
+      autoFocus: false,
+      panelClass: 'custom-modalbox',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
       }
     });
   }

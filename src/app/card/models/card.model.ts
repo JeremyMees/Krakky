@@ -4,11 +4,13 @@ export interface Card {
   content?: string;
   list_id: string;
   created_by: string;
-  created_at?: string;
+  created_at?: number;
+  start_date?: Date;
+  due_date?: Date;
   index: number;
   color: string;
   priority?: string;
-  assignees?: Array<string>;
+  assignees?: Array<{ _id: string }>;
   _id?: string;
   __v?: number;
 }
