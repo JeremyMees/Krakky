@@ -97,7 +97,13 @@ h2 {
 
 .card-description {
   margin-top: 1rem;
-  max-width: 35.25rem;
+  max-width: 36rem;
+  min-height: 4.5rem;
+}
+
+.text-area {
+  margin-top: 1rem;
+  max-width: 36rem;
   min-height: 4.5rem;
 }
 
@@ -168,4 +174,23 @@ h2 {
 
 .icon:hover {
   cursor: pointer;
+}
+
+.dates-title {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dates-flex {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.date-label {
+  font-weight: 500;
+}
+
+.overdue {
+  background-color: rgb(255, 255, 143);
 }

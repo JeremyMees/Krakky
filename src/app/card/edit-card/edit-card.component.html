@@ -55,6 +55,7 @@
         cols="55"
         pInputTextarea
         [autoResize]="true"
+        class="text-area"
         >{{ data.card.content }}</textarea
       >
       <div class="description-buttons">
@@ -78,6 +79,39 @@
         ></button>
       </div>
     </div>
+    <div>
+      <h2 class="dates-title">Dates</h2>
+      <p
+        class="under-text"
+        *ngIf="!data.card.start_date && !data.card.due_date"
+      >
+        No dates are selected
+      </p>
+      <div class="dates-flex">
+        <mat-card class="calender" *ngIf="data.card.start_date">
+          <span class="date-label"> Start date </span>
+          {{ data.card.start_date | date: "dd/MM/yyyy" }}
+        </mat-card>
+        <mat-card
+          class="calender"
+          *ngIf="data.card.due_date"
+          [ngClass]="
+            data.card.completion_date
+              ? ''
+              : onCheckDueDate(data.card.due_date)
+              ? 'overdue'
+              : ''
+          "
+        >
+          <span class="date-label"> Due date </span>
+          {{ data.card.due_date | date: "dd/MM/yyyy" }}
+        </mat-card>
+        <mat-card class="calender" *ngIf="data.card.completion_date">
+          <span class="date-label"> End date </span>
+          {{ data.card.completion_date | date: "dd/MM/yyyy" }}
+        </mat-card>
+      </div>
+    </div>
   </div>
 
   <div class="right">
@@ -88,6 +122,14 @@
       label="Close"
       class="p-button-raised p-button-text p-button-danger see-trough-btn"
       (click)="dialogRef.close()"
+    ></button>
+    <button
+      pRipple
+      pButton
+      icon="pi pi-check"
+      label="Complete"
+      class="p-button-raised p-button-text see-trough-btn"
+      (click)="onConfirmComplete($event)"
     ></button>
     <button
       pRipple

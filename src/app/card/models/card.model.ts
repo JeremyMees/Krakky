@@ -7,6 +7,7 @@ export interface Card {
   created_at?: number;
   start_date?: Date;
   due_date?: Date;
+  completion_date?: Date;
   index: number;
   color: string;
   priority?: string;

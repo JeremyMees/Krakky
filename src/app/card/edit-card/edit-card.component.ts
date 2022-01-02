@@ -144,7 +144,7 @@ export class EditCardComponent implements OnInit {
   public onConfirmDelete(event: Event): void {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
+      message: 'Are you sure that you want to delete this card?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this._onRemoveCard();
@@ -221,6 +221,29 @@ export class EditCardComponent implements OnInit {
     if (this.data.card.due_date) {
       this.due_date = new Date(this.data.card.due_date as Date);
     }
+  }
+
+  public onCheckDueDate(date: Date): boolean {
+    const due_date: Date = new Date(date);
+    const now: Date = new Date();
+    now.setHours(0, 0, 0, 0);
+    return due_date < now ? false : true;
+  }
+
+  public onConfirmComplete(event: Event): void {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that this card is completed?',
+      icon: 'pi pi-check',
+      accept: () => {
+        this.onAddCompletionDate();
+      },
+    });
+  }
+
+  private onAddCompletionDate(): void {
+    this.data.card.completion_date = new Date();
+    this.socketDashboardService.updateCard(this.data.card);
   }
 
   private _showSnackbar(severity: string, detail: string): void {
