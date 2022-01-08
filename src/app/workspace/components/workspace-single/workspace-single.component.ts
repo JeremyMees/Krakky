@@ -42,13 +42,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       .getCurrentUser()
       .subscribe((user) => {
         this.current_user = user;
-        this.workspace.dashboards.forEach((dashboard: Dashboard) => {
-          dashboard.team.forEach((member: Member) => {
-            if (member._id === (this.current_user?._id as string)) {
-              this.dashboards.push(dashboard);
-            }
-          });
-        });
+        this._onFilterDashboardMember();
       });
   }
 
@@ -69,10 +63,22 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
+        this._onFilterDashboardMember();
       },
       error: () => {
         this._showSnackbar('error', 'Error while adding dashboard');
       },
+    });
+  }
+
+  private _onFilterDashboardMember(): void {
+    this.dashboards = [];
+    this.workspace.dashboards.forEach((dashboard: Dashboard) => {
+      dashboard.team.forEach((member: Member) => {
+        if (member._id === (this.current_user?._id as string)) {
+          this.dashboards.push(dashboard);
+        }
+      });
     });
   }
 
@@ -104,10 +110,12 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       if (result) {
         this.dashboardService.deleteDashboard(id).subscribe({
           next: () => {
-            const index: number = this.workspace.dashboards.findIndex(
-              (dashboard: Dashboard) => dashboard.board_id === id
-            );
-            this.workspace.dashboards.splice(index, 1);
+            const dashboards: Array<Dashboard> =
+              this.workspace.dashboards.filter(
+                (dashboard: Dashboard) => dashboard.board_id !== id
+              );
+            this.workspace.dashboards = dashboards;
+            this._onFilterDashboardMember();
           },
           error: () => {
             this._showSnackbar('error', 'Error while updating workspace');
