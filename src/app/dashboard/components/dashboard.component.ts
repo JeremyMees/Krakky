@@ -233,17 +233,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onUpdateCard(card: Card): void {
-    const dialogRef = this.dialog.open(EditCardComponent, {
+    this.dialog.open(EditCardComponent, {
       data: { card, dashboard: this.dashboard },
       maxWidth: '850px',
       width: '100%',
       autoFocus: false,
       panelClass: 'custom-modalbox',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result);
-      }
     });
   }
 

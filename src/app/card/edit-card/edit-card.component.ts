@@ -19,6 +19,9 @@ import { List } from 'src/app/list/models/list.model';
 import { PRIORITYS } from 'src/app/shared/data/priority.data';
 import { THEMES } from 'src/app/shared/data/themes.data';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { User } from 'src/app/user/models/user.model';
+import { UserService } from 'src/app/user/services/user.service';
+import { Comment } from './../models/comment.model';
 
 @Component({
   selector: 'app-edit-card',
@@ -28,6 +31,7 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 })
 export class EditCardComponent implements OnInit {
   @ViewChild('description') description!: ElementRef;
+  @ViewChild('comment_update') comment_update!: ElementRef;
   list!: List;
   members: Array<Assignee> = [];
   assignees: Array<Assignee> = [];
@@ -40,6 +44,9 @@ export class EditCardComponent implements OnInit {
   start_date: Date | undefined;
   due_date: Date | undefined;
   invalid_dates: Array<Date> = [];
+  user!: User;
+  edit_comment: boolean = false;
+  selected_comment: Comment | undefined;
 
   constructor(
     public dialogRef: MatDialogRef<EditCardComponent>,
@@ -51,16 +58,22 @@ export class EditCardComponent implements OnInit {
     private cardService: CardService,
     private messageService: MessageService,
     private socketDashboardService: SocketDashboardService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private userService: UserService
   ) {}
 
   public ngOnInit(): void {
-    console.log(this.data);
+    this._getMemberInfo();
+    this.userService
+      .getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        this.user = user as User;
+      });
     this.list = this.data.dashboard.lists.filter(
       (list: List) => list._id === this.data.card.list_id
     )[0];
     this._onGetDates();
-    this._getMemberInfo();
   }
 
   public ngOnDestroy(): void {
@@ -99,7 +112,17 @@ export class EditCardComponent implements OnInit {
   }
 
   public onChangeColor(color: string): void {
-    this.data.card.color = color;
+    switch (color) {
+      case 'lightgreen':
+        this.data.card.color = 'green';
+        break;
+      case 'lightblue':
+        this.data.card.color = 'blue';
+        break;
+      default:
+        this.data.card.color = color;
+        break;
+    }
     this.socketDashboardService.updateCard(this.data.card);
   }
 
@@ -112,6 +135,7 @@ export class EditCardComponent implements OnInit {
           if (res.statusCode === 200) {
             this.members = res.data;
             this._onFilterAssignees(res.data);
+            this._onFilterComments(res.data);
           } else {
             this._showSnackbar('error', "Couldn't get assignee information");
           }
@@ -227,7 +251,7 @@ export class EditCardComponent implements OnInit {
     const due_date: Date = new Date(date);
     const now: Date = new Date();
     now.setHours(0, 0, 0, 0);
-    return due_date < now ? false : true;
+    return due_date < now ? true : false;
   }
 
   public onConfirmComplete(event: Event): void {
@@ -244,6 +268,58 @@ export class EditCardComponent implements OnInit {
   private onAddCompletionDate(): void {
     this.data.card.completion_date = new Date();
     this.socketDashboardService.updateCard(this.data.card);
+  }
+
+  public onAddComment(content: string): void {
+    if (!this.data.card.comments) {
+      this.data.card.comments = [];
+    }
+    const comment: Comment = {
+      content,
+      user_id: this.user._id as string,
+      created_at: Date.now(),
+      updated_at: Date.now(),
+    };
+    this.data.card.comments.unshift(comment);
+    this.socketDashboardService.updateCard(this.data.card);
+    const user_comment = this.members.filter(
+      (member: Assignee) => member._id === comment.user_id
+    )[0];
+    comment.user = user_comment;
+  }
+
+  public onDeleteComment(comment: Comment): void {
+    this.data.card.comments = this.data.card.comments!.filter(
+      (com: Comment) => com !== comment
+    );
+    this.socketDashboardService.updateCard(this.data.card);
+  }
+
+  public onStartUpdateComment(comment: Comment): void {
+    this.selected_comment = comment;
+    this.edit_comment = true;
+    setTimeout(() => {
+      this.comment_update.nativeElement.select();
+    });
+  }
+
+  public onUpdateComment(content: string): void {
+    const index: number = this.data.card.comments!.findIndex(
+      (com: Comment) => com === this.selected_comment
+    );
+    this.data.card.comments![index].content = content;
+    this.data.card.comments![index].updated_at = Date.now();
+    this.edit_comment = false;
+    this.socketDashboardService.updateCard(this.data.card);
+  }
+
+  private _onFilterComments(members: Array<Assignee>): void {
+    this.data.card.comments?.forEach((comment: Comment) => {
+      const user_comment = members.filter(
+        (member: Assignee) => member._id === comment.user_id
+      )[0];
+      comment.user = user_comment;
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {

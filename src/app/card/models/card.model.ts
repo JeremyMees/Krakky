@@ -1,3 +1,4 @@
+import { Comment } from './comment.model';
 export interface Card {
   board_id: string;
   title: string;
@@ -12,6 +13,7 @@ export interface Card {
   color: string;
   priority?: string;
   assignees?: Array<{ _id: string }>;
+  comments?: Array<Comment>;
   _id?: string;
   __v?: number;
 }

@@ -70,8 +70,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
         this._showSnackbar('error', 'Error while adding dashboard');
       },
     });

@@ -3,6 +3,8 @@
   flex-flow: row wrap;
   gap: 0.5rem;
   padding: 1rem;
+  max-height: 55rem;
+  overflow: auto;
 }
 
 h2 {
@@ -43,8 +45,8 @@ h2 {
 
 .avatar-group {
   max-width: 100%;
-  position: relative;
-  bottom: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .avatars {
@@ -96,15 +98,18 @@ h2 {
 }
 
 .card-description {
-  margin-top: 1rem;
   max-width: 36rem;
   min-height: 4.5rem;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }
 
 .text-area {
-  margin-top: 1rem;
   max-width: 36rem;
-  min-height: 4.5rem;
+  width: 100%;
 }
 
 .card-description:hover {
@@ -193,4 +198,87 @@ h2 {
 
 .overdue {
   background-color: rgb(255, 255, 143);
+}
+
+.add-comment {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.comments {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  max-height: 15rem;
+  overflow: auto;
+  max-width: 38rem;
+  padding: 0.25rem 0 0.5rem 0;
+  position: relative;
+  right: 0.25rem;
+}
+
+.comment {
+  max-width: 36rem;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  align-content: flex-start;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.comment-avatar {
+  position: absolute;
+  top: 0.75rem;
+}
+
+.comment-avatar-flipped {
+  position: absolute;
+  top: 0.75rem;
+  transform: scaleX(-1);
+}
+
+.comment-avatar-container {
+  min-width: 2rem;
+  width: 2rem;
+}
+
+.comment-content {
+  max-width: 31rem;
+  flex-grow: 1;
+}
+
+.actions {
+  position: absolute;
+  top: 0.25rem;
+  right: -0.5rem;
+  padding: 0.15rem 0.25rem;
+  border-radius: 5px;
+  background-color: rgba(206, 221, 253, 0.5);
+  border: 1px solid rgba(255, 255, 255);
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.comment:hover {
+  cursor: pointer;
+}
+
+.edit-comment-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.comments-title {
+  margin: 0.5rem 0 0 0;
+}
+
+.description-title {
+  margin-bottom: 0.5rem;
 }

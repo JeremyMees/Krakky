@@ -13,35 +13,37 @@
       </div>
     </h2>
     <p class="under-text">{{ list.title }}</p>
-    <p-avatarGroup class="avatar-group">
-      <p-avatar
-        *ngFor="let assignee of assignees"
-        [image]="
-          'https://avatars.dicebear.com/api/micah/' +
-          assignee.img +
-          '.svg' +
-          assignee.img_query
-        "
-        shape="circle"
-        class="avatar-img"
-      ></p-avatar>
-      <p-avatar
-        label="+"
-        shape="circle"
-        [style]="{ 'background-color': '#0d89ec', color: '#ffffff' }"
-        class="avatar-plus-img"
-        pTooltip="Add assignee to card"
-        (click)="possibleAssignee.toggle($event)"
-      ></p-avatar>
-    </p-avatarGroup>
-    <h2>Description</h2>
+    <div class="avatar-group">
+      <p-avatarGroup>
+        <p-avatar
+          *ngFor="let assignee of assignees"
+          [image]="
+            'https://avatars.dicebear.com/api/micah/' +
+            assignee.img +
+            '.svg' +
+            assignee.img_query
+          "
+          shape="circle"
+          class="avatar-img"
+        ></p-avatar>
+        <p-avatar
+          label="+"
+          shape="circle"
+          [style]="{ 'background-color': '#0d89ec', color: '#ffffff' }"
+          class="avatar-plus-img"
+          pTooltip="Add assignee to card"
+          (click)="possibleAssignee.toggle($event)"
+        ></p-avatar>
+      </p-avatarGroup>
+    </div>
+    <h2 class="description-title">Description</h2>
     <mat-card
       class="card-description"
       *ngIf="!edit_description"
       (click)="onStartEditDescription()"
       pTooltip="Edit cards description"
     >
-      {{ data.card.content ? data.card.content : "No description yet" }}
+      {{ data.card.content ? data.card.content : "Add card description" }}
     </mat-card>
 
     <div *ngIf="edit_description">
@@ -51,8 +53,6 @@
         cdkTrapFocusAutoCapture
         autofocus
         autocomplete="off"
-        rows="3"
-        cols="55"
         pInputTextarea
         [autoResize]="true"
         class="text-area"
@@ -71,45 +71,155 @@
           pRipple
           pButton
           label="Go back"
-          class="
-            p-button-raised p-button-text p-button-secondary
-            see-trough-btn
-          "
+          class="p-button-raised p-button-text p-button-secondary see-trough-btn"
           (click)="edit_description = false"
         ></button>
       </div>
     </div>
-    <div>
-      <h2 class="dates-title">Dates</h2>
-      <p
-        class="under-text"
-        *ngIf="!data.card.start_date && !data.card.due_date"
+    <h2 class="dates-title">Dates</h2>
+    <p class="under-text" *ngIf="!data.card.start_date && !data.card.due_date">
+      No dates are selected
+    </p>
+    <div class="dates-flex">
+      <mat-card class="calender" *ngIf="data.card.start_date">
+        <span class="date-label"> Start date </span>
+        {{ data.card.start_date | date: "dd/MM/yyyy" }}
+      </mat-card>
+      <mat-card
+        class="calender"
+        *ngIf="data.card.due_date"
+        [ngClass]="
+          data.card.completion_date
+            ? ''
+            : onCheckDueDate(data.card.due_date)
+            ? 'overdue'
+            : ''
+        "
       >
-        No dates are selected
-      </p>
-      <div class="dates-flex">
-        <mat-card class="calender" *ngIf="data.card.start_date">
-          <span class="date-label"> Start date </span>
-          {{ data.card.start_date | date: "dd/MM/yyyy" }}
-        </mat-card>
-        <mat-card
-          class="calender"
-          *ngIf="data.card.due_date"
-          [ngClass]="
-            data.card.completion_date
-              ? ''
-              : onCheckDueDate(data.card.due_date)
-              ? 'overdue'
-              : ''
-          "
+        <span class="date-label"> Due date </span>
+        {{ data.card.due_date | date: "dd/MM/yyyy" }}
+      </mat-card>
+      <mat-card class="calender" *ngIf="data.card.completion_date">
+        <span class="date-label"> End date </span>
+        {{ data.card.completion_date | date: "dd/MM/yyyy" }}
+      </mat-card>
+    </div>
+    <h2 class="comments-title">Comments</h2>
+    <div class="comments" *ngIf="data.card.comments && !edit_comment">
+      <mat-card class="comment" *ngFor="let comment of data.card.comments">
+        <div
+          class="actions"
+          *ngIf="comment.user && comment.user._id === user._id"
         >
-          <span class="date-label"> Due date </span>
-          {{ data.card.due_date | date: "dd/MM/yyyy" }}
-        </mat-card>
-        <mat-card class="calender" *ngIf="data.card.completion_date">
-          <span class="date-label"> End date </span>
-          {{ data.card.completion_date | date: "dd/MM/yyyy" }}
-        </mat-card>
+          <i
+            class="pi pi-trash"
+            style="font-size: 0.75rem; color: #d32f2f"
+            pTooltip="Delete"
+            (click)="onDeleteComment(comment)"
+          ></i>
+          <i
+            class="pi pi-pencil"
+            style="font-size: 0.75rem"
+            pTooltip="Edit"
+            (click)="onStartUpdateComment(comment)"
+          ></i>
+        </div>
+        <i class="pi pi-spin pi-spinner" *ngIf="!comment.user"></i>
+        <div
+          class="comment-avatar-container"
+          *ngIf="comment.user && comment.user._id !== user._id"
+        >
+          <p-avatar
+            [image]="
+              'https://avatars.dicebear.com/api/micah/' +
+              comment.user!.img +
+              '.svg' +
+              comment.user!.img_query
+            "
+            shape="circle"
+            class="comment-avatar"
+          ></p-avatar>
+        </div>
+        <div class="comment-content">
+          {{ comment.content }}
+        </div>
+        <div
+          class="comment-avatar-container"
+          *ngIf="comment.user && comment.user._id === user._id"
+        >
+          <p-avatar
+            [image]="
+              'https://avatars.dicebear.com/api/micah/' +
+              comment.user!.img +
+              '.svg' +
+              comment.user!.img_query
+            "
+            shape="circle"
+            class="comment-avatar-flipped"
+          ></p-avatar>
+        </div>
+      </mat-card>
+    </div>
+    <div class="add-comment" *ngIf="edit_comment">
+      <textarea
+        #comment_update
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        autofocus
+        autocomplete="off"
+        pInputTextarea
+        [autoResize]="true"
+        pTooltip="Update comment"
+        placeholder="Update comment"
+        class="text-area"
+        maxlength="400"
+        >{{ selected_comment!.content }}</textarea
+      >
+      <div class="edit-comment-buttons">
+        <button
+          [disabled]="comment_update.value.length === 0"
+          pRipple
+          pButton
+          icon="pi pi-save"
+          label="Save"
+          class="p-button-raised"
+          (click)="
+            onUpdateComment(comment_update.value); comment_update.value = ''
+          "
+        ></button>
+        <button
+          pRipple
+          pButton
+          label="Go back"
+          class="p-button-raised p-button-text p-button-secondary see-trough-btn"
+          (click)="edit_comment = false"
+        ></button>
+      </div>
+    </div>
+    <div class="add-comment" *ngIf="!edit_comment">
+      <textarea
+        #comment
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        autofocus
+        autocomplete="off"
+        pInputTextarea
+        [autoResize]="true"
+        pTooltip="Add comment to card"
+        placeholder="Add comment to card"
+        class="text-area"
+        maxlength="400"
+      ></textarea>
+      <div>
+        <button
+          [disabled]="comment.value.length === 0"
+          pRipple
+          pButton
+          icon="pi pi-save"
+          label="Save"
+          class="p-button-raised"
+          (click)="onAddComment(comment.value); comment.value = ''"
+        ></button>
       </div>
     </div>
   </div>
@@ -191,7 +301,7 @@
           name="card_name"
           #card_name="ngModel"
           placeholder="Card title"
-          maxlength="20"
+          maxlength="100"
           autofocus
         />
         <button
@@ -205,7 +315,7 @@
               ? true
               : card_name.value?.length < 4
               ? true
-              : card_name.value.length > 20
+              : card_name.value.length > 100
               ? true
               : false
           "
@@ -348,11 +458,7 @@
         pButton
         pRipple
         label="No priority"
-        class="
-          p-button-raised p-button-rounded p-button-text
-          priority-btn
-          p-button-secondary
-        "
+        class="p-button-raised p-button-rounded p-button-text priority-btn p-button-secondary"
         (click)="onSetPriority()"
       ></button>
     </div>
