@@ -220,7 +220,7 @@ body {
 
 .grey {
   border: 1px dotted rgb(117, 117, 117);
-  background-color: rgb(117, 117, 117, 0.05);
+  background-color: rgba(80, 80, 80, 0.075);
 }
 
 .green {
@@ -241,6 +241,36 @@ body {
 .orange {
   border: 1px dotted rgb(255, 145, 0);
   background-color: rgba(255, 186, 97, 0.158);
+}
+
+.white {
+  border: 1px dotted rgb(117, 117, 117);
+  background-color: rgba(201, 201, 201, 0.05);
+}
+
+.black {
+  border: 1px dotted rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.purple {
+  border: 1px dotted rgb(180, 2, 250);
+  background-color: rgba(183, 0, 255, 0.05);
+}
+
+.pink {
+  border: 1px dotted rgb(255, 81, 226);
+  background-color: rgba(255, 0, 212, 0.05);
+}
+
+.turquoise {
+  border: 1px dotted rgb(0, 255, 242);
+  background-color: rgba(0, 255, 242, 0.05);
+}
+
+.brown {
+  border: 1px dotted rgb(126, 71, 0);
+  background-color: rgba(126, 71, 0, 0.1);
 }
 
 .cdk-badge {

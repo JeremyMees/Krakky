@@ -21,7 +21,7 @@ import { THEMES } from 'src/app/shared/data/themes.data';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
-import { Comment } from './../models/comment.model';
+import { Comment } from '../../models/comment.model';
 
 @Component({
   selector: 'app-edit-card',

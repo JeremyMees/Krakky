@@ -17,7 +17,7 @@ import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
-import { EditCardComponent } from '../../card/edit-card/edit-card.component';
+import { EditCardComponent } from '../../card/components/edit-card/edit-card.component';
 import { AggregatedDashboard } from '../models/aggregated-dashboard.model';
 import { DashboardService } from '../service/dashboard.service';
 import { SocketDashboardService } from '../service/socket-dashboard.service';
@@ -218,7 +218,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       list_id: this.selected_list?._id as string,
       created_by: this.user._id as string,
       created_at: Date.now(),
-      color: 'grey',
+      color: 'white',
     });
   }
 
