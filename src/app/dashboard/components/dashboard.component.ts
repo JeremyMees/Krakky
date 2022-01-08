@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
+import { CardService } from 'src/app/card/services/card.service';
 import { List } from 'src/app/list/models/list.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
@@ -240,6 +241,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       panelClass: 'custom-modalbox',
     });
+  }
+
+  public onTransformDate(due_date: Date): string {
+    const date: Date = new Date(due_date);
+    const transformed_date: string = date.toLocaleString('en-us', {
+      month: 'short',
+      day: '2-digit',
+    });
+    return transformed_date;
   }
 
   private _showSnackbar(severity: string, detail: string): void {

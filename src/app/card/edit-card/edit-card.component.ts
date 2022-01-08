@@ -197,7 +197,10 @@ export class EditCardComponent implements OnInit {
   }
 
   public onSaveDates(): void {
-    if ((this.start_date?.getTime() as number) < new Date().getTime()) {
+    if (
+      (this.start_date?.getTime() as number) <
+      new Date().getTime() - 86400000
+    ) {
       this.start_date = new Date(this.data.card.start_date as Date);
       this._showSnackbar(
         'error',

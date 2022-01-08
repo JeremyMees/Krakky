@@ -77,11 +77,7 @@
         <button
           pButton
           pRipple
-          class="
-            p-icon-button p-button-text p-button-rounded
-            menu-btn
-            p-button-danger
-          "
+          class="p-icon-button p-button-text p-button-rounded menu-btn p-button-danger"
           icon="pi pi-trash"
           (click)="onDeleteList(list)"
         ></button>
@@ -114,6 +110,23 @@
               [showDelay]="500"
             ></i>
           </p>
+          <div class="cdk-bottom-card">
+            <div>
+              <span *ngIf="card.due_date" class="cdk-due-date">
+                <i class="pi pi-clock" style="font-size: 0.75rem"></i>
+                {{ onTransformDate(card.due_date) }}
+              </span>
+            </div>
+            <div>
+              <span
+                *ngIf="card.assignees && card.assignees.length > 0"
+                class="cdk-assigned"
+              >
+                <i class="pi pi-user" style="font-size: 0.75rem"></i>
+                {{ card.assignees.length }}
+              </span>
+            </div>
+          </div>
         </mat-card>
       </div>
       <button
