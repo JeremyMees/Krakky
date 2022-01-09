@@ -11,13 +11,13 @@ import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
-import { CardService } from 'src/app/card/services/card.service';
 import { List } from 'src/app/list/models/list.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { EditCardComponent } from '../../card/components/edit-card/edit-card.component';
+import { DashboardMembersComponent } from '../modals/dashboard-members/dashboard-members.component';
 import { AggregatedDashboard } from '../models/aggregated-dashboard.model';
 import { DashboardService } from '../service/dashboard.service';
 import { SocketDashboardService } from '../service/socket-dashboard.service';
@@ -250,6 +250,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       day: '2-digit',
     });
     return transformed_date;
+  }
+
+  public onCheckUsers(): void {
+    this.dialog.open(DashboardMembersComponent, {
+      data: { dashboard: this.dashboard, user: this.user },
+      maxWidth: '650px',
+      width: '100%',
+      autoFocus: false,
+      panelClass: 'custom-modalbox',
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {

@@ -1,0 +1,90 @@
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.img-container {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.role-header {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.role-box {
+  padding: 0.5rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.role-box:hover {
+  background-color: #e0f1ff;
+  cursor: pointer;
+}
+
+.role-text {
+  flex: 1;
+  max-width: 450px;
+}
+
+.checked {
+  width: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.owner {
+  font-weight: 500;
+}
+
+mat-icon {
+  position: relative;
+  top: 3px;
+  font-size: 1rem;
+}
+
+.table-container {
+  max-height: 800px;
+  overflow-y: auto;
+}
+
+.container {
+  padding: 0.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+.avatars {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 15rem;
+}
+
+.team-member {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem;
+  transition: 0.5s;
+}
+
+.team-member:hover {
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgb(236, 235, 255);
+}
+
+.loading-container {
+  display: flex;
+  padding: 3rem;
+  justify-content: center;
+}

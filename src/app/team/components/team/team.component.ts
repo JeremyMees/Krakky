@@ -10,9 +10,9 @@ import { AggregatedWorkspace } from 'src/app/workspace/models/aggregated-workspa
 import { Member } from 'src/app/workspace/models/member.model';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
-import { CreateMemberToken } from '../models/create-member-token.model';
-import { UpdateMember } from '../models/update-member.model';
-import { TeamService } from '../services/team.service';
+import { CreateMemberToken } from '../../models/create-member-token.model';
+import { UpdateMember } from '../../models/update-member.model';
+import { TeamService } from '../../services/team.service';
 
 @Component({
   selector: 'app-team',

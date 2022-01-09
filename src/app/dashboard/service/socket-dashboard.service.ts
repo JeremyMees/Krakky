@@ -6,6 +6,7 @@ import { List } from 'src/app/list/models/list.model';
 import { AddList } from '../models/add-list.model';
 import { Socket } from 'ngx-socket-io';
 import { AddCard } from '../models/add-card.model';
+import { UpdateDashboard } from '../models/update-dashboard.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,5 +67,9 @@ export class SocketDashboardService {
   public deleteList(list: List): void {
     const { __v, title, index, ...payload } = list;
     this.socket.emit('delete-list', payload);
+  }
+
+  public updateDashboard(dashboard: UpdateDashboard): void {
+    this.socket.emit('update-dashboard', dashboard);
   }
 }

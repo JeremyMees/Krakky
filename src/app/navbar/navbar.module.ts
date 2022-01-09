@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from './components/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { StylingModule } from '../styling/styling.module';
 
 @NgModule({

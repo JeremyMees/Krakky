@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem, MessageService } from 'primeng/api';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from 'src/app/login/components/login.component';
-import { RegisterComponent } from 'src/app/register/components/register.component';
+import { LoginComponent } from 'src/app/login/components/login/login.component';
+import { RegisterComponent } from 'src/app/register/components/register/register.component';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';

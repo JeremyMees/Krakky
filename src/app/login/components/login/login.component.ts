@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
-import { AuthService } from '../../auth/services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

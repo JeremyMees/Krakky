@@ -5,9 +5,9 @@ import { DashboardComponent } from './dashboard/components/dashboard.component';
 import { LoginGuard } from './guards/login/login.guard';
 import { MemberDashboardGuard } from './guards/member-dashboard/member-dashboard.guard';
 import { MemberWorkspaceGuard } from './guards/member-workspace/member-workspace.guard';
-import { LandingComponent } from './landing/components/landing.component';
+import { LandingComponent } from './landing/components/landing/landing.component';
 import { NotMemberComponent } from './not-member/component/not-member.component';
-import { TeamComponent } from './team/components/team.component';
+import { TeamComponent } from './team/components/team/team.component';
 import { WorkspaceComponent } from './workspace/components/workspace-parent/workspace.component';
 
 const routes: Routes = [

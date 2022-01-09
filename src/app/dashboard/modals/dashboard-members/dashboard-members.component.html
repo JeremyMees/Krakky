@@ -1,0 +1,141 @@
+<div class="table-container">
+  <div class="loading-container" *ngIf="loading">
+    <loading-spinner></loading-spinner>
+  </div>
+  <p-table
+    *ngIf="!loading"
+    [value]="dashboard_members"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-member>
+      <tr>
+        <td>
+          <div class="img-container">
+            <img
+              [src]="
+                'https://avatars.dicebear.com/api/micah/' +
+                member.img +
+                '.svg' +
+                member.img_query
+              "
+              alt="avatar"
+            />
+          </div>
+        </td>
+        <td>{{ member.username }}</td>
+        <td>
+          <button
+            (click)="onSetSelectedMember(member); opTeam.toggle($event)"
+            pButton
+            pRipple
+            [label]="member.role"
+            class="p-button-raised"
+          ></button>
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-raised p-button-danger"
+            [disabled]="
+              data.dashboard.team.length < 2 || member._id === data.user._id
+            "
+            (click)="onConfirmDeleteMember($event, member)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div class="container" *ngIf="!loading">
+  <button
+    pButton
+    pRipple
+    icon="pi pi-user-plus"
+    label="Add member"
+    class="p-button-raised"
+    (click)="addMember.toggle($event)"
+  ></button>
+  <button
+    pButton
+    pRipple
+    label="Close"
+    class="p-button-raised p-button-text p-button-secondary"
+    (click)="onCloseModal()"
+  ></button>
+</div>
+
+<p-confirmPopup></p-confirmPopup>
+<p-toast></p-toast>
+<p-overlayPanel #opTeam>
+  <ng-template pTemplate>
+    <div
+      class="role-box"
+      (click)="onChangeRole(selected_member!, 'Admin'); opTeam.hide()"
+    >
+      <p class="role-text">
+        <span class="role-header">Admin</span>
+        <br />
+        <br />
+        <span class="under-text">
+          Can edit settings and give team members access to dashboard, Can
+          edit/update/delete cards/lists.
+        </span>
+      </p>
+      <div class="checked" *ngIf="selected_member!.role === 'Admin'">
+        <mat-icon color="primary">check</mat-icon>
+      </div>
+    </div>
+    <div
+      class="role-box"
+      (click)="onChangeRole(selected_member!, 'Member'); opTeam.hide()"
+    >
+      <p class="role-text">
+        <span class="role-header">Member</span>
+        <br />
+        <br />
+        <span class="under-text"> Can edit/update/delete cards/lists. </span>
+      </p>
+      <div class="checked" *ngIf="selected_member!.role === 'Member'">
+        <mat-icon color="primary">check</mat-icon>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel #addMember>
+  <ng-template pTemplate>
+    <div class="avatars">
+      <div
+        class="team-member"
+        *ngFor="let member of workspace_members"
+        (click)="onAddDashboardMember(member); addMember.hide()"
+      >
+        <p-avatar
+          [image]="
+            'https://avatars.dicebear.com/api/micah/' +
+            member.img +
+            '.svg' +
+            member.img_query
+          "
+          [style]="{
+            'background-color': 'rgb(236, 235, 255)',
+            color: '#ffffff'
+          }"
+          shape="circle"
+          class="selection"
+          size="large"
+        ></p-avatar>
+        <div class="username">{{ member.username }}</div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

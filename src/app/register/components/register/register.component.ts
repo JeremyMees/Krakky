@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from 'src/app/user/models/add_user.model';
-import { UserService } from '../../user/services/user.service';
+import { UserService } from '../../../user/services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
