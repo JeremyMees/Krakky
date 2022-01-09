@@ -8,4 +8,6 @@ export interface Dashboard {
   team: Array<Member>;
   board_id: string;
   workspace_id: string;
+  private: boolean;
+  inactive: boolean;
 }

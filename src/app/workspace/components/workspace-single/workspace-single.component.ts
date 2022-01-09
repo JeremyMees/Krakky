@@ -59,6 +59,8 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       title: form.value.dashboard_name,
       workspace_id: this.workspace.workspace_id,
       created_by: this.current_user?._id as string,
+      private: true,
+      inactive: false,
     };
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {

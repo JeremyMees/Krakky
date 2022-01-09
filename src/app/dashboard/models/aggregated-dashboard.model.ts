@@ -13,4 +13,5 @@ export interface AggregatedDashboard {
   cards: Array<Card>;
   lists: Array<List>;
   private: boolean;
+  inactive: boolean;
 }

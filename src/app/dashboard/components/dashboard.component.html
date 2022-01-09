@@ -50,7 +50,7 @@
         <i class="pi pi-users icon"></i>
         Members ({{ dashboard.team.length }})
       </div>
-      <div class="card" pRipple>
+      <div class="card" pRipple (click)="dashboardSettings.toggle($event)">
         <mat-icon class="material-icons-outlined">settings</mat-icon>
         Settings
       </div>
@@ -308,5 +308,40 @@
         ></button>
       </div>
     </form>
+  </ng-template>
+</p-overlayPanel>
+<p-overlayPanel #dashboardSettings>
+  <ng-template pTemplate>
+    <div class="settings-container">
+      <h2 class="settings-title">Settings</h2>
+      <div class="option">
+        <div class="option-content">
+          <p-inputSwitch
+            [(ngModel)]="private_checked"
+            (click)="onToggleSetting('private')"
+          ></p-inputSwitch>
+          <span class="option-text"> Private</span>
+        </div>
+        <i
+          class="pi pi-question-circle"
+          pTooltip="Only selected members have access to the board"
+          tooltipPosition="left"
+        ></i>
+      </div>
+      <div class="option">
+        <div class="option-content">
+          <p-inputSwitch
+            [(ngModel)]="inactive_checked"
+            (click)="onToggleSetting('inactive')"
+          ></p-inputSwitch>
+          <span class="option-text"> Inactive</span>
+        </div>
+        <i
+          class="pi pi-question-circle"
+          pTooltip="The board can't be modified until turned off"
+          tooltipPosition="left"
+        ></i>
+      </div>
+    </div>
   </ng-template>
 </p-overlayPanel>

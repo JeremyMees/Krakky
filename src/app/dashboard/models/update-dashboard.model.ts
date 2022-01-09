@@ -5,4 +5,5 @@ export interface UpdateDashboard {
   board_id: string;
   team?: Array<Member>;
   private?: boolean;
+  inactive?: boolean;
 }

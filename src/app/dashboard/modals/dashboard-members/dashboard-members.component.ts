@@ -85,6 +85,10 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
   }
 
   public onChangeRole(member: Assignee, role: string): void {
+    if (this.data.dashboard.inactive) {
+      this._onIsInactive();
+      return;
+    }
     if (this._onCheckIfAdmin()) {
       const index: number = this.workspace.team.findIndex(
         (team_member: Member) => team_member._id === member._id
@@ -101,6 +105,10 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
   }
 
   public onAddDashboardMember(member: Assignee): void {
+    if (this.data.dashboard.inactive) {
+      this._onIsInactive();
+      return;
+    }
     if (this._onCheckIfAdmin()) {
       const already_members: Array<Member> = this.data.dashboard.team.filter(
         (already_member: Member) => already_member._id === member._id
@@ -120,6 +128,10 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
   }
 
   public onConfirmDeleteMember(event: Event, member: Assignee): void {
+    if (this.data.dashboard.inactive) {
+      this._onIsInactive();
+      return;
+    }
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure that you want to delete this member?',
@@ -145,6 +157,10 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
   }
 
   private _onUpdateTeam(): void {
+    if (this.data.dashboard.inactive) {
+      this._onIsInactive();
+      return;
+    }
     this.socketDashboardService.updateDashboard({
       board_id: this.data.dashboard.board_id,
       team: this.data.dashboard.team,
@@ -179,6 +195,10 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
 
   public onCloseModal(): void {
     this.dialogRef.close();
+  }
+
+  private _onIsInactive(): void {
+    this._showSnackbar('info', "Dashboard is inactive and can't be modified");
   }
 
   private _showSnackbar(severity: string, detail: string): void {

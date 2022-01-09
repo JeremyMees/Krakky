@@ -16,6 +16,7 @@ import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
+import { Member } from 'src/app/workspace/models/member.model';
 import { EditCardComponent } from '../../card/components/edit-card/edit-card.component';
 import { DashboardMembersComponent } from '../modals/dashboard-members/dashboard-members.component';
 import { AggregatedDashboard } from '../models/aggregated-dashboard.model';
@@ -39,6 +40,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selected_list: List | undefined;
   selected_card: Card | undefined;
   board_id!: string;
+  private_checked: boolean = false;
+  inactive_checked: boolean = false;
 
   constructor(
     private socketDashboardService: SocketDashboardService,
@@ -78,6 +81,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: HttpResponse) => {
           if (res.statusCode === 200 || res.statusCode === 201) {
+            this.private_checked = res.data.private;
+            this.inactive_checked = res.data.inactive;
             this.dashboard = this._onTransformData(res.data);
             this._onFinish(true);
           } else {
@@ -118,6 +123,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onSaveDashboardTitle(form: NgForm): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -132,6 +141,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public drop(event: CdkDragDrop<Array<List>>) {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     moveItemInArray(
       this.dashboard.lists,
       event.previousIndex,
@@ -151,6 +164,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public dropCard(event: any) {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     let filteredCards = this.filteredCards(event.container.id);
     if (event.previousContainer === event.container) {
       if (event.previousIndex === event.currentIndex) {
@@ -185,6 +202,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onUpdateListTitle(form: NgForm): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -197,6 +218,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onAddList(form: NgForm): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -208,6 +233,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onAddQuickCard(form: NgForm): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -223,6 +252,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteList(list: List): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: { name: list.title, title: 'list' },
     });
@@ -234,6 +267,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onUpdateCard(card: Card): void {
+    if (this.inactive_checked) {
+      this._onIsInactive();
+      return;
+    }
     this.dialog.open(EditCardComponent, {
       data: { card, dashboard: this.dashboard },
       maxWidth: '850px',
@@ -260,6 +297,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       panelClass: 'custom-modalbox',
     });
+  }
+
+  public onToggleSetting(setting: string): void {
+    if (this._onCheckIfAdmin()) {
+      switch (setting) {
+        case 'private':
+          this._onUpdateDashboard({ private: this.private_checked });
+          break;
+        case 'inactive':
+          this._onUpdateDashboard({ inactive: this.inactive_checked });
+          break;
+      }
+    } else {
+      switch (setting) {
+        case 'private':
+          this.private_checked
+            ? (this.private_checked = false)
+            : (this.private_checked = true);
+          this._onIsNotAdmin();
+          break;
+        case 'inactive':
+          this.inactive_checked
+            ? (this.inactive_checked = false)
+            : (this.inactive_checked = true);
+          this._onIsNotAdmin();
+          break;
+      }
+    }
+  }
+
+  private _onUpdateDashboard(obj: { [key: string]: any }): void {
+    const board_id: { board_id: string } = {
+      board_id: this.dashboard.board_id,
+    };
+    this.socketDashboardService.updateDashboard({ ...obj, ...board_id });
+  }
+
+  private _onCheckIfAdmin(): boolean {
+    const user: Member = this.dashboard.team.filter(
+      (member: Member) => member._id === this.user._id
+    )[0];
+    if (user) {
+      return user.role === 'Admin' || user.role === 'Owner' ? true : false;
+    } else {
+      return false;
+    }
+  }
+
+  private _onIsNotAdmin(): void {
+    this._showSnackbar('info', 'That action is only for admins');
+  }
+
+  private _onIsInactive(): void {
+    this._showSnackbar('info', "Dashboard is inactive and can't be modified");
   }
 
   private _showSnackbar(severity: string, detail: string): void {

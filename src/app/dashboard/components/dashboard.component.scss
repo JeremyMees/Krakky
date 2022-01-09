@@ -87,6 +87,36 @@ i:hover {
   cursor: pointer;
 }
 
+.settings-container {
+  max-width: 250px;
+  width: 100%;
+}
+
+.option {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.option-content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.option-text {
+  font-size: 1.25rem;
+}
+
+.settings-title {
+  padding: 0;
+  margin: 0 0 0.5rem 0;
+}
+
 @media (max-width: 550px) {
   .dashboard-title-flex {
     flex-flow: column;

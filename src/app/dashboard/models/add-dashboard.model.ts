@@ -4,6 +4,7 @@ export interface AddDashboard {
   created_by: string;
   title: string;
   workspace_id: string;
-  private?: boolean;
+  private: boolean;
+  inactive: boolean;
   team?: Array<Member>;
 }
