@@ -17,11 +17,11 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Member } from 'src/app/workspace/models/member.model';
-import { EditCardComponent } from '../../card/components/edit-card/edit-card.component';
-import { DashboardMembersComponent } from '../modals/dashboard-members/dashboard-members.component';
-import { AggregatedDashboard } from '../models/aggregated-dashboard.model';
-import { DashboardService } from '../service/dashboard.service';
-import { SocketDashboardService } from '../service/socket-dashboard.service';
+import { EditCardComponent } from '../../../card/components/edit-card/edit-card.component';
+import { DashboardMembersComponent } from '../../modals/dashboard-members/dashboard-members.component';
+import { AggregatedDashboard } from '../../models/aggregated-dashboard.model';
+import { DashboardService } from '../../service/dashboard.service';
+import { SocketDashboardService } from '../../service/socket-dashboard.service';
 
 @Component({
   selector: 'app-dashboard',

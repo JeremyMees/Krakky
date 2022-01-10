@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/components/account/account.component';
-import { DashboardComponent } from './dashboard/components/dashboard.component';
+import { DashboardComponent } from './dashboard/components/dashboard/dashboard.component';
 import { LoginGuard } from './guards/login/login.guard';
 import { MemberDashboardGuard } from './guards/member-dashboard/member-dashboard.guard';
 import { MemberWorkspaceGuard } from './guards/member-workspace/member-workspace.guard';

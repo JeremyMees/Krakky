@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
-import { User } from 'src/app/user/models/user.model';
-import { UserService } from 'src/app/user/services/user.service';
 import { AddDashboard } from '../models/add-dashboard.model';
 import { Dashboard } from '../models/dashboard.model';
 import { IfMemberDashboard } from '../models/if-member-dashboard.model';
@@ -11,12 +9,9 @@ import { IfMemberDashboard } from '../models/if-member-dashboard.model';
   providedIn: 'root',
 })
 export class DashboardService {
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient) {}
 
   public addDashboard(dashboard: AddDashboard): Observable<HttpResponse> {
-    const user = this.userService.getCurrentUser().value as User;
-    dashboard.team = [{ _id: user._id as string, role: 'Member' }];
-    dashboard.private = true;
     return this.http.post<HttpResponse>(
       `http://localhost:3000/dashboard`,
       dashboard

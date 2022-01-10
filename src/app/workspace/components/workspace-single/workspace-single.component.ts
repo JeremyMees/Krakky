@@ -68,6 +68,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       created_by: this.current_user?._id as string,
       private: form.value.private ? form.value.private : false,
       inactive: false,
+      team: [{ _id: this.current_user!._id as string, role: 'Admin' }],
     };
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {
@@ -83,11 +84,15 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   private _onFilterDashboardMember(): void {
     this.dashboards = [];
     this.workspace.dashboards.forEach((dashboard: Dashboard) => {
-      dashboard.team.forEach((member: Member) => {
-        if (member._id === (this.current_user?._id as string)) {
-          this.dashboards.push(dashboard);
-        }
-      });
+      if (dashboard.private) {
+        dashboard.team.forEach((member: Member) => {
+          if (member._id === (this.current_user?._id as string)) {
+            this.dashboards.push(dashboard);
+          }
+        });
+      } else {
+        this.dashboards.push(dashboard);
+      }
     });
   }
 

@@ -161,6 +161,24 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
     this._showSnackbar('info', `That action is only for ${role}`);
   }
 
+  public onFilterDashboardMember(
+    dashboards: Array<Dashboard>
+  ): Array<Dashboard> {
+    const member_dashboards: Array<Dashboard> = [];
+    dashboards.forEach((dashboard: Dashboard) => {
+      if (dashboard.private) {
+        dashboard.team.forEach((member: Member) => {
+          if (member._id === (this.current_user?._id as string)) {
+            member_dashboards.push(dashboard);
+          }
+        });
+      } else {
+        member_dashboards.push(dashboard);
+      }
+    });
+    return member_dashboards;
+  }
+
   private _showSnackbar(severity: string, detail: string): void {
     this.messageService.add({
       severity,
