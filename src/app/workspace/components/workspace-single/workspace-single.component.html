@@ -78,27 +78,44 @@
 <p-overlayPanel #op>
   <ng-template pTemplate>
     <form
+      class="create-form"
       (submit)="onSaveDashboard(dashboardForm); op.hide()"
       #dashboardForm="ngForm"
     >
-      <div class="p-inputgroup">
-        <input
-          type="text"
-          pInputText
-          ngModel
-          required
-          name="dashboard_name"
-          #dashboard_name="ngModel"
-          placeholder="Dashboard title"
-          maxlength="20"
-          autofocus
-          autocomplete="off"
-        />
+      <h2 class="create-form-title">Dashboard title</h2>
+      <input
+        type="text"
+        pInputText
+        ngModel
+        required
+        name="dashboard_name"
+        #dashboard_name="ngModel"
+        placeholder="Dashboard title"
+        maxlength="20"
+        autofocus
+        autocomplete="off"
+      />
+      <h2 class="create-form-title">Settings</h2>
+      <div class="option">
+        <div class="option-content">
+          <p-inputSwitch
+            ngModel
+            name="private"
+            #private="ngModel"
+          ></p-inputSwitch>
+          <span class="option-text"> Private</span>
+        </div>
+        <i
+          class="pi pi-question-circle"
+          pTooltip="Only selected members have access to the board"
+        ></i>
+      </div>
+      <div class="buttons">
         <button
           pButton
           pRipple
-          icon="pi pi-save"
           type="submit"
+          label="Create new dashboard"
           class="p-button-raised"
           [disabled]="
             dashboard_name.value === undefined
@@ -109,8 +126,14 @@
               ? true
               : false
           "
-          pTooltip="Save new dashboard"
-          [showDelay]="500"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Go back"
+          class="p-button-raised p-button-text p-button-secondary"
+          (click)="op.hide()"
         ></button>
       </div>
     </form>

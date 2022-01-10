@@ -104,6 +104,43 @@ loading-spinner {
   margin-bottom: 1rem;
 }
 
+.create-form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.create-form-title {
+  margin: 0;
+  padding: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+}
+
+.option {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.option-content {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.option-text {
+  font-size: 1.25rem;
+}
+
 @media (max-width: 650px) {
   .dashboards {
     flex-flow: column no-wrap;
