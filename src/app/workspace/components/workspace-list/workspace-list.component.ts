@@ -1,14 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { User } from 'src/app/user/models/user.model';
+import { UserService } from 'src/app/user/services/user.service';
 import { CreateWorkspaceComponent } from '../../modals/create-workspace/create-workspace.component';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
+import { Member } from '../../models/member.model';
 import { WorkspaceService } from '../../services/workspace.service';
 
 @Component({
@@ -17,22 +20,41 @@ import { WorkspaceService } from '../../services/workspace.service';
   styleUrls: ['./workspace-list.component.scss'],
   providers: [MessageService],
 })
-export class WorkspaceListComponent {
+export class WorkspaceListComponent implements OnInit, OnDestroy {
   selected_workspace: AggregatedWorkspace | null = null;
   editWorkspace: boolean = false;
   @Input() workspaces: Array<AggregatedWorkspace> = [];
   current_user: User | null = null;
   current_user_sub$: Subscription = new Subscription();
   selected_dashboard: Dashboard | undefined;
+  destroy$: Subject<boolean> = new Subject();
 
   constructor(
     public dialog: MatDialog,
     private messageService: MessageService,
     private workspaceService: WorkspaceService,
-    public router: Router
+    public router: Router,
+    private userService: UserService
   ) {}
 
+  public ngOnInit(): void {
+    this.userService
+      .getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        this.current_user = user;
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+  }
+
   private _onDeleteWorkspace(workspace: AggregatedWorkspace): void {
+    if (!this._onCheckIfOwner()) {
+      this._onIsNotAdminOrOwner('owners');
+      return;
+    }
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: { name: workspace.workspace, title: 'workspace' },
     });
@@ -61,6 +83,10 @@ export class WorkspaceListComponent {
   }
 
   public onAddWorkspace(): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdminOrOwner('admins');
+      return;
+    }
     const dialogRef = this.dialog.open(CreateWorkspaceComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -78,6 +104,10 @@ export class WorkspaceListComponent {
     form: NgForm,
     workspace: AggregatedWorkspace
   ): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdminOrOwner('admins');
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -95,6 +125,40 @@ export class WorkspaceListComponent {
         this._showSnackbar('error', 'Error while updating workspace');
       },
     });
+  }
+
+  private _onCheckIfOwner(): boolean {
+    if (this.selected_workspace) {
+      const user: Member = this.selected_workspace.team.filter(
+        (member: Member) => member._id === this.current_user!._id
+      )[0];
+      if (user) {
+        return user.role === 'Admin' ? true : false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  private _onCheckIfAdmin(): boolean {
+    if (this.selected_workspace) {
+      const user: Member = this.selected_workspace.team.filter(
+        (member: Member) => member._id === this.current_user!._id
+      )[0];
+      if (user) {
+        return user.role === 'Owner' || user.role === 'Admin' ? true : false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  private _onIsNotAdminOrOwner(role: string): void {
+    this._showSnackbar('info', `That action is only for ${role}`);
   }
 
   private _showSnackbar(severity: string, detail: string): void {

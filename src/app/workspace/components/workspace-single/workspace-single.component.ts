@@ -3,7 +3,8 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AddDashboard } from 'src/app/dashboard/models/add-dashboard.model';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DashboardService } from 'src/app/dashboard/service/dashboard.service';
@@ -27,6 +28,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   current_user_sub$: Subscription = new Subscription();
   selected_dashboard: Dashboard | undefined;
   dashboards: Array<Dashboard> = [];
+  destroy$: Subject<boolean> = new Subject();
 
   constructor(
     public router: Router,
@@ -47,10 +49,15 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.destroy$.next(true);
     this.current_user_sub$.unsubscribe();
   }
 
   public onSaveDashboard(form: NgForm): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
@@ -62,7 +69,6 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       private: form.value.private ? form.value.private : false,
       inactive: false,
     };
-    console.log(dashboard);
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
@@ -89,43 +95,72 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     form: NgForm,
     workspace: AggregatedWorkspace
   ): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
     }
     workspace.workspace = form.value.workspace_name;
     const { dashboards, ...payload } = workspace;
-    this.workspaceService.updateWorkspace(payload).subscribe({
-      next: () => {
-        this.workspace.workspace = form.value.workspace_name;
-      },
-      error: () => {
-        this._showSnackbar('error', 'Error while updating workspace');
-      },
-    });
+    this.workspaceService
+      .updateWorkspace(payload)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.workspace.workspace = form.value.workspace_name;
+        },
+        error: () => {
+          this._showSnackbar('error', 'Error while updating workspace');
+        },
+      });
   }
 
   public onDeleteDashboard(id: string): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     const dialogRef = this.dialog.open(DeleteComponent, {
       data: { name: this.selected_dashboard?.title, title: 'dashboard' },
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.dashboardService.deleteDashboard(id).subscribe({
-          next: () => {
-            const dashboards: Array<Dashboard> =
-              this.workspace.dashboards.filter(
-                (dashboard: Dashboard) => dashboard.board_id !== id
-              );
-            this.workspace.dashboards = dashboards;
-            this._onFilterDashboardMember();
-          },
-          error: () => {
-            this._showSnackbar('error', 'Error while updating workspace');
-          },
-        });
+        this.dashboardService
+          .deleteDashboard(id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => {
+              const dashboards: Array<Dashboard> =
+                this.workspace.dashboards.filter(
+                  (dashboard: Dashboard) => dashboard.board_id !== id
+                );
+              this.workspace.dashboards = dashboards;
+              this._onFilterDashboardMember();
+            },
+            error: () => {
+              this._showSnackbar('error', 'Error while updating workspace');
+            },
+          });
       }
     });
+  }
+
+  private _onCheckIfAdmin(): boolean {
+    const user: Member = this.workspace.team.filter(
+      (member: Member) => member._id === this.current_user!._id
+    )[0];
+    if (user) {
+      return user.role === 'Owner' || user.role === 'Owner' ? true : false;
+    } else {
+      return false;
+    }
+  }
+
+  private _onIsNotAdmin(): void {
+    this._showSnackbar('info', 'That action is only for admins');
   }
 
   private _showSnackbar(severity: string, detail: string): void {

@@ -16,7 +16,10 @@
         size="medium"
         class="team-avatar"
       ></p-avatar>
-      <h3 class="team-title" (click)="opw.toggle($event)">
+      <h3
+        class="team-title"
+        (click)="selected_workspace = workspace; opw.toggle($event)"
+      >
         {{
           workspace.workspace.charAt(0).toUpperCase() +
             workspace.workspace.slice(1)
@@ -86,8 +89,7 @@
       </div>
       <div
         class="card"
-        (click)="selected_workspace = workspace"
-        (click)="menu.toggle($event)"
+        (click)="selected_workspace = workspace; menu.toggle($event)"
         pRipple
       >
         <mat-icon class="material-icons-outlined">settings</mat-icon>
