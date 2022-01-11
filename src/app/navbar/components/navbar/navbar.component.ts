@@ -92,7 +92,13 @@ export class NavbarComponent implements OnInit {
         this._navigate('home');
       },
     },
-    { label: 'Contact', icon: 'pi pi-fw pi-phone' },
+    {
+      label: 'Contact',
+      icon: 'pi pi-fw pi-envelope',
+      command: () => {
+        this._navigate('contact');
+      },
+    },
     {
       label: 'Docs',
       icon: 'pi pi-fw pi-list',
@@ -123,8 +129,20 @@ export class NavbarComponent implements OnInit {
         this._navigate('home');
       },
     },
-    { label: 'Contact', icon: 'pi pi-fw pi-phone' },
-    { label: 'Workspaces', icon: 'pi pi-fw pi-calendar' },
+    {
+      label: 'Contact',
+      icon: 'pi pi-fw pi-envelope',
+      command: () => {
+        this._navigate('contact');
+      },
+    },
+    {
+      label: 'Workspaces',
+      icon: 'pi pi-fw pi-calendar',
+      command: () => {
+        this._navigate('workspace');
+      },
+    },
     {
       label: 'Account',
       icon: 'pi pi-fw pi-user',

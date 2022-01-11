@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/components/account/account.component';
+import { ContactComponent } from './contact/components/contact/contact.component';
 import { DashboardComponent } from './dashboard/components/dashboard/dashboard.component';
 import { StatisticsComponent } from './dashboard/components/statistics/statistics.component';
 import { LoginGuard } from './guards/login/login.guard';
@@ -14,6 +15,7 @@ import { WorkspaceComponent } from './workspace/components/workspace-parent/work
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
     path: 'workspace',

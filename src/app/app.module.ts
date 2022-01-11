@@ -20,6 +20,7 @@ import { NotMemberModule } from './not-member/not-member.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { CardModule } from './card/card.module';
+import { ContactModule } from './contact/contact.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
@@ -45,6 +46,7 @@ const config: SocketIoConfig = {
     DashboardModule,
     NotMemberModule,
     CardModule,
+    ContactModule,
   ],
   bootstrap: [AppComponent],
   providers: [

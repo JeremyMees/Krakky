@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="flex-box">
+    <div class="img-container">
+      <img
+        src="../../../../assets/images/contact.svg"
+        alt="image of people talking"
+      />
+    </div>
+    <mat-card class="form">
+      <h1>Let's have a talk</h1>
+      <form (submit)="onContactUs(contactForm)" [formGroup]="contactForm">
+        <input
+          type="text"
+          pInputText
+          required
+          placeholder="username"
+          formControlName="username"
+          maxlength="12"
+          autocomplete="off"
+          autofocus
+        />
+        <input
+          type="email"
+          pInputText
+          required
+          formControlName="email"
+          placeholder="email"
+          autocomplete="off"
+        />
+        <textarea
+          rows="5"
+          cols="30"
+          pInputTextarea
+          maxlength="500"
+          required
+          formControlName="message"
+          placeholder="message"
+          [autoResize]="true"
+        ></textarea>
+        <button
+          pButton
+          pRipple
+          class="p-button-raised"
+          icon="pi pi-send"
+          label="Send mail"
+          type="submit"
+        ></button>
+      </form>
+    </mat-card>
+  </div>
+</div>
+
+<div
+  class="copy-email"
+  [cdkCopyToClipboard]="'contact@krakky.com'"
+  (click)="onCopyEmail()"
+>
+  <p>
+    <i class="pi pi-envelope"></i>
+    Copy email address
+  </p>
+</div>
+
+<p-toast></p-toast>
