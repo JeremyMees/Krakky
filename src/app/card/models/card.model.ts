@@ -6,6 +6,7 @@ export interface Card {
   list_id: string;
   created_by: string;
   created_at?: number;
+  updated_at?: number;
   start_date?: Date;
   due_date?: Date;
   completion_date?: Date;

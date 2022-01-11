@@ -50,6 +50,16 @@
         <i class="pi pi-users icon"></i>
         Members ({{ dashboard.team.length }})
       </div>
+      <div
+        class="card"
+        pRipple
+        (click)="
+          router.navigateByUrl('dashboard/statistics/' + dashboard.board_id)
+        "
+      >
+        <i class="pi pi-chart-line icon"></i>
+        Statistics
+      </div>
       <div class="card" pRipple (click)="dashboardSettings.toggle($event)">
         <mat-icon class="material-icons-outlined">settings</mat-icon>
         Settings

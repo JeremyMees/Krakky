@@ -192,7 +192,11 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     {
       label: 'Statistics',
       icon: 'pi pi-fw pi-chart-line',
-      command: () => {},
+      command: () => {
+        this.router.navigateByUrl(
+          `dashboard/statistics/${this.selected_dashboard?.board_id}`
+        );
+      },
     },
     {
       label: 'Delete dashboard',

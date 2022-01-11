@@ -77,7 +77,14 @@
       </div>
     </div>
     <h2 class="dates-title">Dates</h2>
-    <p class="under-text" *ngIf="!data.card.start_date && !data.card.due_date">
+    <p
+      class="under-text"
+      *ngIf="
+        !data.card.start_date &&
+        !data.card.due_date &&
+        !data.card.completion_date
+      "
+    >
       No dates are selected
     </p>
     <div class="dates-flex">

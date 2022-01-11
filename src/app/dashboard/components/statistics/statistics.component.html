@@ -1,0 +1,123 @@
+<div class="container" *ngIf="!loading && found">
+  <div class="dashboard-title-flex">
+    <div class="team">
+      <p-avatar
+        [label]="dashboard.title.charAt(0).toUpperCase()"
+        styleClass="p-mr-2"
+        size="medium"
+        class="team-avatar"
+      ></p-avatar>
+      <h3 class="title">
+        {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+      </h3>
+    </div>
+    <div class="toolbar">
+      <div
+        class="card"
+        (click)="router.navigateByUrl('workspace/' + dashboard.workspace_id)"
+      >
+        <div class="card-content">
+          <i class="pi pi-arrow-left icon"></i>
+          Back to workspace
+        </div>
+      </div>
+      <div
+        class="card"
+        (click)="router.navigateByUrl('dashboard/' + dashboard.board_id)"
+      >
+        <i class="pi pi-table icon"></i>
+        Board
+      </div>
+    </div>
+  </div>
+  <div class="line light-grey-bg"></div>
+
+  <div class="stats-container">
+    <div class="card-stats">
+      <mat-card
+        [pTooltip]="'Total of cards on dashboard ' + dashboard.title"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Total</h1>
+        <p class="number">{{ dashboard.cards.length }}</p>
+      </mat-card>
+      <mat-card
+        pTooltip="Total of cards that are completed"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Completed</h1>
+        <p class="number">{{ cards_completed.length }}</p>
+      </mat-card>
+      <mat-card
+        pTooltip="Total of cards where there is a start date and no end date"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Doing</h1>
+        <p class="number">{{ cards_doing.length }}</p>
+      </mat-card>
+      <mat-card
+        pTooltip="Total of cards where the due date is overdue"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Overdue</h1>
+        <p class="number">{{ cards_overdue.length }}</p>
+      </mat-card>
+      <mat-card
+        pTooltip="Total of cards that where updated today"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Updated</h1>
+        <p class="number">
+          {{
+            data ? data.datasets[1].data[data.datasets[1].data.length - 1] : 0
+          }}
+        </p>
+      </mat-card>
+      <mat-card
+        pTooltip="Total of cards where there is no start or completion date"
+        tooltipPosition="bottom"
+      >
+        <h1 class="card-title">Backlog</h1>
+        <p class="number">{{ cards_backlog.length }}</p>
+      </mat-card>
+    </div>
+    <mat-card class="chart-container">
+      <p-dropdown
+        class="dropdown"
+        [options]="periods"
+        optionLabel="name"
+        optionValue="number"
+        [(ngModel)]="new_period"
+        (click)="onChangePeriod()"
+      ></p-dropdown>
+      <div class="chart">
+        <p-chart
+          type="line"
+          [data]="data"
+          [options]="chart_options"
+          min-width="300px"
+        ></p-chart>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div class="not-found" *ngIf="!loading && !found">
+  <div class="not-found-container">
+    <img src="./../../../assets/images/not_found.svg" alt="404" />
+  </div>
+  <div class="not-found">
+    <p class="not-found-txt">Could't find selected dashboard</p>
+    <button
+      type="button"
+      pButton
+      pRipple
+      class="p-button-raised"
+      label="Go to workspaces"
+      (click)="router.navigateByUrl('workspace')"
+    ></button>
+  </div>
+</div>
+
+<loading-spinner *ngIf="loading" class="loading"></loading-spinner>
+<p-toast></p-toast>

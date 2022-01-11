@@ -37,6 +37,12 @@ export class DashboardService {
     );
   }
 
+  public getAggregatedDashboard(board_id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/dashboard?board_id=${board_id}`
+    );
+  }
+
   public checkIfMember(payload: IfMemberDashboard): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `http://localhost:3000/dashboard/is_member`,

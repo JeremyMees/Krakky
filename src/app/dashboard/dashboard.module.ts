@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { DashboardService } from './service/dashboard.service';
 import { CardModule } from '../card/card.module';
 import { DashboardMembersComponent } from './modals/dashboard-members/dashboard-members.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
 
 @NgModule({
-  declarations: [DashboardComponent, DashboardMembersComponent],
+  declarations: [DashboardComponent, DashboardMembersComponent, StatisticsComponent],
   imports: [CommonModule, StylingModule, FormsModule, SharedModule, CardModule],
   providers: [DashboardService],
 })

@@ -28,6 +28,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { CalendarModule } from 'primeng/calendar';
+import { ChartModule } from 'primeng/chart';
 @NgModule({
   declarations: [LoadingComponent],
   imports: [ProgressSpinnerModule, BrowserAnimationsModule],
@@ -61,6 +62,7 @@ import { CalendarModule } from 'primeng/calendar';
     InputTextareaModule,
     FocusTrapModule,
     CalendarModule,
+    ChartModule,
   ],
 })
 export class StylingModule {}
