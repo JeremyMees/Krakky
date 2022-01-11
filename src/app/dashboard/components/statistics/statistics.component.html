@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!loading && found">
+<div class="container" *ngIf="!loading && found && cards_all.length > 0">
   <div class="dashboard-title-flex">
     <div class="team">
       <p-avatar
@@ -102,12 +102,37 @@
   </div>
 </div>
 
+<div class="container" *ngIf="!loading && found && cards_all.length === 0">
+  <div class="not-found-container">
+    <img
+      src="./../../../../assets/images/programmer.svg"
+      alt="image programmer"
+    />
+  </div>
+  <div class="not-found">
+    <h2 class="not-found-title">No cards are created on the dashboard</h2>
+    <p>
+      When there are cards created we can do our magic and generate the
+      statistics for you
+    </p>
+    <button
+      type="button"
+      pButton
+      pRipple
+      class="p-button-raised"
+      icon="pi pi-table"
+      label="Go to dashboard"
+      (click)="router.navigateByUrl('dashboard/' + dashboard.board_id)"
+    ></button>
+  </div>
+</div>
+
 <div class="not-found" *ngIf="!loading && !found">
   <div class="not-found-container">
     <img src="./../../../assets/images/not_found.svg" alt="404" />
   </div>
   <div class="not-found">
-    <p class="not-found-txt">Could't find selected dashboard</p>
+    <h2 class="not-found-title">Could't find selected dashboard</h2>
     <button
       type="button"
       pButton

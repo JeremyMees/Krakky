@@ -12,8 +12,15 @@
   margin: auto;
 }
 
-.not-found-txt {
-  font-size: 1.5rem;
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.not-found-title {
+  padding: 0;
+  margin: 0;
 }
 
 .not-found {
