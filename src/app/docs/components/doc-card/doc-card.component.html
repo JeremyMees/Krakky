@@ -1,0 +1,363 @@
+<h1 class="title">/card</h1>
+<div class="cards">
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Create card</h2>
+      <div class="url">
+        <div class="method post">POST</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp; https://krakky.com/api/card
+        </div>
+        <div>
+          Request body<span class="required">*</span>
+          <span class="dto-color">AddCardDTO</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">201</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">data</div>
+              <div class="dto-value multiple" pTooltip="returns created card">
+                card
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">AddCardDTO</h3>
+      <div class="dto-item">
+        <div class="dto-name">board_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">title<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">list_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">created_by<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">content</div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">color</div>
+        <div class="dto-value multiple" (click)="colorEnum.toggle($event)">
+          ColorEnum
+        </div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">priority</div>
+        <div class="dto-value multiple" (click)="priorityEnum.toggle($event)">
+          PriorityEnum
+        </div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">assignees</div>
+        <div class="dto-value">[user_id]</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">start_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">due_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">completion_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">completion_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">comments</div>
+        <div class="dto-value multiple" (click)="commentsDTO.toggle($event)">
+          CommentsDTO
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Update card</h2>
+      <div class="url">
+        <div class="method patch">PATCH</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp; https://krakky.com/api/card
+        </div>
+        <div>
+          Request body<span class="required">*</span>
+          <span class="dto-color">UpdateCardDTO</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">data</div>
+              <div class="dto-value multiple" pTooltip="returns updated card">
+                card
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">UpdateCardDTO</h3>
+      <div class="dto-item">
+        <div class="dto-name">board_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">title</div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">list_id</div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">content</div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">color</div>
+        <div class="dto-value multiple" (click)="colorEnum.toggle($event)">
+          ColorEnum
+        </div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">priority</div>
+        <div class="dto-value multiple" (click)="priorityEnum.toggle($event)">
+          PriorityEnum
+        </div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">assignees</div>
+        <div class="dto-value">[user_id]</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">start_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">due_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">completion_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">completion_date</div>
+        <div class="dto-value">Date</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">comments</div>
+        <div class="dto-value multiple" (click)="commentsDTO.toggle($event)">
+          CommentsDTO
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Delete card</h2>
+      <div class="url">
+        <div class="method delete">DELETE</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp;
+          https://krakky.com/api/card/:_id of card
+        </div>
+        <div>No Request body</div>
+      </div>
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<p-overlayPanel #commentsDTO>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">user_id<span class="required">*</span></div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">created_at<span class="required">*</span></div>
+      <div class="dto-value">number</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">updated_at<span class="required">*</span></div>
+      <div class="dto-value">number</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">content<span class="required">*</span></div>
+      <div class="dto-value">string</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #priorityEnum>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">Low</div>
+      <div class="dto-value">"low"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Normal</div>
+      <div class="dto-value">"normal"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">High</div>
+      <div class="dto-value">"high"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">No priority</div>
+      <div class="dto-value">""</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #colorEnum>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">White</div>
+      <div class="dto-value">"white"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Grey</div>
+      <div class="dto-value">"grey"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Black</div>
+      <div class="dto-value">"black"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Pink</div>
+      <div class="dto-value">"pink"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Purple</div>
+      <div class="dto-value">"purple"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Blue</div>
+      <div class="dto-value">"blue"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Turquoise</div>
+      <div class="dto-value">"turquoise"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Green</div>
+      <div class="dto-value">"green"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Yellow</div>
+      <div class="dto-value">"yellow"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Orange</div>
+      <div class="dto-value">"orange"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Red</div>
+      <div class="dto-value">"red"</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">Brown</div>
+      <div class="dto-value">"brown"</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

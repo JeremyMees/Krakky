@@ -4,6 +4,7 @@ import { AccountComponent } from './account/components/account/account.component
 import { ContactComponent } from './contact/components/contact/contact.component';
 import { DashboardComponent } from './dashboard/components/dashboard/dashboard.component';
 import { StatisticsComponent } from './dashboard/components/statistics/statistics.component';
+import { ParentComponent } from './docs/components/parent/parent.component';
 import { LoginGuard } from './guards/login/login.guard';
 import { MemberDashboardGuard } from './guards/member-dashboard/member-dashboard.guard';
 import { MemberWorkspaceGuard } from './guards/member-workspace/member-workspace.guard';
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'docs', component: ParentComponent },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
     path: 'workspace',

@@ -1,0 +1,14 @@
+<div class="container">
+  <mat-card class="nav">
+    <div
+      class="nav-item"
+      *ngFor="let nav_item of nav_items"
+      (click)="onChangeView(nav_item)"
+    >
+      {{ nav_item }}
+    </div>
+  </mat-card>
+  <div class="page">
+    <app-doc-card></app-doc-card>
+  </div>
+</div>

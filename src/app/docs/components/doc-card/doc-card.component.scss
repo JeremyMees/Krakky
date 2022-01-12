@@ -1,0 +1,116 @@
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.cards {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+}
+
+.card-title {
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+
+.dto {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 255, 0.103);
+  border-radius: 5px;
+  max-width: 19rem;
+}
+
+.dto-item {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: 17rem;
+}
+
+.dto-title {
+  margin: 0;
+  padding: 0;
+}
+
+.required {
+  color: red;
+}
+
+.multiple:hover {
+  cursor: pointer;
+}
+
+.multiple {
+  color: #0d89ec;
+}
+
+.dto-color {
+  color: #0d89ec;
+  padding-left: 1rem;
+}
+
+.method {
+  padding: 0.25rem;
+  color: #fff;
+  display: inline-block;
+  border-radius: 5px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.post {
+  background-color: #00bb7e;
+}
+
+.patch {
+  background-color: #a01cf8;
+}
+
+.delete {
+  background-color: red;
+}
+
+.action-flex {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+}
+
+.response {
+  flex-grow: 1;
+}
+
+.url {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.url-text {
+  font-weight: 600;
+}
+
+.responses {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 2rem;
+}
+
+.succes-res {
+  min-width: 10rem;
+}
+
+.error-res {
+  min-width: 10rem;
+}
+
+h3 {
+  padding: 1.5rem 0 0.5rem 0;
+  margin: 0;
+}

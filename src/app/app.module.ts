@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { CardModule } from './card/card.module';
 import { ContactModule } from './contact/contact.module';
 import { FooterModule } from './footer/footer.module';
+import { DocumentationModule } from './docs/documentation.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
@@ -49,6 +50,7 @@ const config: SocketIoConfig = {
     CardModule,
     ContactModule,
     FooterModule,
+    DocumentationModule,
   ],
   bootstrap: [AppComponent],
   providers: [

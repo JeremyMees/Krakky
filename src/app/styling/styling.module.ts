@@ -30,6 +30,7 @@ import { FocusTrapModule } from 'primeng/focustrap';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { CheckboxModule } from 'primeng/checkbox';
+
 @NgModule({
   declarations: [LoadingComponent],
   imports: [ProgressSpinnerModule, BrowserAnimationsModule],
