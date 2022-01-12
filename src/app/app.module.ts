@@ -21,6 +21,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from 'src/environments/environment';
 import { CardModule } from './card/card.module';
 import { ContactModule } from './contact/contact.module';
+import { FooterModule } from './footer/footer.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
@@ -47,6 +48,7 @@ const config: SocketIoConfig = {
     NotMemberModule,
     CardModule,
     ContactModule,
+    FooterModule,
   ],
   bootstrap: [AppComponent],
   providers: [

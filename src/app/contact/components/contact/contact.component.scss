@@ -45,12 +45,11 @@ img {
   border: 1px dotted rgb(13, 137, 236);
   background-color: rgb(13, 137, 236, 0.2);
   color: #333;
-  padding: 0 0.5rem 0 0.5rem;
+  padding: 0 0.5rem;
   position: fixed;
-  border-radius: 25px;
-  bottom: 0.5rem;
-  left: 50%;
-  transform: translate(-50%, 0);
+  right: 0;
+  bottom: 50%;
+  transform: translate(0, -50%);
   transition: ease 0.3s;
 }
 
