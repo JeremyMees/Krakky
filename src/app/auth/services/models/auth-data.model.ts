@@ -4,6 +4,7 @@ export interface AuthData {
   email: string;
   username: string;
   verified: boolean;
+  marketing: boolean;
   valid_token?: boolean;
   img?: string;
   img_query?: string;

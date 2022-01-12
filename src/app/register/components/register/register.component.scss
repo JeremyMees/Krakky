@@ -77,3 +77,26 @@ p-password {
   width: 100%;
   margin-bottom: 0.5rem;
 }
+
+.p-field-checkbox {
+  max-width: 250px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-label {
+  font-size: 0.75rem;
+}
+
+.agree {
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.clickable {
+  color: #0d89ec;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

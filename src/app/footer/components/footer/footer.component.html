@@ -61,9 +61,14 @@
     </div>
 
     <div>
+      <p class="title">Contact</p>
+      <a href="mailto:contact@krakky.com">Email</a>
+    </div>
+
+    <div>
       <p class="title">Legal</p>
-      <p class="text">Terms</p>
-      <p class="text">Privacy</p>
+      <p class="text" (click)="openDialogTerms()">Terms</p>
+      <p class="text" (click)="openDialogPrivacy()">Privacy</p>
     </div>
   </div>
   <p class="copy">&copy; Krakky. All rights reserved.</p>

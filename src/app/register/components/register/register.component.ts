@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
+import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
+import { TermsComponent } from 'src/app/shared/modals/terms/terms.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from 'src/app/user/models/add_user.model';
 import { UserService } from '../../../user/services/user.service';
@@ -11,18 +13,26 @@ import { UserService } from '../../../user/services/user.service';
   styleUrls: ['./register.component.scss'],
   providers: [MessageService],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   used: boolean | undefined;
   inputType: string = 'password';
   inputIcon: string = 'pi pi-eye';
+  registerForm!: FormGroup;
+  terms_accept: boolean = false;
+  privacy_accept: boolean = false;
 
   constructor(
     private messageService: MessageService,
     private dialogRef: MatDialogRef<RegisterComponent>,
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog
   ) {}
 
-  public onRegister(form: NgForm): void {
+  public ngOnInit(): void {
+    this._onSetForm();
+  }
+
+  public onRegister(form: FormGroup): void {
     if (this._validateInputs(form)) {
       const newUser: UserAdd = form.value;
       newUser.verified = false;
@@ -41,7 +51,7 @@ export class RegisterComponent {
             this._showSnackbar('error', 'Email address already in use');
           }
         },
-        error: (res: HttpResponse) => {
+        error: () => {
           form.reset();
           this._showSnackbar('error', "Error couldn't register");
         },
@@ -55,7 +65,7 @@ export class RegisterComponent {
     this.dialogRef.close({ redirect: true });
   }
 
-  private _validateInputs(form: NgForm): boolean {
+  private _validateInputs(form: FormGroup): boolean {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");
@@ -98,7 +108,7 @@ export class RegisterComponent {
       (res: HttpResponse) => {
         res.statusCode === 200 ? (this.used = false) : (this.used = true);
       },
-      (res: HttpResponse) => {
+      () => {
         this._showSnackbar('error', "Error couldn't check if username is used");
       }
     );
@@ -112,6 +122,23 @@ export class RegisterComponent {
       this.inputType = 'password';
       this.inputIcon = 'pi pi-eye';
     }
+  }
+
+  public openDialogTerms(): void {
+    this.dialog.open(TermsComponent, { autoFocus: false });
+  }
+
+  public openDialogPrivacy(): void {
+    this.dialog.open(PrivacyComponent, { autoFocus: false });
+  }
+
+  private _onSetForm(): void {
+    this.registerForm = new FormGroup({
+      email: new FormControl(''),
+      username: new FormControl(''),
+      password: new FormControl(''),
+      marketing: new FormControl(true),
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {

@@ -73,6 +73,7 @@ export class AuthService {
       username: user.username,
       img: user.img,
       img_query: user.img_query,
+      marketing: user.marketing,
     });
     const expires_in = user.token_expire_time - Date.now();
     this._setAuthTimer(expires_in);
@@ -104,6 +105,7 @@ export class AuthService {
       username: user.username,
       img: user.img,
       img_query: user.img_query,
+      marketing: user.marketing,
     });
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token_expiration', `${user.token_expire_time}`);

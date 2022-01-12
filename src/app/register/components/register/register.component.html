@@ -7,39 +7,33 @@
     <p class="under-text">Welcome to the club.</p>
     <form
       (submit)="onRegister(registerForm)"
-      #registerForm="ngForm"
+      [formGroup]="registerForm"
       class="inputs"
     >
       <input
         type="email"
         pInputText
         placeholder="Email address"
-        ngModel
         required
-        name="email"
-        #email="ngModel"
+        formControlName="email"
       />
       <input
         type="text"
         pInputText
         placeholder="Username"
-        ngModel
         required
-        name="username"
-        #username="ngModel"
+        formControlName="username"
         [maxlength]="12"
-        (keyup)="checkUsername(username.control.value)"
+        (keyup)="checkUsername(registerForm.value.username)"
       />
       <span class="p-inputgroup">
         <input
           type="text"
           pInputText
           placeholder="Password"
-          ngModel
           required
           [type]="inputType"
-          name="password"
-          #password="ngModel"
+          formControlName="password"
         />
         <button
           type="button"
@@ -49,6 +43,23 @@
           (click)="changeInputType()"
         ></button>
       </span>
+      <div class="p-field-checkbox">
+        <p-checkbox
+          [formControl]="$any(registerForm).controls['marketing']"
+          [binary]="true"
+          inputId="marketing"
+        ></p-checkbox>
+        <label class="checkbox-label" for="marketing"
+          >&nbsp; Yes, i want to receive updates from Krakky</label
+        >
+      </div>
+      <div class="agree">
+        By clicking "Sign up" you agree to Krakky's
+        <span class="clickable" (click)="openDialogTerms()">Terms</span> and
+        <span class="clickable" (click)="openDialogPrivacy()"
+          >Privacy Policy</span
+        >
+      </div>
       <div class="buttons">
         <button
           label="Sign up"
