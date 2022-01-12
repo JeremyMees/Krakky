@@ -11,7 +11,7 @@
   </div>
 </section>
 
-<section class="why">
+<!-- <section class="why">
   <h1 class="title">Why use a Kanban board?</h1>
   <div class="flex-container">
     <div class="child">
@@ -37,7 +37,78 @@
     pButton
     pRipple
     type="button"
-    label="Create a online board"
+    label="Create a workspace"
     class="why-btn"
+    (click)="onRouteToWorkspace()"
   ></button>
+</section> -->
+
+<section class="information">
+  <h1 class="information-title">It's all about team spirit</h1>
+  <p class="information-dashboard-text">
+    Create a workspace, add team members, create a dashboard and let's start.
+    Krakky is all about breaking the hierarchy and bringing everyone together to
+    finish the task as fast as possible.
+  </p>
+  <div class="information-dashboard-img">
+    <img
+      src="../../../../assets/images/dashboard.png"
+      alt="image from dashboard"
+    />
+  </div>
+
+  <div class="flex-information">
+    <div class="flex-information-text">
+      <h1 class="flex-information-title">Cards full of information</h1>
+      <div>
+        With our cards you have all the information you ever want and more.
+        <ul>
+          <li>Dates</li>
+          <li>Description</li>
+          <li>Assigned team members</li>
+          <li>Comments</li>
+          <li>And much more</li>
+        </ul>
+        We plan on making your cards even more awesome in the future and are
+        actively working on Krakky.
+      </div>
+    </div>
+    <div class="flex-information-img">
+      <img
+        src="../../../../assets/images/card.png"
+        alt="image from card"
+        class="rounded-edges"
+      />
+    </div>
+  </div>
+
+  <div class="flex-information">
+    <div class="flex-information-img">
+      <img
+        src="../../../../assets/images/statistics.png"
+        alt="image from statistics"
+        class="rounded-edges"
+      />
+    </div>
+    <div class="flex-information-text">
+      <h1 class="flex-information-title">Who doesn't love a fancy graph</h1>
+      <p>
+        We at krakky believe that all data that you create, should be
+        visualized.
+        <br />
+        So you can have a clear overview of the cards/tasks and respond to it
+        quickly.
+        <br />
+        <br />
+        More data <i class="pi pi-arrow-right icon"></i> More information
+        <i class="pi pi-arrow-right icon"></i> Better business performance
+        <br />
+        <br />
+        All information of the cards is visible on the realtime statistics
+        dashboard.
+      </p>
+    </div>
+  </div>
 </section>
+
+<p-toast></p-toast>

@@ -113,7 +113,7 @@
     </div>
     <h2 class="comments-title">Comments</h2>
     <div class="comments" *ngIf="data.card.comments && !edit_comment">
-      <mat-card class="comment" *ngFor="let comment of data.card.comments">
+      <mat-card class="comment" *ngFor="let comment of onSortComments()">
         <div
           class="actions"
           *ngIf="comment.user && comment.user._id === user._id"

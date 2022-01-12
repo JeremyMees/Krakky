@@ -49,7 +49,8 @@ img {
 }
 
 .why {
-  background-color: rgb(235, 235, 235);
+  background-color: rgb(241, 241, 241);
+  color: #333;
   border-radius: 15px;
   max-width: 75rem;
   width: 100%;
@@ -66,6 +67,71 @@ img {
 .why-btn {
   display: block;
   margin: 0 auto 0.5rem auto;
+}
+
+.information-title {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.information-dashboard-text {
+  max-width: 41rem;
+  text-align: center;
+  display: block;
+  margin: auto;
+}
+
+.information-dashboard-img {
+  max-width: 70rem;
+  display: block;
+  margin: 1rem auto;
+}
+
+.flex-information {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 3rem;
+  padding: 0.5rem;
+}
+
+.flex-information-title {
+  font-size: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.rounded-edges {
+  border-radius: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.flex-information-img {
+  max-width: 30rem;
+}
+
+.flex-information-text {
+  max-width: 32rem;
+  display: flex;
+  flex-flow: column;
+  gap: 0.5rem;
+  align-self: center;
+}
+
+.flex-information-text > * {
+  flex-grow: 1;
+}
+
+.icon {
+  margin: 0 0.5rem 0 0.5rem;
+  position: relative;
+  top: 0.2rem;
+}
+
+@media (max-width: 1100px) {
+  .flex-information {
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 950px) {

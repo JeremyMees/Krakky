@@ -325,6 +325,17 @@ export class EditCardComponent implements OnInit {
     });
   }
 
+  public onSortComments(): Array<Comment> {
+    if (this.data.card.comments) {
+      this.data.card.comments.sort((a: Comment, b: Comment) => {
+        return Number(new Date(a.created_at)) - Number(new Date(b.created_at));
+      });
+      return this.data.card.comments;
+    } else {
+      return [];
+    }
+  }
+
   private _showSnackbar(severity: string, detail: string): void {
     this.messageService.add({
       severity,
