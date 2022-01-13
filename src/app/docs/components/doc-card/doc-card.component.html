@@ -112,6 +112,69 @@
     </div>
   </mat-card>
 
+  <!-- <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Get info of assignees</h2>
+      <div class="url">
+        <div class="method post">POST</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp;
+          https://krakky.com/api/card/assignees
+        </div>
+        <div>
+          Request body<span class="required">*</span>
+          <span class="dto-color">GetAssigneesDTO</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">data</div>
+              <div
+                class="dto-value multiple"
+                pTooltip="returns array of assignees with extra information"
+                (click)="memberModel.toggle($event)"
+              >
+                [Assignee]
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">GetAssigneesDTO</h3>
+      <div class="dto-item">
+        <div class="dto-name">assignees<span class="required">*</span></div>
+        <div class="dto-value">[user_id]</div>
+      </div>
+    </div>
+  </mat-card> -->
+
   <mat-card class="action-flex">
     <div class="response">
       <h2 class="card-title">Update card</h2>
@@ -137,12 +200,6 @@
             <div class="dto-item">
               <div class="dto-name">message</div>
               <div class="dto-value">string</div>
-            </div>
-            <div class="dto-item">
-              <div class="dto-name">data</div>
-              <div class="dto-value multiple" pTooltip="returns updated card">
-                card
-              </div>
             </div>
           </div>
         </div>
@@ -305,6 +362,31 @@
     <div class="dto-item">
       <div class="dto-name">No priority</div>
       <div class="dto-value">""</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #memberModel>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">_id</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">email</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">img</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">img_query</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">username</div>
+      <div class="dto-value">string</div>
     </div>
   </ng-template>
 </p-overlayPanel>

@@ -1,0 +1,88 @@
+<h1 class="title">/user</h1>
+<div class="cards">
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Get user info</h2>
+      <div class="url">
+        <div class="method get">GET</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp; https://krakky.com/api/user
+        </div>
+        <div>
+          Query parameters<span class="required">*</span>
+          <span class="dto-color"> Query Parameters User</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">data</div>
+              <div
+                class="dto-value multiple"
+                (click)="extendedMemberModel.toggle($event)"
+              >
+                user
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">Query Parameters User</h3>
+      <div class="dto-item">
+        <div class="dto-name">?id=</div>
+        <div class="dto-value">string</div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<p-overlayPanel #extendedMemberModel>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">_id</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">email</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">img</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">img_query</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">username</div>
+      <div class="dto-value">string</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

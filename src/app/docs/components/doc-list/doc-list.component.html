@@ -1,0 +1,194 @@
+<h1 class="title">/list</h1>
+<div class="cards">
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Create list</h2>
+      <div class="url">
+        <div class="method post">POST</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp; https://krakky.com/api/list
+        </div>
+        <div>
+          Request body<span class="required">*</span>
+          <span class="dto-color">AddListDTO</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">201</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">data</div>
+              <div
+                class="dto-value multiple"
+                (click)="listModel.toggle($event)"
+              >
+                list
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">AddListDTO</h3>
+      <div class="dto-item">
+        <div class="dto-name">board_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">title<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Update list</h2>
+      <div class="url">
+        <div class="method patch">PATCH</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp; https://krakky.com/api/list
+        </div>
+        <div>
+          Request body<span class="required">*</span>
+          <span class="dto-color">UpdateListDTO</span>
+        </div>
+      </div>
+
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dto">
+      <h3 class="dto-title">UpdateListDTO</h3>
+      <div class="dto-item">
+        <div class="dto-name">board_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">_id<span class="required">*</span></div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">title</div>
+        <div class="dto-value">string</div>
+      </div>
+      <div class="dto-item">
+        <div class="dto-name">index</div>
+        <div class="dto-value">number</div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card class="action-flex">
+    <div class="response">
+      <h2 class="card-title">Delete list</h2>
+      <div class="url">
+        <div class="method delete">DELETE</div>
+        <div>
+          <span class="url-text">URL</span> &nbsp;
+          https://krakky.com/api/list/:list_id
+        </div>
+        <div>No Request body</div>
+      </div>
+      <div class="responses">
+        <div class="succes-res">
+          <h3>Succes response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">200</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+        <div class="error-res">
+          <h3>Error response</h3>
+          <div class="dto">
+            <div class="dto-item">
+              <div class="dto-name">statusCode</div>
+              <div class="dto-value">400</div>
+            </div>
+            <div class="dto-item">
+              <div class="dto-name">message</div>
+              <div class="dto-value">string</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<p-overlayPanel #listModel>
+  <ng-template pTemplate>
+    <div class="dto-item">
+      <div class="dto-name">_id</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">board_id</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">title</div>
+      <div class="dto-value">string</div>
+    </div>
+    <div class="dto-item">
+      <div class="dto-name">index</div>
+      <div class="dto-value">number</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

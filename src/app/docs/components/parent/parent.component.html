@@ -1,5 +1,6 @@
 <div class="container">
   <mat-card class="nav">
+    <h3>REST API</h3>
     <div
       class="nav-item"
       *ngFor="let nav_item of nav_items"
@@ -9,6 +10,12 @@
     </div>
   </mat-card>
   <div class="page">
-    <app-doc-card></app-doc-card>
+    <app-doc-card *ngIf="cards"></app-doc-card>
+    <app-doc-list *ngIf="lists"></app-doc-list>
+    <app-doc-dashboard *ngIf="dashboards"></app-doc-dashboard>
+    <app-doc-user *ngIf="users"></app-doc-user>
+    <app-doc-overview *ngIf="over_view"></app-doc-overview>
   </div>
 </div>
+
+<app-footer></app-footer>

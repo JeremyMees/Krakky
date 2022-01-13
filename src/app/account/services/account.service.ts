@@ -23,7 +23,7 @@ export class AccountService {
 
   public updateUserImage(user: UpdateUserImg): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
-      'http://localhost:3000/users/img',
+      'http://localhost:3000/user/img',
       user
     );
   }
