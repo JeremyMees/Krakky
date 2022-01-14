@@ -1,5 +1,11 @@
 <section class="top">
-  <mat-card>
+  <mat-card class="user-card">
+    <button
+      pButton
+      pRipple
+      class="p-button-text p-button-danger p-button-rounded delete-button"
+      icon="pi pi-trash"
+    ></button>
     <div class="image-container">
       <p-image
         [src]="
@@ -10,105 +16,95 @@
         "
         alt="avatar"
       ></p-image>
-      <button
-        pTooltip="Edit character"
-        pButton
-        pRipple
-        type="button"
-        icon="pi pi-user-edit"
-        class="p-button-raised p-button-rounded p-button-secondary update-btn"
-        (click)="openDialogCharacter()"
-      ></button>
     </div>
     <div class="info">
-      <p class="info-content">Name: {{ user.username }}</p>
-      <p class="info-content">Email: {{ user.email }}</p>
-      <p class="info-content">ID: {{ user._id }}</p>
+      <div>
+        <p class="info-content">
+          <span class="info-bold">Name:</span> {{ user.username }}
+        </p>
+        <p class="info-content">
+          <span class="info-bold">Email:</span> {{ user.email }}
+        </p>
+        <p class="info-content">
+          <span class="info-bold">ID:</span> {{ user._id }}
+        </p>
+      </div>
+      <div class="buttons">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Edit avatar"
+          class="p-button-raised p-button-secondary"
+          (click)="openDialogCharacter()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Edit account"
+          class="p-button-raised"
+        ></button>
+      </div>
     </div>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Edit account"
-      class="btn-full p-button-raised"
-    ></button>
   </mat-card>
-
-  <mat-card>
-    <h1>Different workspaces</h1>
-    <p class="number">2</p>
+  <mat-card class="card">
+    <h2>Settings</h2>
+    <div class="switch">
+      <p-inputSwitch
+        [(ngModel)]="user.marketing"
+        (click)="onToggleMarketingMails()"
+      ></p-inputSwitch>
+      <span class="switch-text"> Marketing mails</span>
+    </div>
   </mat-card>
-
-  <mat-card>
-    <h1>Cards created</h1>
-    <p class="number">420</p>
-  </mat-card>
-
-  <mat-card>
-    <h1>Cards doing</h1>
-    <p class="number">6999</p>
+  <mat-card class="card">
+    <h2>Workspaces</h2>
+    <div class="workspace-flex">
+      <div class="workspace" *ngFor="let workspace of workspaces | slice: 0:4">
+        <div class="team">
+          <p-avatar
+            [label]="workspace.workspace.charAt(0).toUpperCase()"
+            styleClass="p-mr-2"
+            size="medium"
+            class="team-avatar"
+          ></p-avatar>
+          <h3 class="team-title">
+            {{
+              workspace.workspace.charAt(0).toUpperCase() +
+                workspace.workspace.slice(1)
+            }}
+          </h3>
+        </div>
+      </div>
+      <div class="team" *ngIf="workspaces.length > 4">
+        <p-avatar
+          [label]="'' + (workspaces.length - 4)"
+          styleClass="p-mr-2"
+          size="medium"
+          class="team-avatar"
+        ></p-avatar>
+        <h3 class="team-title">More workspaces</h3>
+      </div>
+    </div>
   </mat-card>
 </section>
 
 <section class="bottom">
   <div class="flex-bottom">
-    <mat-card class="card"> api token </mat-card>
-    <mat-card class="carousel-card">
-      <h1>Workspaces</h1>
-      <p-carousel
-        [style]="{ 'max-width': '62rem', 'margin-top': '2rem' }"
-        [value]="workspaces"
-        [numVisible]="2"
-        [numScroll]="1"
-        [responsiveOptions]="responsiveOptions"
-      >
-        <ng-template let-workspace pTemplate="item">
-          <div class="workspaces">
-            <div class="avatars">
-              <p-avatar
-                [label]="workspace.workspace.charAt(0).toUpperCase()"
-                styleClass="p-mr-2"
-                size="xlarge"
-                shape="circle"
-              ></p-avatar>
-              <span class="workspace-title">{{ workspace.workspace }}</span>
-            </div>
-            <p>{{ workspace.team.length }} Team members</p>
-            <p-avatarGroup styleClass="p-mb-3">
-              <p-avatar
-                [label]="workspace.workspace.charAt(0).toUpperCase()"
-                styleClass="p-mr-2"
-                size="large"
-                shape="circle"
-              ></p-avatar>
-              <p-avatar
-                [label]="workspace.workspace.charAt(0).toUpperCase()"
-                styleClass="p-mr-2"
-                size="large"
-                shape="circle"
-              ></p-avatar>
-              <p-avatar
-                [label]="workspace.workspace.charAt(0).toUpperCase()"
-                styleClass="p-mr-2"
-                size="large"
-                shape="circle"
-              ></p-avatar>
-              <p-avatar
-                [label]="workspace.workspace.charAt(0).toUpperCase()"
-                styleClass="p-mr-2"
-                size="large"
-                shape="circle"
-              ></p-avatar>
-              <p-avatar
-                [label]="'+2'"
-                styleClass="p-mr-2"
-                size="large"
-                shape="circle"
-              ></p-avatar>
-            </p-avatarGroup>
-          </div>
-        </ng-template>
-      </p-carousel>
+    <mat-card class="card">
+      <h2>Different dashboards</h2>
+      <p class="number">{{ dashboards.length }}</p>
+    </mat-card>
+
+    <mat-card class="card">
+      <h2>Cards created</h2>
+      <p class="number">{{ created_cards.length }}</p>
+    </mat-card>
+
+    <mat-card class="card">
+      <h2>Cards assigned</h2>
+      <p class="number">{{ assigned_cards.length }}</p>
     </mat-card>
     <mat-card class="card">
       <img
@@ -119,3 +115,5 @@
     </mat-card>
   </div>
 </section>
+
+<app-footer></app-footer>

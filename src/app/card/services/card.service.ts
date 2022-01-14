@@ -16,4 +16,16 @@ export class CardService {
       members
     );
   }
+
+  public getCardsCreated(user_id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/card/created_by/${user_id}`
+    );
+  }
+
+  public getCardsAssigned(user_id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/card/assigned/${user_id}`
+    );
+  }
 }

@@ -9,4 +9,5 @@ export interface AuthData {
   img_query?: string;
   acces_token: string;
   token_expire_time: number;
+  marketing?: boolean;
 }

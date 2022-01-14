@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from '../models/add_user.model';
 import { User } from '../models/user.model';
@@ -18,6 +19,22 @@ export class UserService {
 
   public setCurrentUser(user: User | null): void {
     this.current_user$.next(user);
+  }
+
+  public onUpdateUser(user: User, updatedUser: User): Observable<HttpResponse> {
+    return this.http.patch<HttpResponse>('http://localhost:3000/user', {
+      user,
+      updatedUser,
+    });
+  }
+
+  public onUpdateSettingsUser(
+    settings: UpdateUserSettings
+  ): Observable<HttpResponse> {
+    return this.http.patch<HttpResponse>(
+      'http://localhost:3000/user/settings',
+      settings
+    );
   }
 
   public register(user: UserAdd): Observable<HttpResponse> {

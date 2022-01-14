@@ -1,7 +1,8 @@
 .image-container {
-  width: 5rem;
+  width: 13.5rem;
   display: block;
-  margin: 0 auto 2rem auto;
+  margin: auto;
+  padding-top: 1rem;
 }
 
 p-image {
@@ -9,16 +10,18 @@ p-image {
 }
 
 .info {
-  padding-bottom: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.info-bold {
+  font-weight: 600;
 }
 
 .profile {
   padding: 0;
   max-width: 30rem !important;
-}
-
-.btn-full {
-  width: 100%;
 }
 
 .top {
@@ -30,11 +33,7 @@ p-image {
   padding: 1rem;
 }
 
-.top > mat-card {
-  width: 18rem;
-}
-
-h1 {
+h2 {
   text-align: center;
   font-size: 1.5rem;
 }
@@ -71,7 +70,9 @@ h3 {
 }
 
 .card {
-  width: 18rem;
+  max-width: 18rem;
+  height: 18rem;
+  width: 100%;
 }
 
 .img {
@@ -88,18 +89,55 @@ h3 {
   justify-content: center;
 }
 
-.carousel-card {
+.user-card {
   max-width: 37rem;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
 }
 
 .info-content {
   word-wrap: break-word;
 }
 
-.update-btn {
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.delete-button {
   position: absolute;
-  top: 30%;
-  left: 55%;
-  max-width: 1.5rem;
-  max-height: 1.5rem;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+.switch {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.switch-text {
+  font-size: 1.25rem;
+}
+
+.workspaces-flex {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.team {
+  display: flex;
+  flex-flow: row no-wrap;
+}
+
+.team-title {
+  margin-left: 1rem;
+  font-weight: 600;
+  margin: 0.5rem;
 }

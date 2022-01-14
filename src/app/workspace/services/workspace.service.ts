@@ -63,4 +63,10 @@ export class WorkspaceService {
       payload
     );
   }
+
+  public getWorkspacesFromMember(user_id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/workspace?member=${user_id}`
+    );
+  }
 }
