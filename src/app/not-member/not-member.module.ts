@@ -5,7 +5,6 @@ import { StylingModule } from '../styling/styling.module';
 
 @NgModule({
   declarations: [NotMemberComponent],
-  exports: [NotMemberComponent],
   imports: [CommonModule, StylingModule],
 })
 export class NotMemberModule {}

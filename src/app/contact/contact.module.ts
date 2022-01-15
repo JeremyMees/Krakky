@@ -7,7 +7,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [ContactComponent],
-  exports: [ContactComponent],
   imports: [CommonModule, StylingModule, ReactiveFormsModule, ClipboardModule],
 })
 export class ContactModule {}

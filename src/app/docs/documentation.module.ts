@@ -18,14 +18,6 @@ import { DocOverviewComponent } from './components/doc-overview/doc-overview.com
     DocUserComponent,
     DocOverviewComponent,
   ],
-  exports: [
-    ParentComponent,
-    DocCardComponent,
-    DocListComponent,
-    DocDashboardComponent,
-    DocUserComponent,
-    DocOverviewComponent,
-  ],
   imports: [CommonModule, StylingModule, FooterModule],
 })
 export class DocumentationModule {}
