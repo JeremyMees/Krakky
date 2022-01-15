@@ -180,7 +180,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     this.teamService.addMember(payload).subscribe({
       next: (data) => {
         if (data.statusCode === 201) {
-          this._showSnackbar('success', `Succesfully sent join email`);
+          this._showSnackbar('info', `Sent join email to ${form.value.email}`);
         } else {
           this._showSnackbar('error', "Could't add team member");
         }
