@@ -42,6 +42,12 @@
         <i class="pi pi-users icon"></i>
         Members ({{ workspace.team.length }})
       </div>
+      <div class="card" (click)="menuWorkspace.toggle($event)" pRipple>
+        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        Settings
+      </div>
+      <p-menu #menuWorkspace [popup]="true" [model]="items_workspace"></p-menu>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
       <div class="spacer"></div>
     </div>
     <div class="line light-grey-bg"></div>
@@ -67,6 +73,13 @@
           class="p-button-rounded p-button-text p-button-secondary"
           (click)="selected_dashboard = dashboard; menu.toggle($event)"
         ></button>
+      </div>
+      <div
+        class="create-dashboard light-grey-bg"
+        *ngIf="workspace.dashboards.length === 0"
+        (click)="op.toggle($event)"
+      >
+        Create a dashboard
       </div>
     </div>
   </div>

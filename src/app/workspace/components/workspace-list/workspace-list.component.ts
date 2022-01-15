@@ -134,7 +134,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
         (member: Member) => member._id === this.current_user!._id
       )[0];
       if (user) {
-        return user.role === 'Admin' ? true : false;
+        return user.role === 'Owner' ? true : false;
       } else {
         return false;
       }

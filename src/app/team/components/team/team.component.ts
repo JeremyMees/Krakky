@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
@@ -46,6 +48,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     private teamService: TeamService,
     private confirmationService: ConfirmationService,
     private sharedService: SharedService,
+    public dialog: MatDialog,
     private userService: UserService
   ) {}
 
@@ -224,7 +227,7 @@ export class TeamComponent implements OnInit, OnDestroy {
       (member: Member) => member._id === this.current_user!._id
     )[0];
     if (user) {
-      return user.role === 'Owner' || user.role === 'Owner' ? true : false;
+      return user.role === 'Admin' || user.role === 'Owner' ? true : false;
     } else {
       return false;
     }
@@ -240,4 +243,61 @@ export class TeamComponent implements OnInit, OnDestroy {
       detail,
     });
   }
+
+  private _onCheckIfOwner(): boolean {
+    if (this.workspace) {
+      const user: Member = this.workspace.team.filter(
+        (member: Member) => member._id === this.current_user!._id
+      )[0];
+      if (user) {
+        return user.role === 'Owner' ? true : false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  private _onDeleteWorkspace(): void {
+    if (!this._onCheckIfOwner()) {
+      this._onIsNotAdminOrOwner('owners');
+      return;
+    }
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      data: { name: this.workspace.workspace, title: 'workspace' },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.workspaceService
+          .deleteWorkspace(this.workspace.workspace_id)
+          .subscribe({
+            next: () => {
+              this._showSnackbar(
+                'success',
+                `Deleted ${this.workspace?.workspace} succesfully`
+              );
+              this.router.navigateByUrl('workspace');
+            },
+            error: () => {
+              this._showSnackbar('error', 'Error while deleting workspace');
+            },
+          });
+      }
+    });
+  }
+
+  private _onIsNotAdminOrOwner(role: string): void {
+    this._showSnackbar('info', `That action is only for ${role}`);
+  }
+
+  items: Array<MenuItem> = [
+    {
+      label: 'Delete workspace',
+      icon: 'pi pi-fw pi-trash',
+      command: () => {
+        this._onDeleteWorkspace();
+      },
+    },
+  ];
 }

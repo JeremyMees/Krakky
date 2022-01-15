@@ -59,7 +59,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
 
   public onSaveDashboard(form: NgForm): void {
     if (!this._onCheckIfAdmin()) {
-      this._onIsNotAdmin();
+      this._onIsNotAdminOrOwner('admins');
       return;
     }
     if (form.invalid) {
@@ -102,7 +102,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
 
   public onSaveWorkspaceTitle(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
-      this._onIsNotAdmin();
+      this._onIsNotAdminOrOwner('admins');
       return;
     }
     const opposite_color: string = this.sharedService.onGenerateOppositeColor(
@@ -126,7 +126,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
 
   public onDeleteDashboard(id: string): void {
     if (!this._onCheckIfAdmin()) {
-      this._onIsNotAdmin();
+      this._onIsNotAdminOrOwner('admins');
       return;
     }
     const dialogRef = this.dialog.open(DeleteComponent, {
@@ -159,14 +159,29 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       (member: Member) => member._id === this.current_user!._id
     )[0];
     if (user) {
-      return user.role === 'Owner' || user.role === 'Owner' ? true : false;
+      return user.role === 'Owner' || user.role === 'Admin' ? true : false;
     } else {
       return false;
     }
   }
 
-  private _onIsNotAdmin(): void {
-    this._showSnackbar('info', 'That action is only for admins');
+  private _onCheckIfOwner(): boolean {
+    if (this.workspace) {
+      const user: Member = this.workspace.team.filter(
+        (member: Member) => member._id === this.current_user!._id
+      )[0];
+      if (user) {
+        return user.role === 'Owner' ? true : false;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  private _onIsNotAdminOrOwner(what: string): void {
+    this._showSnackbar('info', `That action is only for ${what}`);
   }
 
   public onSetForm(): void {
@@ -185,6 +200,34 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
 
   public navigateToDashboard(id: string): void {
     this.router.navigateByUrl(`dashboard/${id}`);
+  }
+
+  private _onDeleteWorkspace(): void {
+    if (!this._onCheckIfOwner()) {
+      this._onIsNotAdminOrOwner('owners');
+      return;
+    }
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      data: { name: this.workspace.workspace, title: 'workspace' },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.workspaceService
+          .deleteWorkspace(this.workspace.workspace_id)
+          .subscribe({
+            next: () => {
+              this._showSnackbar(
+                'success',
+                `Deleted ${this.workspace?.workspace} succesfully`
+              );
+              this.router.navigateByUrl('workspace');
+            },
+            error: () => {
+              this._showSnackbar('error', 'Error while deleting workspace');
+            },
+          });
+      }
+    });
   }
 
   items: Array<MenuItem> = [
@@ -211,6 +254,16 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       icon: 'pi pi-fw pi-trash',
       command: () => {
         this.onDeleteDashboard(this.selected_dashboard?.board_id as string);
+      },
+    },
+  ];
+
+  items_workspace: Array<MenuItem> = [
+    {
+      label: 'Delete workspace',
+      icon: 'pi pi-fw pi-trash',
+      command: () => {
+        this._onDeleteWorkspace();
       },
     },
   ];

@@ -7,6 +7,12 @@ i:hover {
   cursor: pointer;
 }
 
+mat-icon {
+  position: relative;
+  top: 3px;
+  font-size: 1rem;
+}
+
 .team-title {
   margin-left: 1rem;
   font-weight: 600;
