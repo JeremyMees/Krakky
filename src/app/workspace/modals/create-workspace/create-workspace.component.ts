@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { RandomColors } from 'src/app/shared/models/random-colors.model';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Workspace } from '../../models/workspace.model';
@@ -19,7 +21,8 @@ export class CreateWorkspaceComponent {
     private dialogRef: MatDialogRef<CreateWorkspaceComponent>,
     public messageService: MessageService,
     private workspaceService: WorkspaceService,
-    private userService: UserService
+    private userService: UserService,
+    private sharedService: SharedService
   ) {}
 
   public onAddWorkspace(form: NgForm): void {
@@ -29,10 +32,13 @@ export class CreateWorkspaceComponent {
       return;
     }
     const user = this.userService.getCurrentUser().value as User;
+    const colors: RandomColors = this.sharedService.onGenerateRandomColors();
     const newWorkspace: Workspace = {
       created_by: user._id as string,
       workspace: form.value.workspace_name,
       team: [{ _id: user._id as string, role: 'Owner' }],
+      color: colors.color,
+      bg_color: colors.bg_color,
     };
     this.workspaceService.addWorkspace(newWorkspace).subscribe({
       next: (res: HttpResponse) => {

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -7,6 +7,7 @@ import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { CreateWorkspaceComponent } from '../../modals/create-workspace/create-workspace.component';
@@ -21,20 +22,22 @@ import { WorkspaceService } from '../../services/workspace.service';
   providers: [MessageService],
 })
 export class WorkspaceListComponent implements OnInit, OnDestroy {
+  @Input() workspaces: Array<AggregatedWorkspace> = [];
   selected_workspace: AggregatedWorkspace | null = null;
   editWorkspace: boolean = false;
-  @Input() workspaces: Array<AggregatedWorkspace> = [];
   current_user: User | null = null;
   current_user_sub$: Subscription = new Subscription();
   selected_dashboard: Dashboard | undefined;
   destroy$: Subject<boolean> = new Subject();
+  updateWorkspaceForm!: FormGroup;
 
   constructor(
     public dialog: MatDialog,
     private messageService: MessageService,
     private workspaceService: WorkspaceService,
     public router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private sharedService: SharedService
   ) {}
 
   public ngOnInit(): void {
@@ -44,6 +47,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.current_user = user;
       });
+    this.onSetForm();
   }
 
   public ngOnDestroy(): void {
@@ -83,10 +87,6 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
   }
 
   public onAddWorkspace(): void {
-    if (!this._onCheckIfAdmin()) {
-      this._onIsNotAdminOrOwner('admins');
-      return;
-    }
     const dialogRef = this.dialog.open(CreateWorkspaceComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -100,26 +100,27 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSaveWorkspaceTitle(
-    form: NgForm,
-    workspace: AggregatedWorkspace
-  ): void {
+  public onSaveWorkspaceTitle(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
       this._onIsNotAdminOrOwner('admins');
       return;
     }
-    if (form.invalid) {
-      form.reset();
-      return;
-    }
-    workspace.workspace = form.value.workspace_name;
-    const { dashboards, ...payload } = workspace;
+    const opposite_color: string = this.sharedService.onGenerateOppositeColor(
+      form.value.color
+    );
+    const workspace: AggregatedWorkspace = this
+      .selected_workspace as AggregatedWorkspace;
+    workspace.bg_color = form.value.color;
+    workspace.color = opposite_color;
+    workspace.workspace = form.value.title;
+    const { dashboards, ...payload } = workspace!;
     this.workspaceService.updateWorkspace(payload).subscribe({
       next: () => {
         const updateIndex: number = this.workspaces.findIndex(
-          (item) => item.workspace_id === workspace.workspace_id
+          (item) => item.workspace_id === this.selected_workspace!.workspace_id
         );
-        this.workspaces[updateIndex].workspace = form.value.workspace_name;
+        this.workspaces[updateIndex] = workspace;
+        this.selected_workspace = workspace;
       },
       error: () => {
         this._showSnackbar('error', 'Error while updating workspace');
@@ -177,6 +178,20 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
       }
     });
     return member_dashboards;
+  }
+
+  public onSetForm(): void {
+    if (this.selected_workspace) {
+      this.updateWorkspaceForm = new FormGroup({
+        color: new FormControl(this.selected_workspace.bg_color),
+        title: new FormControl(this.selected_workspace.workspace),
+      });
+    } else {
+      this.updateWorkspaceForm = new FormGroup({
+        color: new FormControl('#ffffff'),
+        title: new FormControl(''),
+      });
+    }
   }
 
   private _showSnackbar(severity: string, detail: string): void {

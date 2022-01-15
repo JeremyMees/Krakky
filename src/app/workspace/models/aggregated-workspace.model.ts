@@ -6,6 +6,8 @@ export interface AggregatedWorkspace {
   workspace: string;
   workspace_id: string;
   dashboards: Array<Dashboard>;
+  color: string;
+  bg_color: string;
   team: Array<Member>;
   _id?: string;
   __v?: number;

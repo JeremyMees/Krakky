@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { User } from 'src/app/user/models/user.model';
+import { UserService } from 'src/app/user/services/user.service';
 import { AggregatedMember } from 'src/app/workspace/models/aggregated-member.model';
 import { AggregatedWorkspace } from 'src/app/workspace/models/aggregated-workspace.model';
 import { Member } from 'src/app/workspace/models/member.model';
@@ -27,6 +30,8 @@ export class TeamComponent implements OnInit, OnDestroy {
   is_loading: boolean = true;
   display_dialog: boolean = false;
   aggregated_members: Array<AggregatedMember> = [];
+  updateWorkspaceForm!: FormGroup;
+  current_user: User | null = null;
   roles: Array<{ name: string; inactive?: boolean }> = [
     { name: 'Owner', inactive: true },
     { name: 'Admin' },
@@ -39,7 +44,9 @@ export class TeamComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public router: Router,
     private teamService: TeamService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private sharedService: SharedService,
+    private userService: UserService
   ) {}
 
   public ngOnInit(): void {
@@ -49,6 +56,13 @@ export class TeamComponent implements OnInit, OnDestroy {
           next: (res: HttpResponse) => {
             this.workspace = res.data[0];
             this.getMembers(this.workspace);
+            this.userService
+              .getCurrentUser()
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((user) => {
+                this.current_user = user;
+              });
+            this.onSetForm();
           },
           error: () => {
             this._showSnackbar('error', "Could't find team members");
@@ -160,6 +174,52 @@ export class TeamComponent implements OnInit, OnDestroy {
         this._showSnackbar('error', "Could't add team member");
       },
     });
+  }
+
+  public onSetForm(): void {
+    this.updateWorkspaceForm = new FormGroup({
+      color: new FormControl(this.workspace.bg_color),
+      title: new FormControl(this.workspace.workspace),
+    });
+  }
+
+  public onSaveWorkspaceTitle(form: FormGroup): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
+    const opposite_color: string = this.sharedService.onGenerateOppositeColor(
+      form.value.color
+    );
+    const workspace: AggregatedWorkspace = this
+      .workspace as AggregatedWorkspace;
+    workspace.bg_color = form.value.color;
+    workspace.color = opposite_color;
+    workspace.workspace = form.value.title;
+    const { dashboards, ...payload } = workspace!;
+    this.workspaceService.updateWorkspace(payload).subscribe({
+      next: () => {
+        this.workspace = workspace;
+      },
+      error: () => {
+        this._showSnackbar('error', 'Error while updating workspace');
+      },
+    });
+  }
+
+  private _onCheckIfAdmin(): boolean {
+    const user: Member = this.workspace.team.filter(
+      (member: Member) => member._id === this.current_user!._id
+    )[0];
+    if (user) {
+      return user.role === 'Owner' || user.role === 'Owner' ? true : false;
+    } else {
+      return false;
+    }
+  }
+
+  private _onIsNotAdmin(): void {
+    this._showSnackbar('info', 'That action is only for admins');
   }
 
   private _showSnackbar(severity: string, detail: string): void {

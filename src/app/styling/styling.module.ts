@@ -18,7 +18,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingComponent } from './components/loading/loading.component';
 import { MatIconModule } from '@angular/material/icon';
 import { BadgeModule } from 'primeng/badge';
-import { ColorPickerModule } from 'primeng/colorpicker';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
@@ -30,6 +29,7 @@ import { FocusTrapModule } from 'primeng/focustrap';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @NgModule({
   declarations: [LoadingComponent],
@@ -54,7 +54,6 @@ import { CheckboxModule } from 'primeng/checkbox';
     LoadingComponent,
     MatIconModule,
     BadgeModule,
-    ColorPickerModule,
     OverlayPanelModule,
     TableModule,
     DropdownModule,
@@ -66,6 +65,7 @@ import { CheckboxModule } from 'primeng/checkbox';
     CalendarModule,
     ChartModule,
     CheckboxModule,
+    ColorPickerModule,
   ],
 })
 export class StylingModule {}

@@ -3,6 +3,10 @@
   flex-flow: row no-wrap;
 }
 
+i:hover {
+  cursor: pointer;
+}
+
 .team-title {
   margin-left: 1rem;
   font-weight: 600;
@@ -121,6 +125,10 @@ loading-spinner {
   gap: 0.5rem;
 }
 
+.buttons > * {
+  flex-grow: 1;
+}
+
 .option {
   display: flex;
   flex-flow: row nowrap;
@@ -139,6 +147,17 @@ loading-spinner {
 
 .option-text {
   font-size: 1.25rem;
+}
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.label {
+  margin-left: 1rem;
+  font-weight: 600;
 }
 
 @media (max-width: 650px) {

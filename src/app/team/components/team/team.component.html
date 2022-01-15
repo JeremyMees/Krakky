@@ -20,17 +20,22 @@
 <div *ngIf="!not_found && !is_loading">
   <div class="header">
     <div class="team">
-      <p-avatar
-        [label]="workspace.workspace.charAt(0).toUpperCase()"
-        styleClass="p-mr-2"
-        size="medium"
-        class="team-avatar"
-      ></p-avatar>
-      <h3 class="team-title">
+      <avatar
+        [title]="workspace.workspace.charAt(0).toUpperCase()"
+        [bg_color]="workspace.bg_color"
+        [color]="workspace.color"
+      ></avatar>
+      <h3 class="team-title" (click)="onSetForm(); opw.toggle($event)">
         {{
           workspace.workspace.charAt(0).toUpperCase() +
             workspace.workspace.slice(1)
         }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit workspace title and color"
+          [showDelay]="500"
+        ></i>
       </h3>
     </div>
     <div class="cards">
@@ -212,4 +217,55 @@
     </ng-template>
   </p-table>
 </div>
+
+<p-overlayPanel #opw>
+  <ng-template pTemplate>
+    <form
+      (submit)="onSaveWorkspaceTitle(updateWorkspaceForm)"
+      [formGroup]="updateWorkspaceForm"
+    >
+      <div>
+        <p-colorPicker formControlName="color"></p-colorPicker>
+        <span class="label">Color picker</span>
+      </div>
+
+      <input
+        type="text"
+        pInputText
+        formControlName="title"
+        placeholder="Workspace title"
+        maxlength="20"
+        autofocus
+      />
+      <div class="buttons">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          label="Save"
+          type="submit"
+          class="p-button-raised"
+          [disabled]="
+            $any(updateWorkspaceForm).controls['title'].value === undefined
+              ? true
+              : $any(updateWorkspaceForm).controls['title'].value?.length < 4
+              ? true
+              : $any(updateWorkspaceForm).controls['title'].value.length > 20
+              ? true
+              : false
+          "
+          (click)="opw.hide()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Go back"
+          type="button"
+          class="p-button-raised p-button-text p-button-secondary"
+          (click)="opw.hide()"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
 <p-toast></p-toast>

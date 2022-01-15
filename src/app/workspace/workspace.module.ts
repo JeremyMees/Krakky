@@ -4,7 +4,7 @@ import { WorkspaceComponent } from './components/workspace-parent/workspace.comp
 import { StylingModule } from '../styling/styling.module';
 import { WorkspaceListComponent } from './components/workspace-list/workspace-list.component';
 import { WorkspaceSingleComponent } from './components/workspace-single/workspace-single.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { CreateWorkspaceComponent } from './modals/create-workspace/create-workspace.component';
 @NgModule({
@@ -14,6 +14,12 @@ import { CreateWorkspaceComponent } from './modals/create-workspace/create-works
     WorkspaceSingleComponent,
     CreateWorkspaceComponent,
   ],
-  imports: [CommonModule, StylingModule, FormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    StylingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
 })
 export class WorkspaceModule {}

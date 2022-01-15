@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -10,6 +10,7 @@ import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DashboardService } from 'src/app/dashboard/service/dashboard.service';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
@@ -29,6 +30,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   selected_dashboard: Dashboard | undefined;
   dashboards: Array<Dashboard> = [];
   destroy$: Subject<boolean> = new Subject();
+  updateWorkspaceForm!: FormGroup;
 
   constructor(
     public router: Router,
@@ -36,21 +38,23 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private workspaceService: WorkspaceService,
     private dashboardService: DashboardService,
-    private userService: UserService
+    private userService: UserService,
+    private sharedService: SharedService
   ) {}
 
   public ngOnInit(): void {
-    this.current_user_sub$ = this.userService
+    this.userService
       .getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.current_user = user;
         this._onFilterDashboardMember();
       });
+    this.onSetForm();
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
-    this.current_user_sub$.unsubscribe();
   }
 
   public onSaveDashboard(form: NgForm): void {
@@ -96,31 +100,28 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSaveWorkspaceTitle(
-    form: NgForm,
-    workspace: AggregatedWorkspace
-  ): void {
+  public onSaveWorkspaceTitle(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
       this._onIsNotAdmin();
       return;
     }
-    if (form.invalid) {
-      form.reset();
-      return;
-    }
-    workspace.workspace = form.value.workspace_name;
-    const { dashboards, ...payload } = workspace;
-    this.workspaceService
-      .updateWorkspace(payload)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.workspace.workspace = form.value.workspace_name;
-        },
-        error: () => {
-          this._showSnackbar('error', 'Error while updating workspace');
-        },
-      });
+    const opposite_color: string = this.sharedService.onGenerateOppositeColor(
+      form.value.color
+    );
+    const workspace: AggregatedWorkspace = this
+      .workspace as AggregatedWorkspace;
+    workspace.bg_color = form.value.color;
+    workspace.color = opposite_color;
+    workspace.workspace = form.value.title;
+    const { dashboards, ...payload } = workspace!;
+    this.workspaceService.updateWorkspace(payload).subscribe({
+      next: () => {
+        this.workspace = workspace;
+      },
+      error: () => {
+        this._showSnackbar('error', 'Error while updating workspace');
+      },
+    });
   }
 
   public onDeleteDashboard(id: string): void {
@@ -166,6 +167,13 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
 
   private _onIsNotAdmin(): void {
     this._showSnackbar('info', 'That action is only for admins');
+  }
+
+  public onSetForm(): void {
+    this.updateWorkspaceForm = new FormGroup({
+      color: new FormControl(this.workspace.bg_color),
+      title: new FormControl(this.workspace.workspace),
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {
