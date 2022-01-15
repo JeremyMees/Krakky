@@ -17,7 +17,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'docs', component: ParentComponent },
+  {
+    path: 'docs',
+    component: ParentComponent,
+  },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
     path: 'workspace',
@@ -48,6 +51,11 @@ const routes: Routes = [
     path: 'notmember',
     component: NotMemberComponent,
     canActivate: [LoginGuard],
+  },
+  {
+    path: 'docs',
+    loadChildren: () =>
+      import('./docs/documentation.module').then((m) => m.DocumentationModule),
   },
 ];
 
