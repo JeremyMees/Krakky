@@ -105,6 +105,10 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   public onChangeRole(member: AggregatedMember, role: string): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     const index: number = this.workspace.team.findIndex(
       (teamMember: Member) => teamMember._id === member._id
     );
@@ -125,6 +129,10 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   public onConfirm(event: Event, member: AggregatedMember): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: `Are you sure that you want to remove ${member.username}?`,
@@ -154,6 +162,10 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   public onAddMember(form: NgForm): void {
+    if (!this._onCheckIfAdmin()) {
+      this._onIsNotAdmin();
+      return;
+    }
     if (form.invalid) {
       form.reset();
       return;
