@@ -40,85 +40,37 @@ export class RegisterComponent implements OnInit {
   }
 
   public onRegister(form: FormGroup): void {
-    if (this._validateInputs(form)) {
-      const newUser: UserAdd = form.value;
-      newUser.verified = false;
-      newUser.img = newUser.username;
-      newUser.img_query = '?mouth=laughing';
-      this.userService.register(newUser).subscribe({
-        next: (res: HttpResponse) => {
-          if (res.statusCode === 201) {
-            this._showSnackbar('succes', res.message);
-            this.dialogRef.close({
-              redirect: false,
-              message: 'Welcome to the club',
-              data: { email: newUser.email, password: newUser.password },
-            });
-          } else {
-            this._showSnackbar('error', 'Email address already in use');
-          }
-        },
-        error: () => {
-          form.reset();
-          this._showSnackbar('error', "Error couldn't register");
-        },
-      });
-    } else {
+    if (form.invalid) {
+      this._showSnackbar('error', "Form wasn't filled correctly");
+      form.reset();
       return;
     }
+    const newUser: UserAdd = form.value;
+    newUser.verified = false;
+    newUser.img = newUser.username;
+    newUser.img_query = '?mouth=laughing';
+    this.userService.register(newUser).subscribe({
+      next: (res: HttpResponse) => {
+        if (res.statusCode === 201) {
+          this._showSnackbar('succes', res.message);
+          this.dialogRef.close({
+            redirect: false,
+            message: 'Welcome to the club',
+            data: { email: newUser.email, password: newUser.password },
+          });
+        } else {
+          this._showSnackbar('error', 'Email address already in use');
+        }
+      },
+      error: () => {
+        form.reset();
+        this._showSnackbar('error', "Error couldn't register");
+      },
+    });
   }
 
   public onLogin(): void {
     this.dialogRef.close({ redirect: true });
-  }
-
-  private _validateInputs(form: FormGroup): boolean {
-    if (form.invalid) {
-      form.reset();
-      this._showSnackbar('error', "Form wasn't filled correctly");
-      return false;
-    } else if (form.value.password.length < 6) {
-      this._showSnackbar('error', 'Password need to be at least 6 characters');
-      form.controls['password'].reset();
-      return false;
-    } else if (!/\d/.test(form.value.password)) {
-      this._showSnackbar(
-        'error',
-        'Password needs to contain at least 1 number'
-      );
-      form.controls['password'].reset();
-      return false;
-    } else if (form.value.username.length < 4) {
-      this._showSnackbar('error', 'Username need to be at least 4 characters');
-      form.controls['username'].reset();
-      return false;
-    } else if (form.value.username.length > 12) {
-      this._showSnackbar('error', 'Username can maximally be 12 characters');
-      form.controls['username'].reset();
-      return false;
-    } else if (this.used) {
-      this._showSnackbar('error', 'Username already in use');
-      form.controls['username'].reset();
-      this.used = false;
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  public checkUsername(username: string) {
-    if (username.length < 4) {
-      this.used = undefined;
-      return;
-    }
-    this.userService.checkIfUsernameIsUsed({ username }).subscribe(
-      (res: HttpResponse) => {
-        res.statusCode === 200 ? (this.used = false) : (this.used = true);
-      },
-      () => {
-        this._showSnackbar('error', "Error couldn't check if username is used");
-      }
-    );
   }
 
   public changeInputType(): void {

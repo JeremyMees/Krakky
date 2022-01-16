@@ -17,8 +17,14 @@
         required
         formControlName="email"
       />
-      <span class="error" *ngIf="registerForm.get('email')!.errors"
-        >enter a valid email address</span
+      <span
+        class="error"
+        *ngIf="
+          registerForm.get('email')!.errors &&
+          registerForm.get('email')!.value.length > 0
+        "
+      >
+        enter a valid email address</span
       >
       <input
         type="text"
@@ -28,9 +34,13 @@
         required
         formControlName="username"
         [maxlength]="12"
-        (keyup)="checkUsername(registerForm.value.username)"
       />
-      <span class="error" *ngIf="registerForm.get('username')!.errors"
+      <span
+        class="error"
+        *ngIf="
+          registerForm.get('username')!.errors &&
+          registerForm.get('username')!.value.length > 0
+        "
         >username must be between 4 and 12 characters long</span
       >
       <span class="p-inputgroup">
@@ -50,7 +60,12 @@
           (click)="changeInputType()"
         ></button>
       </span>
-      <span class="error" *ngIf="registerForm.get('password')!.errors"
+      <span
+        class="error"
+        *ngIf="
+          registerForm.get('password')!.errors &&
+          registerForm.get('password')!.value.length > 0
+        "
         >password must be between 6 and 20 characters long and contain one
         number</span
       >

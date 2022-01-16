@@ -32,7 +32,11 @@
       </span>
       <span
         class="error"
-        *ngIf="userForm.get('username')!.errors && change_username"
+        *ngIf="
+          userForm.get('username')!.errors &&
+          userForm.get('username')!.value.length > 0 &&
+          change_username
+        "
         >username must be between 4 and 12 characters long</span
       >
       <p
@@ -60,7 +64,13 @@
           autofocus
         />
       </span>
-      <span class="error" *ngIf="userForm.get('email')!.errors && change_email"
+      <span
+        class="error"
+        *ngIf="
+          userForm.get('email')!.errors &&
+          userForm.get('email')!.value.length > 0 &&
+          change_email
+        "
         >enter a valid email address</span
       >
       <p
@@ -101,7 +111,11 @@
       </span>
       <span
         class="error"
-        *ngIf="userForm.get('new_password')!.errors && change_password"
+        *ngIf="
+          userForm.get('new_password')!.errors &&
+          userForm.get('new_password')!.value.length > 0 &&
+          change_password
+        "
         >password must be between 6 and 20 characters long and contain one
         number</span
       >

@@ -40,13 +40,4 @@ export class UserService {
   public register(user: UserAdd): Observable<HttpResponse> {
     return this.http.post<HttpResponse>('http://localhost:3000/user', user);
   }
-
-  public checkIfUsernameIsUsed(user: {
-    username: string;
-  }): Observable<HttpResponse> {
-    return this.http.post<HttpResponse>(
-      'http://localhost:3000/user/username',
-      user
-    );
-  }
 }
