@@ -1,0 +1,158 @@
+<div class="container">
+  <div class="flex">
+    <form (submit)="onUpdateUser(userForm)" [formGroup]="userForm">
+      <h1>Edit account</h1>
+      <p class="under-text">Be different be you</p>
+      <p
+        class="info-content"
+        *ngIf="!change_username"
+        (click)="change_username = true"
+      >
+        <span class="info-bold">Name:</span> {{ data.user.username }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit username"
+          [showDelay]="500"
+        ></i>
+      </p>
+      <span *ngIf="change_username">
+        <label>Username</label>
+        <br />
+        <input
+          type="text"
+          pInputText
+          required
+          formControlName="username"
+          maxlength="12"
+          autocomplete="off"
+          autofocus
+          minlength="4"
+        />
+      </span>
+      <span
+        class="error"
+        *ngIf="userForm.get('username')!.errors && change_username"
+        >username must be between 4 and 12 characters long</span
+      >
+      <p
+        class="info-content"
+        *ngIf="!change_email"
+        (click)="change_email = true"
+      >
+        <span class="info-bold">Email:</span> {{ data.user.email }}
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit email address"
+          [showDelay]="500"
+        ></i>
+      </p>
+      <span *ngIf="change_email">
+        <label>Email</label>
+        <br />
+        <input
+          type="email"
+          pInputText
+          required
+          formControlName="email"
+          autocomplete="off"
+          autofocus
+        />
+      </span>
+      <span class="error" *ngIf="userForm.get('email')!.errors && change_email"
+        >enter a valid email address</span
+      >
+      <p
+        class="info-content"
+        *ngIf="!change_password"
+        (click)="change_password = true"
+      >
+        <span class="info-bold">Password:</span>
+        &bull;&bull;&bull;&bull;&bull;&bull;
+        <i
+          class="pi pi-pencil"
+          style="font-size: 0.75rem"
+          pTooltip="Edit password"
+          [showDelay]="500"
+        ></i>
+      </p>
+      <span *ngIf="change_password">
+        <label>New password</label>
+        <br />
+        <span class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            [type]="inputType"
+            placeholder="new password"
+            formControlName="new_password"
+            minlength="6"
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            pButton
+            pRipple
+            [icon]="inputIcon"
+            (click)="changeInputType()"
+          ></button>
+        </span>
+      </span>
+      <span
+        class="error"
+        *ngIf="userForm.get('new_password')!.errors && change_password"
+        >password must be between 6 and 20 characters long and contain one
+        number</span
+      >
+      <span *ngIf="change_password || change_email || change_username">
+        <label>Current password</label>
+        <br />
+        <span class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            [type]="inputType"
+            placeholder="current password"
+            formControlName="password"
+            minlength="6"
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            pButton
+            pRipple
+            [icon]="inputIcon"
+            (click)="changeInputType()"
+          ></button>
+        </span>
+      </span>
+      <div class="buttons">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          label="Update account"
+          class="p-button-raised"
+          type="submit"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Go back"
+          class="p-button-raised p-button-text p-button-secondary"
+          (click)="onGoBack()"
+          type="button"
+        ></button>
+      </div>
+    </form>
+    <div class="img-container">
+      <img
+        src="../../../../assets/images/barber.svg"
+        alt="barber cutting hair"
+      />
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

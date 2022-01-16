@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from '../models/add_user.model';
+import { UpdateUser } from '../models/update-user.model';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -21,11 +22,10 @@ export class UserService {
     this.current_user$.next(user);
   }
 
-  public onUpdateUser(user: User, updatedUser: User): Observable<HttpResponse> {
-    return this.http.patch<HttpResponse>('http://localhost:3000/user', {
-      user,
-      updatedUser,
-    });
+  public onUpdateUser(user: {
+    [key: string]: string;
+  }): Observable<HttpResponse> {
+    return this.http.patch<HttpResponse>('http://localhost:3000/user', user);
   }
 
   public onUpdateSettingsUser(

@@ -50,7 +50,6 @@ const config: SocketIoConfig = {
     CardModule,
     ContactModule,
     FooterModule,
-    // DocumentationModule,
   ],
   bootstrap: [AppComponent],
   providers: [

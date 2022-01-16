@@ -12,7 +12,8 @@ import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
-import { CharacterComponent } from '../character/character.component';
+import { CharacterComponent } from '../../modals/character/character.component';
+import { EditAccountComponent } from '../../modals/edit-account/edit-account.component';
 
 @Component({
   selector: 'app-account',
@@ -65,6 +66,16 @@ export class AccountComponent implements OnInit, OnDestroy {
       width: '100%',
       maxWidth: '600px',
       data: this.user,
+    });
+  }
+
+  public openDialogUpdateAccount(): void {
+    this.dialog.open(EditAccountComponent, {
+      width: '100%',
+      maxWidth: '600px',
+      data: { user: this.user },
+      autoFocus: false,
+      panelClass: 'custom-modalbox',
     });
   }
 
@@ -141,7 +152,6 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public onToggleMarketingMails(): void {
-    console.log('ui boolean ', this.user.marketing);
     this.userService
       .onUpdateSettingsUser({
         _id: this.user._id as string,
