@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
@@ -10,17 +10,38 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./login.component.scss'],
   providers: [MessageService],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   inputType: string = 'password';
   inputIcon: string = 'pi pi-eye';
   forgotPassword: boolean = false;
+  loginForm!: FormGroup;
+  resetForm!: FormGroup;
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
-    private dialogRef: MatDialogRef<LoginComponent>
+    private dialogRef: MatDialogRef<LoginComponent>,
+    private formBuilder: FormBuilder
   ) {}
 
-  public onLogin(form: NgForm): void {
+  public ngOnInit(): void {
+    this._onSetLoginForm();
+    this._onSetResetForm();
+  }
+
+  private _onSetLoginForm(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+    });
+  }
+
+  private _onSetResetForm(): void {
+    this.resetForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
+
+  public onLogin(form: FormGroup): void {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");
@@ -47,7 +68,7 @@ export class LoginComponent {
     });
   }
 
-  public onChangeToResetPassword(form: NgForm): void {
+  public onChangeToResetPassword(form: FormGroup): void {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");

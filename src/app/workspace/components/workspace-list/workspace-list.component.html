@@ -35,8 +35,8 @@
       <p-overlayPanel #opw>
         <ng-template pTemplate>
           <form
-            (submit)="onSaveWorkspaceTitle(updateWorkspaceForm)"
-            [formGroup]="updateWorkspaceForm"
+            (submit)="onSaveWorkspaceTitle(workspaceForm)"
+            [formGroup]="workspaceForm"
           >
             <div>
               <p-colorPicker formControlName="color"></p-colorPicker>
@@ -61,14 +61,11 @@
                 type="submit"
                 class="p-button-raised"
                 [disabled]="
-                  $any(updateWorkspaceForm).controls['title'].value ===
-                  undefined
+                  $any(workspaceForm).controls['title'].value === undefined
                     ? true
-                    : $any(updateWorkspaceForm).controls['title'].value
-                        ?.length < 4
+                    : $any(workspaceForm).controls['title'].value?.length < 4
                     ? true
-                    : $any(updateWorkspaceForm).controls['title'].value.length >
-                      20
+                    : $any(workspaceForm).controls['title'].value.length > 20
                     ? true
                     : false
                 "

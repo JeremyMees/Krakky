@@ -32,3 +32,9 @@ form {
   flex-flow: row wrap;
   gap: 0.5rem;
 }
+
+.error {
+  color: #f44336;
+  max-width: 15rem;
+  font-size: 0.75rem;
+}

@@ -166,6 +166,12 @@ form {
   font-weight: 600;
 }
 
+.error {
+  color: #f44336;
+  max-width: 15rem;
+  font-size: 0.75rem;
+}
+
 @media (max-width: 650px) {
   .dashboards {
     flex-flow: column no-wrap;

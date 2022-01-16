@@ -1,5 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -29,7 +34,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
   current_user_sub$: Subscription = new Subscription();
   selected_dashboard: Dashboard | undefined;
   destroy$: Subject<boolean> = new Subject();
-  updateWorkspaceForm!: FormGroup;
+  workspaceForm!: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -37,7 +42,8 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
     private workspaceService: WorkspaceService,
     public router: Router,
     private userService: UserService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -182,14 +188,28 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
 
   public onSetForm(): void {
     if (this.selected_workspace) {
-      this.updateWorkspaceForm = new FormGroup({
-        color: new FormControl(this.selected_workspace.bg_color),
-        title: new FormControl(this.selected_workspace.workspace),
+      this.workspaceForm = this.formBuilder.group({
+        color: [this.selected_workspace.bg_color],
+        title: [
+          this.selected_workspace.workspace,
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
+        ],
       });
     } else {
-      this.updateWorkspaceForm = new FormGroup({
-        color: new FormControl('#ffffff'),
-        title: new FormControl(''),
+      this.workspaceForm = this.formBuilder.group({
+        color: ['#ffffff'],
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
+        ],
       });
     }
   }

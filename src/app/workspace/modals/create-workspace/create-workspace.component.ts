@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
@@ -16,16 +16,36 @@ import { WorkspaceService } from '../../services/workspace.service';
   styleUrls: ['./create-workspace.component.scss'],
   providers: [MessageService],
 })
-export class CreateWorkspaceComponent {
+export class CreateWorkspaceComponent implements OnInit {
+  workspaceForm!: FormGroup;
+
   constructor(
     private dialogRef: MatDialogRef<CreateWorkspaceComponent>,
     public messageService: MessageService,
     private workspaceService: WorkspaceService,
     private userService: UserService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder
   ) {}
 
-  public onAddWorkspace(form: NgForm): void {
+  public ngOnInit(): void {
+    this._onSetForm();
+  }
+
+  private _onSetForm(): void {
+    this.workspaceForm = this.formBuilder.group({
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
+  }
+
+  public onAddWorkspace(form: FormGroup): void {
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");
@@ -35,7 +55,7 @@ export class CreateWorkspaceComponent {
     const colors: RandomColors = this.sharedService.onGenerateRandomColors();
     const newWorkspace: Workspace = {
       created_by: user._id as string,
-      workspace: form.value.workspace_name,
+      workspace: form.value.title,
       team: [{ _id: user._id as string, role: 'Owner' }],
       color: colors.color,
       bg_color: colors.bg_color,

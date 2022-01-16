@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,7 +24,8 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -38,16 +44,44 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private _onSetForm(): void {
     if (this.user) {
-      this.contactForm = new FormGroup({
-        username: new FormControl(this.user.username),
-        email: new FormControl(this.user.email),
-        message: new FormControl(''),
+      this.contactForm = this.formBuilder.group({
+        username: [
+          this.user.username,
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(12),
+          ],
+        ],
+        email: [this.user.email, [Validators.required, Validators.email]],
+        message: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(500),
+          ],
+        ],
       });
     } else {
-      this.contactForm = new FormGroup({
-        username: new FormControl(''),
-        email: new FormControl(''),
-        message: new FormControl(''),
+      this.contactForm = this.formBuilder.group({
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(12),
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]],
+        message: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(500),
+          ],
+        ],
       });
     }
   }

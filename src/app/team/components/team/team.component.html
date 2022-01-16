@@ -18,6 +18,15 @@
 <loading-spinner class="loading" *ngIf="is_loading"></loading-spinner>
 
 <div *ngIf="!not_found && !is_loading">
+  <button
+    type="button"
+    pButton
+    pRipple
+    icon="pi pi-users"
+    class="p-button-raised btn"
+    label="Add team member"
+    (click)="opu.toggle($event)"
+  ></button>
   <div class="header">
     <div class="team">
       <avatar
@@ -25,7 +34,7 @@
         [bg_color]="workspace.bg_color"
         [color]="workspace.color"
       ></avatar>
-      <h3 class="team-title" (click)="onSetForm(); opw.toggle($event)">
+      <h3 class="team-title" (click)="onSetFormWorkspace(); opw.toggle($event)">
         {{
           workspace.workspace.charAt(0).toUpperCase() +
             workspace.workspace.slice(1)
@@ -62,31 +71,18 @@
   </div>
   <div class="line light-grey-bg"></div>
 
-  <button
-    type="button"
-    pButton
-    pRipple
-    icon="pi pi-users"
-    class="p-button-raised btn"
-    label="Add team member"
-    (click)="opu.toggle($event)"
-  ></button>
   <p-overlayPanel #opu>
     <ng-template pTemplate>
       <div class="add-member">
         <form
-          (submit)="onAddMember(addForm)"
-          (submit)="opu.hide()"
-          #addForm="ngForm"
+          [formGroup]="memberForm"
+          (submit)="opu.hide(); onAddMember(memberForm)"
         >
           <input
             type="email"
-            name="email"
             pInputText
             placeholder="Krakky@kaban.com"
-            ngModel
-            required
-            #email="ngModel"
+            formControlName="email"
             class="add-input"
             autocomplete="off"
             autofocus
@@ -226,8 +222,8 @@
 <p-overlayPanel #opw>
   <ng-template pTemplate>
     <form
-      (submit)="onSaveWorkspaceTitle(updateWorkspaceForm)"
-      [formGroup]="updateWorkspaceForm"
+      (submit)="onSaveWorkspaceTitle(workspaceForm)"
+      [formGroup]="workspaceForm"
     >
       <div>
         <p-colorPicker formControlName="color"></p-colorPicker>
@@ -252,11 +248,11 @@
           type="submit"
           class="p-button-raised"
           [disabled]="
-            $any(updateWorkspaceForm).controls['title'].value === undefined
+            $any(workspaceForm).controls['title'].value === undefined
               ? true
-              : $any(updateWorkspaceForm).controls['title'].value?.length < 4
+              : $any(workspaceForm).controls['title'].value?.length < 4
               ? true
-              : $any(updateWorkspaceForm).controls['title'].value.length > 20
+              : $any(workspaceForm).controls['title'].value.length > 20
               ? true
               : false
           "

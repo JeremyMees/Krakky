@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
+import { containsNumberValidator } from 'src/app/shared/directives/contains-number/contains-number.directive';
 import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
 import { TermsComponent } from 'src/app/shared/modals/terms/terms.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
@@ -25,7 +31,8 @@ export class RegisterComponent implements OnInit {
     private messageService: MessageService,
     private dialogRef: MatDialogRef<RegisterComponent>,
     private userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -133,11 +140,26 @@ export class RegisterComponent implements OnInit {
   }
 
   private _onSetForm(): void {
-    this.registerForm = new FormGroup({
-      email: new FormControl(''),
-      username: new FormControl(''),
-      password: new FormControl(''),
-      marketing: new FormControl(true),
+    this.registerForm = this.formBuilder.group({
+      username: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(12),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(20),
+          containsNumberValidator,
+        ],
+      ],
+      marketing: [true],
     });
   }
 

@@ -91,30 +91,32 @@
   <ng-template pTemplate>
     <form
       class="create-form"
+      [formGroup]="dashboardForm"
       (submit)="onSaveDashboard(dashboardForm); op.hide()"
-      #dashboardForm="ngForm"
     >
       <h2 class="create-form-title">Dashboard title</h2>
       <input
         type="text"
         pInputText
-        ngModel
-        required
-        name="dashboard_name"
-        #dashboard_name="ngModel"
+        formControlName="title"
         placeholder="Dashboard title"
         maxlength="20"
         autofocus
         autocomplete="off"
       />
+      <p
+        class="error"
+        *ngIf="
+          dashboardForm.get('title')!.errors &&
+          dashboardForm.get('title')!.value.length > 0
+        "
+      >
+        dashboard title must be between 4 and 20 characters long
+      </p>
       <h2 class="create-form-title">Settings</h2>
       <div class="option">
         <div class="option-content">
-          <p-inputSwitch
-            ngModel
-            name="private"
-            #private="ngModel"
-          ></p-inputSwitch>
+          <p-inputSwitch formControlName="private"></p-inputSwitch>
           <span class="option-text"> Private</span>
         </div>
         <i
@@ -130,11 +132,11 @@
           label="Create new dashboard"
           class="p-button-raised"
           [disabled]="
-            dashboard_name.value === undefined
+            $any(dashboardForm).controls['title'].value === undefined
               ? true
-              : dashboard_name.value?.length < 4
+              : $any(dashboardForm).controls['title'].value?.length < 4
               ? true
-              : dashboard_name.value.length > 20
+              : $any(dashboardForm).controls['title'].value.length > 20
               ? true
               : false
           "
@@ -151,11 +153,12 @@
     </form>
   </ng-template>
 </p-overlayPanel>
+
 <p-overlayPanel #opw>
   <ng-template pTemplate>
     <form
-      (submit)="onSaveWorkspaceTitle(updateWorkspaceForm)"
-      [formGroup]="updateWorkspaceForm"
+      [formGroup]="workspaceForm"
+      (submit)="onSaveWorkspaceTitle(workspaceForm)"
     >
       <div>
         <p-colorPicker formControlName="color"></p-colorPicker>
@@ -180,11 +183,11 @@
           type="submit"
           class="p-button-raised"
           [disabled]="
-            $any(updateWorkspaceForm).controls['title'].value === undefined
+            $any(workspaceForm).controls['title'].value === undefined
               ? true
-              : $any(updateWorkspaceForm).controls['title'].value?.length < 4
+              : $any(workspaceForm).controls['title'].value?.length < 4
               ? true
-              : $any(updateWorkspaceForm).controls['title'].value.length > 20
+              : $any(workspaceForm).controls['title'].value.length > 20
               ? true
               : false
           "

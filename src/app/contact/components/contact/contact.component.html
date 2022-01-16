@@ -54,9 +54,10 @@
   class="copy-email"
   [cdkCopyToClipboard]="'contact@krakky.com'"
   (click)="onCopyEmail()"
+  pTooltip="Copy email to clipboard"
 >
   <p>
-    <i class="pi pi-envelope"></i>
+    <i class="pi pi-envelope" [style]="{ color: '#ffffff' }"></i>
   </p>
 </div>
 

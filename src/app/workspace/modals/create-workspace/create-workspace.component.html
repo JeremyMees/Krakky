@@ -1,4 +1,4 @@
-<form (submit)="onAddWorkspace(workspaceForm)" #workspaceForm="ngForm">
+<form (submit)="onAddWorkspace(workspaceForm)" [formGroup]="workspaceForm">
   <div class="img-container">
     <img src="../../../assets/images/kaban.svg" alt="planning image" />
   </div>
@@ -8,30 +8,28 @@
     <input
       type="text"
       pInputText
-      ngModel
-      required
-      name="workspace_name"
-      #workspace_name="ngModel"
+      formControlName="title"
       placeholder="Workspace title"
       maxlength="20"
       autocomplete="off"
     />
+    <p
+      class="error"
+      *ngIf="
+        workspaceForm.get('title')!.errors &&
+        workspaceForm.get('title')!.value.length > 0
+      "
+    >
+      workspace title must be between 4 and 20 characters long
+    </p>
     <div class="buttons">
       <button
-        pButton
-        pRipple
-        label="Go back"
-        type="button"
-        class="p-button-raised p-button-text p-button-secondary"
-        (click)="onGoBack()"
-      ></button>
-      <button
         [disabled]="
-          workspace_name.value === undefined
+          $any(workspaceForm).controls['title'].value === undefined
             ? true
-            : workspace_name.value?.length < 4
+            : $any(workspaceForm).controls['title'].value?.length < 4
             ? true
-            : workspace_name.value.length > 20
+            : $any(workspaceForm).controls['title'].value.length > 20
             ? true
             : false
         "
@@ -40,6 +38,14 @@
         label="Create workspace"
         type="submit"
         class="p-button-raised"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Go back"
+        type="button"
+        class="p-button-raised p-button-text p-button-secondary"
+        (click)="onGoBack()"
       ></button>
     </div>
   </div>

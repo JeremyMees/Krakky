@@ -9,29 +9,24 @@
     <p class="under-text" *ngIf="forgotPassword">We are missing you</p>
     <form
       (submit)="onLogin(loginForm)"
-      #loginForm="ngForm"
+      [formGroup]="loginForm"
       *ngIf="!forgotPassword"
     >
       <input
         pInputText
         placeholder="Email address"
-        ngModel
-        required
+        formControlName="email"
         email
         type="email"
         name="email"
-        #email="ngModel"
       />
       <span class="p-inputgroup">
         <input
           type="text"
           pInputText
           placeholder="Password"
-          ngModel
-          required
+          formControlName="password"
           [type]="inputType"
-          name="password"
-          #password="ngModel"
           autocomplete="off"
         />
         <button
@@ -63,7 +58,7 @@
     </form>
     <form
       (submit)="onChangeToResetPassword(resetForm)"
-      #resetForm="ngForm"
+      [formGroup]="resetForm"
       *ngIf="forgotPassword"
       class="reset-form"
     >
@@ -71,12 +66,9 @@
         id="float-input"
         pInputText
         placeholder="Email address"
-        ngModel
-        required
+        formControlName="email"
         email
         type="email"
-        name="email"
-        #email="ngModel"
       />
       <button
         label="Reset Password"

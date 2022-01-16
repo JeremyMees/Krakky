@@ -1,5 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -32,7 +38,8 @@ export class TeamComponent implements OnInit, OnDestroy {
   is_loading: boolean = true;
   display_dialog: boolean = false;
   aggregated_members: Array<AggregatedMember> = [];
-  updateWorkspaceForm!: FormGroup;
+  workspaceForm!: FormGroup;
+  memberForm!: FormGroup;
   current_user: User | null = null;
   roles: Array<{ name: string; inactive?: boolean }> = [
     { name: 'Owner', inactive: true },
@@ -49,7 +56,8 @@ export class TeamComponent implements OnInit, OnDestroy {
     private confirmationService: ConfirmationService,
     private sharedService: SharedService,
     public dialog: MatDialog,
-    private userService: UserService
+    private userService: UserService,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -65,7 +73,8 @@ export class TeamComponent implements OnInit, OnDestroy {
               .subscribe((user) => {
                 this.current_user = user;
               });
-            this.onSetForm();
+            this.onSetFormWorkspace();
+            this.onSetFormMember();
           },
           error: () => {
             this._showSnackbar('error', "Could't find team members");
@@ -164,13 +173,14 @@ export class TeamComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onAddMember(form: NgForm): void {
+  public onAddMember(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
       this._onIsNotAdmin();
       return;
     }
     if (form.invalid) {
       form.reset();
+      this._showSnackbar('error', 'Enter valid email address');
       return;
     }
     const payload: CreateMemberToken = {
@@ -191,10 +201,23 @@ export class TeamComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSetForm(): void {
-    this.updateWorkspaceForm = new FormGroup({
-      color: new FormControl(this.workspace.bg_color),
-      title: new FormControl(this.workspace.workspace),
+  public onSetFormWorkspace(): void {
+    this.workspaceForm = this.formBuilder.group({
+      color: [this.workspace.bg_color],
+      title: [
+        this.workspace.workspace,
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
+  }
+
+  public onSetFormMember(): void {
+    this.memberForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 

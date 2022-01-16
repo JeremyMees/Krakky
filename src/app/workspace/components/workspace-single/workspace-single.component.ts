@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -30,7 +30,8 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   selected_dashboard: Dashboard | undefined;
   dashboards: Array<Dashboard> = [];
   destroy$: Subject<boolean> = new Subject();
-  updateWorkspaceForm!: FormGroup;
+  workspaceForm!: FormGroup;
+  dashboardForm!: FormGroup;
 
   constructor(
     public router: Router,
@@ -39,7 +40,8 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     private workspaceService: WorkspaceService,
     private dashboardService: DashboardService,
     private userService: UserService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -50,24 +52,26 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
         this.current_user = user;
         this._onFilterDashboardMember();
       });
-    this.onSetForm();
+    this.onSetFormWorkspace();
+    this.onSetFormDashboard();
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
   }
 
-  public onSaveDashboard(form: NgForm): void {
+  public onSaveDashboard(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
       this._onIsNotAdminOrOwner('admins');
       return;
     }
     if (form.invalid) {
+      this._showSnackbar('error', "Form wasn't filled correctly");
       form.reset();
       return;
     }
     const dashboard: AddDashboard = {
-      title: form.value.dashboard_name,
+      title: form.value.title,
       workspace_id: this.workspace.workspace_id,
       created_by: this.current_user?._id as string,
       private: form.value.private ? form.value.private : false,
@@ -103,6 +107,11 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   public onSaveWorkspaceTitle(form: FormGroup): void {
     if (!this._onCheckIfAdmin()) {
       this._onIsNotAdminOrOwner('admins');
+      return;
+    }
+    if (form.invalid) {
+      this._showSnackbar('error', "Form wasn't filled correctly");
+      form.reset();
       return;
     }
     const opposite_color: string = this.sharedService.onGenerateOppositeColor(
@@ -184,10 +193,31 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     this._showSnackbar('info', `That action is only for ${what}`);
   }
 
-  public onSetForm(): void {
-    this.updateWorkspaceForm = new FormGroup({
-      color: new FormControl(this.workspace.bg_color),
-      title: new FormControl(this.workspace.workspace),
+  public onSetFormWorkspace(): void {
+    this.workspaceForm = this.formBuilder.group({
+      color: [this.workspace.bg_color],
+      title: [
+        this.workspace.workspace,
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
+  }
+
+  public onSetFormDashboard(): void {
+    this.dashboardForm = this.formBuilder.group({
+      private: [false],
+      title: [
+        this.workspace.workspace,
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
     });
   }
 

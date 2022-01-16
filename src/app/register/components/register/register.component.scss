@@ -100,3 +100,10 @@ p-password {
 .clickable:hover {
   cursor: pointer;
 }
+
+.error {
+  color: #f44336;
+  max-width: 15rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}

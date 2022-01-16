@@ -17,6 +17,9 @@
         required
         formControlName="email"
       />
+      <span class="error" *ngIf="registerForm.get('email')!.errors"
+        >enter a valid email address</span
+      >
       <input
         type="text"
         pInputText
@@ -27,12 +30,14 @@
         [maxlength]="12"
         (keyup)="checkUsername(registerForm.value.username)"
       />
+      <span class="error" *ngIf="registerForm.get('username')!.errors"
+        >username must be between 4 and 12 characters long</span
+      >
       <span class="p-inputgroup">
         <input
           type="text"
           pInputText
           placeholder="Password"
-          required
           [type]="inputType"
           formControlName="password"
           autocomplete="off"
@@ -45,6 +50,10 @@
           (click)="changeInputType()"
         ></button>
       </span>
+      <span class="error" *ngIf="registerForm.get('password')!.errors"
+        >password must be between 6 and 20 characters long and contain one
+        number</span
+      >
       <div class="p-field-checkbox">
         <p-checkbox
           [formControl]="$any(registerForm).controls['marketing']"
