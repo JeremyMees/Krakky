@@ -6,6 +6,7 @@ import { StylingModule } from '../styling/styling.module';
 import { TermsComponent } from './modals/terms/terms.component';
 import { PrivacyComponent } from './modals/privacy/privacy.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { CharacterEditorComponent } from './modals/character-editor/character-editor.component';
 
 @NgModule({
   declarations: [
@@ -13,8 +14,15 @@ import { AvatarComponent } from './components/avatar/avatar.component';
     TermsComponent,
     PrivacyComponent,
     AvatarComponent,
+    CharacterEditorComponent,
   ],
-  exports: [DeleteComponent, TermsComponent, PrivacyComponent, AvatarComponent],
+  exports: [
+    DeleteComponent,
+    TermsComponent,
+    PrivacyComponent,
+    AvatarComponent,
+    CharacterEditorComponent,
+  ],
   imports: [CommonModule, StylingModule, FormsModule, ReactiveFormsModule],
 })
 export class SharedModule {}

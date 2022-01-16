@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditAccountComponent } from './modals/edit-account/edit-account.component';
 @NgModule({
   declarations: [AccountComponent, CharacterComponent, EditAccountComponent],
+  exports: [CharacterComponent],
   imports: [
     CommonModule,
     StylingModule,

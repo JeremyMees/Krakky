@@ -1,16 +1,7 @@
 import { CustomCharacter } from '../models/character-customization.model';
 
 export const CUSTOM_CHARACTER: CustomCharacter = {
-  mouth: [
-    'surprised',
-    'laughing',
-    'nervous',
-    'smile',
-    'sad',
-    'pucker',
-    'frown',
-    'smirk',
-  ],
+  mouth: ['surprised', 'laughing', 'nervous', 'smile', 'pucker', 'smirk'],
   eyebrows: ['up', 'down', 'eyelashesUp', 'eyelashesDown'],
   hair: [
     'fonze',
@@ -28,20 +19,7 @@ export const CUSTOM_CHARACTER: CustomCharacter = {
   earrings: ['hoop', 'stud'],
   glasses: ['round', 'square'],
   facialHair: ['beard', 'scruff'],
-  baseColor: [
-    'apricot',
-    'azure',
-    'calm',
-    'canary',
-    'coast',
-    'lavender',
-    'mellow',
-    'salmon',
-    'seashell',
-    'sky',
-    'topaz',
-    'white',
-  ],
+  baseColor: ['apricot', 'mellow', 'white', 'salmon', 'seashell', 'topaz'],
   earringColor: [
     'apricot',
     'azure',
@@ -113,7 +91,6 @@ export const CUSTOM_CHARACTER: CustomCharacter = {
     'seashell',
     'sky',
     'topaz',
-    'white',
   ],
   shirtColor: [
     'apricot',

@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
+import { CharacterService } from 'src/app/account/services/character.service';
 import { containsNumberValidator } from 'src/app/shared/directives/contains-number/contains-number.directive';
+import { CharacterEditorComponent } from 'src/app/shared/modals/character-editor/character-editor.component';
 import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
 import { TermsComponent } from 'src/app/shared/modals/terms/terms.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
@@ -26,17 +23,20 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   terms_accept: boolean = false;
   privacy_accept: boolean = false;
+  img_query!: string;
 
   constructor(
     private messageService: MessageService,
     private dialogRef: MatDialogRef<RegisterComponent>,
     private userService: UserService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private characterService: CharacterService
   ) {}
 
   public ngOnInit(): void {
     this._onSetForm();
+    this.onRandomizeAvatar();
   }
 
   public onRegister(form: FormGroup): void {
@@ -47,8 +47,8 @@ export class RegisterComponent implements OnInit {
     }
     const newUser: UserAdd = form.value;
     newUser.verified = false;
-    newUser.img = newUser.username;
-    newUser.img_query = '?mouth=laughing';
+    newUser.img = 'krakky';
+    newUser.img_query = this.img_query;
     this.userService.register(newUser).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 201) {
@@ -112,6 +112,21 @@ export class RegisterComponent implements OnInit {
         ],
       ],
       marketing: [true],
+    });
+  }
+
+  public onRandomizeAvatar(): void {
+    this.img_query = this.characterService.generateRandomAvatar();
+  }
+
+  public onOpenAvatarEditor(): void {
+    const dialog_ref = this.dialog.open(CharacterEditorComponent, {
+      width: '100%',
+      maxWidth: '600px',
+      data: { img_query: this.img_query },
+    });
+    dialog_ref.afterClosed().subscribe((result: string) => {
+      this.img_query = result;
     });
   }
 

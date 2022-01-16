@@ -6,25 +6,19 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AuthData } from 'src/app/auth/services/models/auth-data.model';
-import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { CUSTOM_CHARACTER } from 'src/app/account/data/custom-character';
+import { CustomCharacter } from 'src/app/account/models/character-customization.model';
+import { Character } from 'src/app/account/models/character.model';
+import { CharacterService } from 'src/app/account/services/character.service';
 import { User } from 'src/app/user/models/user.model';
-import { UserService } from 'src/app/user/services/user.service';
-import { CUSTOM_CHARACTER } from '../../data/custom-character';
-import { CustomCharacter } from '../../models/character-customization.model';
-import { Character } from '../../models/character.model';
-import { CharacterService } from '../../services/character.service';
 
 @Component({
-  selector: 'app-character',
-  templateUrl: './character.component.html',
-  styleUrls: ['./character.component.scss'],
-  providers: [MessageService],
+  selector: 'app-character-editor',
+  templateUrl: './character-editor.component.html',
+  styleUrls: ['./character-editor.component.scss'],
 })
-export class CharacterComponent implements OnInit, OnDestroy {
+export class CharacterEditorComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
   user!: User;
   img!: string;
@@ -33,16 +27,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
   custom_character: CustomCharacter = CUSTOM_CHARACTER;
 
   constructor(
-    private dialogRef: MatDialogRef<CharacterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User,
+    private dialogRef: MatDialogRef<CharacterEditorComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { img_query: string },
     private cdRef: ChangeDetectorRef,
-    private messageService: MessageService,
-    private userService: UserService,
     private characterService: CharacterService
   ) {}
 
   public ngOnInit(): void {
-    this.img = this.data.img as string;
+    this.img = 'krakky';
     this.img_query = this.data.img_query as string;
     this._onBuildQueryObj(this.data.img_query as string);
   }
@@ -112,48 +104,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
   }
 
   public saveAvatar(): void {
-    this.characterService
-      .updateUserImage({
-        img: this.img,
-        img_query: this.img_query,
-        _id: this.data._id as string,
-      })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data: HttpResponse) => {
-          if (data.statusCode === 200) {
-            this.data.img = this.img;
-            this.data.img_query = this.img_query;
-            this.userService.setCurrentUser(this.data);
-            this._onSetLocalStorage();
-            this.dialogRef.close();
-          } else {
-            this._showSnackbar('error', `Couldn't update avatar`);
-          }
-        },
-        error: () => {
-          this._showSnackbar('error', `Couldn't update avatar`);
-        },
-      });
-  }
-
-  private _onSetLocalStorage(): void {
-    let localstorage_item: AuthData = JSON.parse(
-      localStorage.getItem('user') as string
-    );
-    localstorage_item.img = this.img;
-    localstorage_item.img_query = this.img_query;
-    localStorage.setItem('user', JSON.stringify(localstorage_item));
+    this.dialogRef.close(this.img_query);
   }
 
   public goBack(): void {
-    this.dialogRef.close();
-  }
-
-  private _showSnackbar(severity: string, detail: string): void {
-    this.messageService.add({
-      severity,
-      detail,
-    });
+    this.dialogRef.close(this.data.img_query);
   }
 }
