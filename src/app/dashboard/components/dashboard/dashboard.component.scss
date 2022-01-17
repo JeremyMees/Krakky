@@ -117,6 +117,31 @@ i:hover {
   margin: 0 0 0.5rem 0;
 }
 
+.create-form-title {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.inline-title {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
 @media (max-width: 550px) {
   .dashboard-title-flex {
     flex-flow: column;

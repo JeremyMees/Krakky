@@ -4,7 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ import { Card } from 'src/app/card/models/card.model';
 import { List } from 'src/app/list/models/list.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Member } from 'src/app/workspace/models/member.model';
@@ -42,6 +43,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   board_id!: string;
   private_checked: boolean = false;
   inactive_checked: boolean = false;
+  dashboardForm!: FormGroup;
+  listForm!: FormGroup;
+  cardForm!: FormGroup;
 
   constructor(
     private socketDashboardService: SocketDashboardService,
@@ -50,7 +54,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public router: Router,
     private dashboardService: DashboardService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService
   ) {}
 
   public ngOnInit(): void {
@@ -122,7 +128,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.is_loading = false;
   }
 
-  public onSaveDashboardTitle(form: NgForm): void {
+  public onSaveDashboardTitle(form: FormGroup): void {
     if (this.inactive_checked) {
       this._onIsInactive();
       return;
@@ -131,7 +137,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       form.reset();
       return;
     }
-    this.dashboard.title = form.value.dashboard_name;
+    this.dashboard.title = form.value.title;
+    this.dashboard.bg_color = form.value.color;
+    this.dashboard.color = this.sharedService.onGenerateOppositeColor(
+      form.value.color
+    );
     const { cards, lists, ...payload } = this.dashboard;
     this.dashboardService.updateDashboard(payload).subscribe({
       error: () => {
@@ -201,7 +211,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .sort((a, b) => a.index - b.index) as Array<Card>;
   }
 
-  public onUpdateListTitle(form: NgForm): void {
+  public onUpdateListTitle(form: FormGroup): void {
     if (this.inactive_checked) {
       this._onIsInactive();
       return;
@@ -213,11 +223,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const index: number = this.dashboard.lists.findIndex(
       (list: List) => list._id === this.selected_list?._id
     );
-    this.dashboard.lists[index].title = form.value.list_name;
+    this.dashboard.lists[index].title = form.value.title;
     this.socketDashboardService.updateList(this.dashboard.lists[index]);
   }
 
-  public onAddList(form: NgForm): void {
+  public onAddList(form: FormGroup): void {
     if (this.inactive_checked) {
       this._onIsInactive();
       return;
@@ -228,11 +238,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.socketDashboardService.addList({
       board_id: this.dashboard.board_id,
-      title: form.value.list_name,
+      title: form.value.title,
     });
   }
 
-  public onAddQuickCard(form: NgForm): void {
+  public onAddQuickCard(form: FormGroup): void {
     if (this.inactive_checked) {
       this._onIsInactive();
       return;
@@ -243,7 +253,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.socketDashboardService.addCard({
       board_id: this.dashboard.board_id,
-      title: form.value.card_name,
+      title: form.value.title,
       list_id: this.selected_list?._id as string,
       created_by: this.user._id as string,
       created_at: Date.now(),
@@ -351,6 +361,60 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private _onIsInactive(): void {
     this._showSnackbar('info', "Dashboard is inactive and can't be modified");
+  }
+
+  public onSetFormDashboard(): void {
+    if (this.dashboard) {
+      this.dashboardForm = this.formBuilder.group({
+        color: [this.dashboard.bg_color],
+        title: [
+          this.dashboard.title,
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
+        ],
+      });
+    } else {
+      this.dashboardForm = this.formBuilder.group({
+        color: ['#ffffff'],
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
+        ],
+      });
+    }
+  }
+
+  public onSetFormList(): void {
+    this.listForm = this.formBuilder.group({
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+    });
+  }
+
+  public onSetFormCard(): void {
+    this.cardForm = this.formBuilder.group({
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(100),
+        ],
+      ],
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {

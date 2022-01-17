@@ -14,4 +14,6 @@ export interface AggregatedDashboard {
   lists: Array<List>;
   private: boolean;
   inactive: boolean;
+  color: string;
+  bg_color: string;
 }

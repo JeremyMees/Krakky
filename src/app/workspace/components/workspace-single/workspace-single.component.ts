@@ -10,6 +10,7 @@ import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DashboardService } from 'src/app/dashboard/service/dashboard.service';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { RandomColors } from 'src/app/shared/models/random-colors.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
@@ -77,6 +78,8 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       private: form.value.private ? form.value.private : false,
       inactive: false,
       team: [{ _id: this.current_user!._id as string, role: 'Admin' }],
+      color: this.sharedService.onGenerateOppositeColor(form.value.color),
+      bg_color: form.value.color,
     };
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {
@@ -208,8 +211,11 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   }
 
   public onSetFormDashboard(): void {
+    const random_colors: RandomColors =
+      this.sharedService.onGenerateRandomColors();
     this.dashboardForm = this.formBuilder.group({
       private: [false],
+      color: [random_colors.bg_color, [Validators.required]],
       title: [
         this.workspace.workspace,
         [

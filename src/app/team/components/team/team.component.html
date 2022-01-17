@@ -78,6 +78,7 @@
           [formGroup]="memberForm"
           (submit)="opu.hide(); onAddMember(memberForm)"
         >
+          <h2 class="create-form-title">Email address</h2>
           <input
             type="email"
             pInputText
@@ -225,11 +226,7 @@
       (submit)="onSaveWorkspaceTitle(workspaceForm)"
       [formGroup]="workspaceForm"
     >
-      <div>
-        <p-colorPicker formControlName="color"></p-colorPicker>
-        <span class="label">Color picker</span>
-      </div>
-
+      <h2 class="create-form-title">Workspace title</h2>
       <input
         type="text"
         pInputText
@@ -239,6 +236,10 @@
         autofocus
         autocomplete="off"
       />
+      <div class="inline-title">
+        <h2 class="create-form-title">Color</h2>
+        <p-colorPicker formControlName="color"></p-colorPicker>
+      </div>
       <div class="buttons">
         <button
           pButton

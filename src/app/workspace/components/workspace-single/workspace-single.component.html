@@ -54,14 +54,23 @@
   </div>
   <div class="dashboard-container">
     <div class="dashboards">
-      <div class="dashboard light-grey-bg" *ngFor="let dashboard of dashboards">
+      <div
+        class="dashboard"
+        *ngFor="let dashboard of dashboards"
+        [ngStyle]="{
+          'background-color': dashboard.bg_color,
+          color: dashboard.color
+        }"
+      >
         <div
           class="dashboard-content"
           (click)="navigateToDashboard(dashboard.board_id)"
         >
-          {{
-            dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1)
-          }}
+          <h2 class="create-form-title">
+            {{
+              dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1)
+            }}
+          </h2>
         </div>
         <button
           pButton
@@ -70,16 +79,17 @@
           icon="pi pi-ellipsis-v"
           pTooltip="Dashboard menu"
           [showDelay]="500"
-          class="p-button-rounded p-button-text p-button-secondary"
+          class="p-button-rounded p-button-text menu-btn-dashboard"
+          [style]="{ color: dashboard.color }"
           (click)="selected_dashboard = dashboard; menu.toggle($event)"
         ></button>
       </div>
       <div
-        class="create-dashboard light-grey-bg"
+        class="dashboard light-grey-bg"
         *ngIf="workspace.dashboards.length === 0"
         (click)="op.toggle($event)"
       >
-        Create a dashboard
+        <h2 class="create-form-title">Create a dashboard</h2>
       </div>
     </div>
   </div>
@@ -124,6 +134,10 @@
           pTooltip="Only selected members have access to the board"
         ></i>
       </div>
+      <div class="inline-title">
+        <h2 class="create-form-title">Color</h2>
+        <p-colorPicker formControlName="color"></p-colorPicker>
+      </div>
       <div class="buttons">
         <button
           pButton
@@ -160,11 +174,7 @@
       [formGroup]="workspaceForm"
       (submit)="onSaveWorkspaceTitle(workspaceForm)"
     >
-      <div>
-        <p-colorPicker formControlName="color"></p-colorPicker>
-        <span class="label">Color picker</span>
-      </div>
-
+      <h2 class="create-form-title">Workspace title</h2>
       <input
         type="text"
         pInputText
@@ -174,6 +184,10 @@
         autofocus
         autocomplete="off"
       />
+      <div class="inline-title">
+        <h2 class="create-form-title">Color</h2>
+        <p-colorPicker formControlName="color"></p-colorPicker>
+      </div>
       <div class="buttons">
         <button
           pButton

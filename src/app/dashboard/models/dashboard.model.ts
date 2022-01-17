@@ -10,4 +10,6 @@ export interface Dashboard {
   workspace_id: string;
   private: boolean;
   inactive: boolean;
+  color: string;
+  bg_color: string;
 }

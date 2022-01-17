@@ -1,12 +1,12 @@
 <div class="container" *ngIf="!loading && found && cards_all.length > 0">
   <div class="dashboard-title-flex">
     <div class="team">
-      <p-avatar
-        [label]="dashboard.title.charAt(0).toUpperCase()"
-        styleClass="p-mr-2"
-        size="medium"
+      <avatar
+        [title]="dashboard.title.charAt(0).toUpperCase()"
+        [bg_color]="dashboard.bg_color"
+        [color]="dashboard.color"
         class="team-avatar"
-      ></p-avatar>
+      ></avatar>
       <h3 class="title">
         {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
       </h3>

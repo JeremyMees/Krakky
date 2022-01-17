@@ -69,10 +69,15 @@ mat-icon {
   width: 12.15rem;
   height: 6rem;
   border-radius: 5px;
-  padding: 0.5rem;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  padding: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  position: relative;
+}
+
+.menu-btn-dashboard {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
 }
 
 .dashboard:hover {
@@ -83,19 +88,6 @@ mat-icon {
   max-width: 8.5rem;
   width: 100%;
   word-wrap: break-word;
-}
-
-.create-dashboard:hover {
-  background-color: rgb(216, 216, 216);
-  cursor: pointer;
-}
-
-.create-dashboard {
-  width: 12rem;
-  height: 6rem;
-  border-radius: 5px;
-  text-align: center;
-  line-height: 6rem;
 }
 
 .line {
@@ -123,6 +115,14 @@ loading-spinner {
 .create-form-title {
   margin: 0;
   padding: 0;
+  display: inline;
+}
+
+.inline-title {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
 }
 
 .buttons {

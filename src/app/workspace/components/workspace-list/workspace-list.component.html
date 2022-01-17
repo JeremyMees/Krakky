@@ -38,11 +38,7 @@
             (submit)="onSaveWorkspaceTitle(workspaceForm)"
             [formGroup]="workspaceForm"
           >
-            <div>
-              <p-colorPicker formControlName="color"></p-colorPicker>
-              <span class="label">Color picker</span>
-            </div>
-
+            <h2 class="create-form-title">Workspace title</h2>
             <input
               type="text"
               pInputText
@@ -52,6 +48,10 @@
               autofocus
               autocomplete="off"
             />
+            <div class="inline-title">
+              <h2 class="create-form-title">Color</h2>
+              <p-colorPicker formControlName="color"></p-colorPicker>
+            </div>
             <div class="buttons">
               <button
                 pButton
@@ -114,20 +114,28 @@
   <div class="dashboard-container">
     <div class="dashboards">
       <div
-        class="dashboard light-grey-bg"
+        class="dashboard"
         *ngFor="
           let dashboard of onFilterDashboardMember(workspace.dashboards)
             | slice: 0:6
         "
         (click)="navigateToDashboard(dashboard.board_id)"
+        [ngStyle]="{
+          'background-color': dashboard.bg_color,
+          color: dashboard.color
+        }"
       >
-        {{ dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1) }}
+        <h2 class="create-form-title">
+          {{
+            dashboard.title.charAt(0).toUpperCase() + dashboard.title.slice(1)
+          }}
+        </h2>
       </div>
       <div
-        class="create-dashboard light-grey-bg"
+        class="dashboard light-grey-bg"
         *ngIf="workspace.dashboards.length === 0"
       >
-        No joinable dashboards
+        <h2 class="create-form-title">No joinable dashboards</h2>
       </div>
     </div>
   </div>

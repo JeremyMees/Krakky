@@ -7,4 +7,6 @@ export interface AddDashboard {
   private: boolean;
   inactive: boolean;
   team?: Array<Member>;
+  color: string;
+  bg_color: string;
 }
