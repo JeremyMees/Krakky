@@ -3,8 +3,10 @@
     <img src="../../../assets/images/login.svg" alt="login image" />
   </div>
   <div class="inputs">
-    <p class="title" *ngIf="!forgotPassword">Let's log you in</p>
-    <p class="title" *ngIf="forgotPassword">Let's reset your password</p>
+    <h2 class="title-margin" *ngIf="!forgotPassword">Let's log you in</h2>
+    <h2 class="title-margin" *ngIf="forgotPassword">
+      Let's reset your password
+    </h2>
     <p class="under-text" *ngIf="!forgotPassword">You've been missed</p>
     <p class="under-text" *ngIf="forgotPassword">We are missing you</p>
     <form

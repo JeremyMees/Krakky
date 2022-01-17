@@ -34,7 +34,9 @@ export class NavbarComponent implements OnInit {
   }
 
   public openLoginDialog(): void {
-    const dialogRefLogin = this.dialog.open(LoginComponent);
+    const dialogRefLogin = this.dialog.open(LoginComponent, {
+      maxWidth: '750px',
+    });
     dialogRefLogin.afterClosed().subscribe((result) => {
       if (result) {
         if (result.redirect) {
@@ -50,7 +52,10 @@ export class NavbarComponent implements OnInit {
   }
 
   public openRegisterDialog(): void {
-    const dialogRefLogin = this.dialog.open(RegisterComponent);
+    const dialogRefLogin = this.dialog.open(RegisterComponent, {
+      width: '100%',
+      maxWidth: '750px',
+    });
     dialogRefLogin.afterClosed().subscribe((result) => {
       if (result) {
         if (result.redirect) {

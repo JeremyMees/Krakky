@@ -1,6 +1,6 @@
 <div class="flex-content" [class]="data.card.color">
   <div class="left">
-    <h2>
+    <h2 class="title-margin">
       {{ data.card.title }}
       <i
         (click)="opUpdateCardTitle.toggle($event)"
@@ -12,7 +12,7 @@
         {{ data.card.priority }}
       </div>
     </h2>
-    <p class="under-text-color">{{ list.title }}</p>
+    <p class="under-text">{{ list.title }}</p>
     <div class="avatar-group">
       <p-avatarGroup>
         <p-avatar
@@ -78,7 +78,7 @@
     </div>
     <h2 class="dates-title">Dates</h2>
     <p
-      class="under-text-color"
+      class="under-text"
       *ngIf="
         !data.card.start_date &&
         !data.card.due_date &&

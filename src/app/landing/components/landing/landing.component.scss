@@ -17,7 +17,7 @@ img {
 }
 
 .slogan {
-  font-size: 3.5rem;
+  font-size: 2rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -97,8 +97,6 @@ img {
 
 .flex-information-title {
   font-size: 2rem;
-  padding: 0;
-  margin: 0;
 }
 
 .rounded-edges {
@@ -142,12 +140,12 @@ img {
 
 @media (max-width: 450px) {
   .slogan {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 350px) {
   .slogan {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 }

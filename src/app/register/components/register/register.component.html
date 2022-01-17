@@ -5,28 +5,28 @@
         [src]="'https://avatars.dicebear.com/api/micah/krakky.svg' + img_query"
         alt="avatar"
       />
-    </div>
-    <div class="img-buttons">
-      <button
-        pButton
-        pRipple
-        icon="pi pi-user-edit"
-        pTooltip="Edit avatar"
-        class="p-button-raised p-button-rounded"
-        (click)="onOpenAvatarEditor()"
-      ></button>
-      <button
-        pButton
-        pRipple
-        (click)="onRandomizeAvatar()"
-        icon="pi pi-refresh"
-        pTooltip="Randomize avatar"
-        class="p-button-raised p-button-secondary p-button-rounded"
-      ></button>
+      <div class="img-buttons">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-user-edit"
+          pTooltip="Edit avatar"
+          class="p-button-raised p-button-rounded"
+          (click)="onOpenAvatarEditor()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          (click)="onRandomizeAvatar()"
+          icon="pi pi-refresh"
+          pTooltip="Randomize avatar"
+          class="p-button-raised p-button-secondary p-button-rounded"
+        ></button>
+      </div>
     </div>
   </div>
   <div class="right">
-    <p class="title">Let's sign you up</p>
+    <h2 class="title-margin">Let's sign you up</h2>
     <p class="under-text">Welcome to the club.</p>
     <form
       (submit)="onRegister(registerForm)"

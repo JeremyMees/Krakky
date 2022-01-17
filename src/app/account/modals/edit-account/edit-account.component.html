@@ -1,8 +1,10 @@
 <div class="container">
   <div class="flex">
     <form (submit)="onUpdateUser(userForm)" [formGroup]="userForm">
-      <h1>Edit account</h1>
-      <p class="under-text">Be different be you</p>
+      <div>
+        <h1 class="title-margin">Edit account</h1>
+        <p class="under-text">Be different be you</p>
+      </div>
       <p
         class="info-content"
         *ngIf="!change_username"
