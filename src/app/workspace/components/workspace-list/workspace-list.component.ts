@@ -1,10 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -12,12 +7,14 @@ import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { RandomColors } from 'src/app/shared/models/random-colors.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
-import { CreateWorkspaceComponent } from '../../modals/create-workspace/create-workspace.component';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
 import { Member } from '../../models/member.model';
+import { Workspace } from '../../models/workspace.model';
 import { WorkspaceService } from '../../services/workspace.service';
 
 @Component({
@@ -35,6 +32,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
   selected_dashboard: Dashboard | undefined;
   destroy$: Subject<boolean> = new Subject();
   workspaceForm!: FormGroup;
+  newWorkspaceForm!: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -54,6 +52,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
         this.current_user = user;
       });
     this.onSetForm();
+    this.onSetFormNewWorkspace();
   }
 
   public ngOnDestroy(): void {
@@ -88,20 +87,6 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
               this._showSnackbar('error', 'Error while deleting workspace');
             },
           });
-      }
-    });
-  }
-
-  public onAddWorkspace(): void {
-    const dialogRef = this.dialog.open(CreateWorkspaceComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        if (result.statusCode === 201) {
-          result.data.dashboards = [];
-          this.workspaces.push(result.data);
-        } else {
-          this._showSnackbar('error', "Couldn't save new workspace");
-        }
       }
     });
   }
@@ -212,6 +197,48 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
         ],
       });
     }
+  }
+
+  public onSetFormNewWorkspace(): void {
+    const random_colors: RandomColors =
+      this.sharedService.onGenerateRandomColors();
+    this.newWorkspaceForm = this.formBuilder.group({
+      title: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+      color: [random_colors.bg_color, [Validators.required]],
+    });
+  }
+
+  public onAddWorkspace(form: FormGroup): void {
+    if (form.invalid) {
+      form.reset();
+      this._showSnackbar('error', "Form wasn't filled correctly");
+      return;
+    }
+    const newWorkspace: Workspace = {
+      created_by: this.current_user!._id as string,
+      workspace: form.value.title,
+      team: [{ _id: this.current_user!._id as string, role: 'Owner' }],
+      color: this.sharedService.onGenerateOppositeColor(form.value.color),
+      bg_color: form.value.color,
+    };
+    this.workspaceService.addWorkspace(newWorkspace).subscribe({
+      next: (res: HttpResponse) => {
+        if (res.statusCode === 201) {
+          res.data.dashboards = [];
+          this.workspaces.push(res.data);
+        } else {
+          this._showSnackbar('error', "Couldn't save new workspace");
+        }
+      },
+      error: () => this._showSnackbar('error', "Couldn't create new workspace"),
+    });
   }
 
   private _showSnackbar(severity: string, detail: string): void {

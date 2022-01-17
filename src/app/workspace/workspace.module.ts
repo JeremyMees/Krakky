@@ -6,13 +6,11 @@ import { WorkspaceListComponent } from './components/workspace-list/workspace-li
 import { WorkspaceSingleComponent } from './components/workspace-single/workspace-single.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { CreateWorkspaceComponent } from './modals/create-workspace/create-workspace.component';
 @NgModule({
   declarations: [
     WorkspaceComponent,
     WorkspaceListComponent,
     WorkspaceSingleComponent,
-    CreateWorkspaceComponent,
   ],
   imports: [
     CommonModule,

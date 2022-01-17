@@ -13,15 +13,6 @@
 />
 <div class="buttons">
   <button
-    label="Go back"
-    pRipple
-    pButton
-    type="button"
-    name="username"
-    (click)="onGoBack()"
-    class="p-button-raised p-button-secondary p-button-text"
-  ></button>
-  <button
     label="Delete"
     pRipple
     pButton
@@ -29,5 +20,14 @@
     (click)="onDelete()"
     [disabled]="blocked"
     class="p-button-raised p-button-danger"
+  ></button>
+  <button
+    label="Go back"
+    pRipple
+    pButton
+    type="button"
+    name="username"
+    (click)="onGoBack()"
+    class="p-button-raised p-button-secondary p-button-text"
   ></button>
 </div>

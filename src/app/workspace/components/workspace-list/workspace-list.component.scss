@@ -121,6 +121,12 @@ i:hover {
   align-items: flex-end;
 }
 
+.error {
+  color: #f44336;
+  max-width: 15rem;
+  font-size: 0.75rem;
+}
+
 @media (max-width: 550px) {
   .workspace-flex {
     flex-flow: column;

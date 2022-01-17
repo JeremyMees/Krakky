@@ -5,7 +5,7 @@
   icon="pi pi-users"
   class="p-button-raised add-btn"
   label="Create a new workspace"
-  (click)="onAddWorkspace()"
+  (click)="onSetFormNewWorkspace(); new_dashboard.toggle($event)"
 ></button>
 <div class="workspace" *ngFor="let workspace of workspaces">
   <div class="workspace-flex">
@@ -142,3 +142,62 @@
 </div>
 
 <p-toast></p-toast>
+
+<p-overlayPanel #new_dashboard>
+  <ng-template pTemplate>
+    <form
+      (submit)="onAddWorkspace(newWorkspaceForm); new_dashboard.hide()"
+      [formGroup]="newWorkspaceForm"
+    >
+      <h2 class="create-form-title">Workspace title</h2>
+      <br />
+      <input
+        type="text"
+        pInputText
+        formControlName="title"
+        placeholder="krakky"
+        maxlength="20"
+        autocomplete="off"
+      />
+      <p
+        class="error"
+        *ngIf="
+          newWorkspaceForm.get('title')!.errors &&
+          newWorkspaceForm.get('title')!.value.length > 0
+        "
+      >
+        workspace title must be between 4 and 20 characters long
+      </p>
+      <div class="inline-title">
+        <h2 class="create-form-title">Color</h2>
+        <p-colorPicker formControlName="color"></p-colorPicker>
+      </div>
+      <div class="buttons">
+        <button
+          [disabled]="
+            $any(newWorkspaceForm).controls['title'].value === undefined
+              ? true
+              : $any(newWorkspaceForm).controls['title'].value?.length < 4
+              ? true
+              : $any(newWorkspaceForm).controls['title'].value.length > 20
+              ? true
+              : false
+          "
+          pButton
+          pRipple
+          label="Create workspace"
+          type="submit"
+          class="p-button-raised"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Go back"
+          type="button"
+          class="p-button-raised p-button-text p-button-secondary"
+          (click)="new_dashboard.hide()"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
