@@ -62,15 +62,16 @@ mat-icon {
 .dashboard-title-flex {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 .toolbar {
-  flex-grow: 1;
   display: flex;
   flex-flow: row wrap;
   gap: 0.5rem;
   align-items: flex-start;
   justify-content: flex-end;
+  padding-bottom: 0.5rem;
 }
 
 .line {
@@ -136,5 +137,19 @@ mat-icon {
 @media (max-width: 750px) {
   .dropdown {
     position: relative;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-title-flex {
+    flex-flow: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .toolbar {
+    flex-flow: column;
+    justify-content: flex-start;
   }
 }

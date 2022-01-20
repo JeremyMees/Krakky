@@ -104,10 +104,9 @@
         (click)="selected_workspace = workspace; menu.toggle($event)"
         pRipple
       >
-        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        <i class="pi pi-cog icon"></i>
         Settings
       </div>
-      <p-menu #menu [popup]="true" [model]="items"></p-menu>
     </div>
     <div class="line light-grey-bg"></div>
   </div>
@@ -200,3 +199,5 @@
     </form>
   </ng-template>
 </p-overlayPanel>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

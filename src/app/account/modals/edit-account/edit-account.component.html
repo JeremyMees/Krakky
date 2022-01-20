@@ -143,24 +143,6 @@
           ></button>
         </span>
       </span>
-      <div class="buttons">
-        <button
-          pButton
-          pRipple
-          icon="pi pi-save"
-          label="Update account"
-          class="p-button-raised"
-          type="submit"
-        ></button>
-        <button
-          pButton
-          pRipple
-          label="Go back"
-          class="p-button-raised p-button-text p-button-secondary"
-          (click)="onGoBack()"
-          type="button"
-        ></button>
-      </div>
     </form>
     <div class="img-container">
       <img
@@ -168,6 +150,24 @@
         alt="barber cutting hair"
       />
     </div>
+  </div>
+  <div class="buttons">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      class="p-button-raised p-button-text p-button-secondary"
+      (click)="onGoBack()"
+      type="button"
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-save"
+      label="Update account"
+      class="p-button-raised"
+      type="submit"
+    ></button>
   </div>
 </div>
 

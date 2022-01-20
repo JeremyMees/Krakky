@@ -1,135 +1,141 @@
 <div class="flex">
   <div class="left">
-    <div class="img-container">
-      <img
-        [src]="'https://avatars.dicebear.com/api/micah/krakky.svg' + img_query"
-        alt="avatar"
-      />
-      <div class="img-buttons">
-        <button
-          pButton
-          pRipple
-          icon="pi pi-user-edit"
-          pTooltip="Edit avatar"
-          class="p-button-raised p-button-rounded"
-          (click)="onOpenAvatarEditor()"
-        ></button>
-        <button
-          pButton
-          pRipple
-          (click)="onRandomizeAvatar()"
-          icon="pi pi-refresh"
-          pTooltip="Randomize avatar"
-          class="p-button-raised p-button-secondary p-button-rounded"
-        ></button>
+    <div>
+      <div class="img-container">
+        <img
+          [src]="
+            'https://avatars.dicebear.com/api/micah/krakky.svg' + img_query
+          "
+          alt="avatar"
+        />
+        <div class="img-buttons">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-user-edit"
+            pTooltip="Edit avatar"
+            class="p-button-raised p-button-rounded"
+            (click)="onOpenAvatarEditor()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            (click)="onRandomizeAvatar()"
+            icon="pi pi-refresh"
+            pTooltip="Randomize avatar"
+            class="p-button-raised p-button-secondary p-button-rounded"
+          ></button>
+        </div>
       </div>
     </div>
   </div>
   <div class="right">
-    <h2 class="title-margin">Let's sign you up</h2>
-    <p class="under-text">Welcome to the club.</p>
-    <form
-      (submit)="onRegister(registerForm)"
-      [formGroup]="registerForm"
-      class="inputs"
-    >
-      <input
-        type="email"
-        pInputText
-        placeholder="Email address"
-        required
-        formControlName="email"
-      />
-      <span
-        class="error"
-        *ngIf="
-          registerForm.get('email')!.errors &&
-          registerForm.get('email')!.value.length > 0
-        "
+    <div>
+      <h2 class="title-margin">Let's sign you up</h2>
+      <p class="under-text">Welcome to the club.</p>
+      <form
+        (submit)="onRegister(registerForm)"
+        [formGroup]="registerForm"
+        class="inputs"
       >
-        enter a valid email address</span
-      >
-      <input
-        type="text"
-        pInputText
-        placeholder="Username"
-        autocomplete="off"
-        required
-        formControlName="username"
-        [maxlength]="12"
-      />
-      <span
-        class="error"
-        *ngIf="
-          registerForm.get('username')!.errors &&
-          registerForm.get('username')!.value.length > 0
-        "
-        >username must be between 4 and 12 characters long</span
-      >
-      <span class="p-inputgroup">
+        <input
+          type="email"
+          pInputText
+          placeholder="Email address"
+          required
+          formControlName="email"
+        />
+        <span
+          class="error"
+          *ngIf="
+            registerForm.get('email')!.errors &&
+            registerForm.get('email')!.value.length > 0
+          "
+        >
+          enter a valid email address</span
+        >
         <input
           type="text"
           pInputText
-          placeholder="Password"
-          [type]="inputType"
-          formControlName="password"
+          placeholder="Username"
           autocomplete="off"
+          required
+          formControlName="username"
+          [maxlength]="12"
         />
-        <button
-          type="button"
-          pButton
-          pRipple
-          [icon]="inputIcon"
-          (click)="changeInputType()"
-        ></button>
-      </span>
-      <span
-        class="error"
-        *ngIf="
-          registerForm.get('password')!.errors &&
-          registerForm.get('password')!.value.length > 0
-        "
-        >password must be between 6 and 20 characters long and contain one
-        number</span
-      >
-      <div class="p-field-checkbox">
-        <p-checkbox
-          [formControl]="$any(registerForm).controls['marketing']"
-          [binary]="true"
-          inputId="marketing"
-        ></p-checkbox>
-        <label class="checkbox-label" for="marketing"
-          >&nbsp; Yes, i want to receive updates from Krakky</label
+        <span
+          class="error"
+          *ngIf="
+            registerForm.get('username')!.errors &&
+            registerForm.get('username')!.value.length > 0
+          "
+          >username must be between 4 and 12 characters long</span
         >
-      </div>
-      <div class="agree">
-        By clicking "Sign up" you agree to Krakky's
-        <span class="clickable" (click)="openDialogTerms()">Terms</span> and
-        <span class="clickable" (click)="openDialogPrivacy()"
-          >Privacy Policy</span
+        <span class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="Password"
+            [type]="inputType"
+            formControlName="password"
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            pButton
+            pRipple
+            [icon]="inputIcon"
+            (click)="changeInputType()"
+          ></button>
+        </span>
+        <span
+          class="error"
+          *ngIf="
+            registerForm.get('password')!.errors &&
+            registerForm.get('password')!.value.length > 0
+          "
+          >password must be between 6 and 20 characters long and contain one
+          number</span
         >
+        <div class="p-field-checkbox">
+          <p-checkbox
+            [formControl]="$any(registerForm).controls['marketing']"
+            [binary]="true"
+            inputId="marketing"
+          ></p-checkbox>
+          <label class="checkbox-label" for="marketing"
+            >&nbsp; Yes, i want to receive updates from Krakky</label
+          >
+        </div>
+        <div class="agree">
+          By clicking "Sign up" you agree to Krakky's
+          <span class="clickable" (click)="openDialogTerms()">Terms</span> and
+          <span class="clickable" (click)="openDialogPrivacy()"
+            >Privacy Policy</span
+          >
+        </div>
+        <div class="buttons">
+          <button
+            label="Sign up"
+            pRipple
+            pButton
+            class="login-btn p-button-raised"
+          ></button>
+          <button
+            icon="pi pi-google"
+            pRipple
+            pButton
+            type="button"
+            class="p-button-raised p-button-info p-button-text"
+            pTooltip="Sign up with Google"
+            [showDelay]="500"
+          ></button>
+        </div>
+      </form>
+      <div class="footer">
+        <p class="footer-text" (click)="onLogin()">Already a user</p>
       </div>
-      <div class="buttons">
-        <button
-          label="Sign up"
-          pRipple
-          pButton
-          class="login-btn p-button-raised"
-        ></button>
-        <button
-          icon="pi pi-google"
-          pRipple
-          pButton
-          type="button"
-          class="p-button-raised p-button-info p-button-text"
-          pTooltip="Sign up with Google"
-          [showDelay]="500"
-        ></button>
-      </div>
-    </form>
-    <div class="footer">
-      <p class="footer-text" (click)="onLogin()">Already a user</p>
     </div>
   </div>
-  <p-toast></p-toast>
 </div>
+<p-toast></p-toast>

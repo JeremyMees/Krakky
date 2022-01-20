@@ -28,7 +28,6 @@ mat-icon {
 .card {
   background-color: #e0f1ff;
   border-radius: 5px;
-  display: inline-block;
   padding: 0.25rem 0.5rem;
 }
 
@@ -40,10 +39,10 @@ mat-icon {
 .workspace-flex {
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 .toolbar {
-  flex-grow: 1;
   display: flex;
   flex-flow: row wrap;
   gap: 0.5rem;
@@ -80,7 +79,7 @@ mat-icon {
   right: 0.25rem;
 }
 
-.dashboard:hover {
+.dashboard-content:hover {
   cursor: pointer;
 }
 
@@ -88,6 +87,7 @@ mat-icon {
   max-width: 8.5rem;
   width: 100%;
   word-wrap: break-word;
+  height: 100%;
 }
 
 .line {
@@ -189,11 +189,9 @@ form {
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 500px) {
   .toolbar {
     flex-flow: column;
-    gap: 0.5rem;
-    align-items: flex-start;
     justify-content: flex-start;
   }
 }

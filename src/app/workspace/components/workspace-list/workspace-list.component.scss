@@ -132,15 +132,18 @@ i:hover {
     flex-flow: column;
     gap: 0.5rem;
     align-items: flex-start;
-    justify-content: flex-start;
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 450px) {
+  .dashboards {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 500px) {
   .toolbar {
     flex-flow: column;
-    gap: 0.5rem;
-    align-items: flex-start;
     justify-content: flex-start;
   }
 }

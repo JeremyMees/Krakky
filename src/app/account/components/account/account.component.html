@@ -62,7 +62,11 @@
   </mat-card>
   <mat-card class="card">
     <h2>Workspaces</h2>
-    <div class="workspace-flex">
+    <loading-spinner
+      class="spinner"
+      *ngIf="loading_workspaces"
+    ></loading-spinner>
+    <div class="workspace-flex" *ngIf="!loading_workspaces">
       <div class="workspace" *ngFor="let workspace of workspaces | slice: 0:4">
         <div class="team">
           <p-avatar
@@ -96,17 +100,33 @@
   <div class="flex-bottom">
     <mat-card class="card">
       <h2>Different dashboards</h2>
-      <p class="number">{{ dashboards.length }}</p>
+      <p class="number" *ngIf="!loading_dashboards">{{ dashboards.length }}</p>
+      <loading-spinner
+        class="spinner"
+        *ngIf="loading_dashboards"
+      ></loading-spinner>
     </mat-card>
 
     <mat-card class="card">
       <h2>Cards created</h2>
-      <p class="number">{{ created_cards.length }}</p>
+      <p class="number" *ngIf="!loading_cards_created">
+        {{ created_cards.length }}
+      </p>
+      <loading-spinner
+        class="spinner"
+        *ngIf="loading_cards_created"
+      ></loading-spinner>
     </mat-card>
 
     <mat-card class="card">
       <h2>Cards assigned</h2>
-      <p class="number">{{ assigned_cards.length }}</p>
+      <p class="number" *ngIf="!loading_cards_assigned">
+        {{ assigned_cards.length }}
+      </p>
+      <loading-spinner
+        class="spinner"
+        *ngIf="loading_cards_assigned"
+      ></loading-spinner>
     </mat-card>
     <mat-card class="card">
       <img

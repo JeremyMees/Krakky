@@ -43,12 +43,9 @@
         Members ({{ workspace.team.length }})
       </div>
       <div class="card" (click)="menuWorkspace.toggle($event)" pRipple>
-        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        <i class="pi pi-cog icon"></i>
         Settings
       </div>
-      <p-menu #menuWorkspace [popup]="true" [model]="items_workspace"></p-menu>
-      <p-menu #menu [popup]="true" [model]="items"></p-menu>
-      <div class="spacer"></div>
     </div>
     <div class="line light-grey-bg"></div>
   </div>
@@ -219,3 +216,6 @@
     </form>
   </ng-template>
 </p-overlayPanel>
+
+<p-menu #menuWorkspace [popup]="true" [model]="items_workspace"></p-menu>
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

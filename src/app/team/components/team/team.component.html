@@ -27,7 +27,7 @@
     label="Add team member"
     (click)="opu.toggle($event)"
   ></button>
-  <div class="header">
+  <div class="workspace-flex">
     <div class="team">
       <avatar
         [title]="workspace.workspace.charAt(0).toUpperCase()"
@@ -47,7 +47,7 @@
         ></i>
       </h3>
     </div>
-    <div class="cards">
+    <div class="toolbar">
       <div class="card" (click)="router.navigateByUrl('workspace')">
         <div class="card-content">
           <i class="pi pi-arrow-left icon"></i>
@@ -62,11 +62,9 @@
         Boards
       </div>
       <div class="card" (click)="menu.toggle($event)" pRipple>
-        <mat-icon class="material-icons-outlined">settings</mat-icon>
+        <i class="pi pi-cog icon"></i>
         Settings
       </div>
-      <p-menu #menu [popup]="true" [model]="items"></p-menu>
-      <div class="spacer"></div>
     </div>
   </div>
   <div class="line light-grey-bg"></div>
@@ -272,3 +270,5 @@
   </ng-template>
 </p-overlayPanel>
 <p-toast></p-toast>
+
+<p-menu #menu [popup]="true" [model]="items"></p-menu>

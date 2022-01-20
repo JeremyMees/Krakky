@@ -29,6 +29,10 @@ export class AccountComponent implements OnInit, OnDestroy {
   workspaces: Array<Workspace> = [];
   created_cards: Array<Card> = [];
   assigned_cards: Array<Card> = [];
+  loading_dashboards: boolean = false;
+  loading_cards_created: boolean = false;
+  loading_cards_assigned: boolean = false;
+  loading_workspaces: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -80,6 +84,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   private _onGetDashboards(): void {
+    this.loading_dashboards = true;
     this.dashboardService
       .getDashboardsFromMember(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
@@ -90,14 +95,17 @@ export class AccountComponent implements OnInit, OnDestroy {
           } else {
             this._showSnackbar('error', "Couldn't fetch dashboards");
           }
+          this.loading_dashboards = false;
         },
         error: () => {
           this._showSnackbar('error', "Couldn't fetch dashboards");
+          this.loading_dashboards = false;
         },
       });
   }
 
   private _onGetCreatedCards(): void {
+    this.loading_cards_created = true;
     this.cardService
       .getCardsCreated(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
@@ -108,14 +116,18 @@ export class AccountComponent implements OnInit, OnDestroy {
           } else {
             this._showSnackbar('error', "Couldn't fetch cards");
           }
+          this.loading_cards_created = false;
         },
         error: () => {
           this._showSnackbar('error', "Couldn't fetch cards");
+          this.loading_cards_created = false;
         },
       });
   }
 
   private _onGetAssignedCards(): void {
+    this.loading_cards_assigned = true;
+
     this.cardService
       .getCardsAssigned(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
@@ -126,14 +138,17 @@ export class AccountComponent implements OnInit, OnDestroy {
           } else {
             this._showSnackbar('error', "Couldn't fetch cards");
           }
+          this.loading_cards_assigned = false;
         },
         error: () => {
           this._showSnackbar('error', "Couldn't fetch cards");
+          this.loading_cards_assigned = false;
         },
       });
   }
 
   private _onGetWorkspaces(): void {
+    this.loading_workspaces = true;
     this.workspaceService
       .getWorkspacesFromMember(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
@@ -144,8 +159,11 @@ export class AccountComponent implements OnInit, OnDestroy {
           } else {
             this._showSnackbar('error', "Couldn't fetch cards");
           }
+          this.loading_workspaces = false;
         },
         error: () => {
+          this.loading_workspaces = false;
+
           this._showSnackbar('error', "Couldn't fetch cards");
         },
       });

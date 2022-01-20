@@ -60,17 +60,17 @@
   <button
     pButton
     pRipple
-    icon="pi pi-user-plus"
-    label="Add member"
-    class="p-button-raised"
-    (click)="addMember.toggle($event)"
+    label="Close"
+    class="p-button-raised p-button-text p-button-secondary"
+    (click)="onCloseModal()"
   ></button>
   <button
     pButton
     pRipple
-    label="Close"
-    class="p-button-raised p-button-text p-button-secondary"
-    (click)="onCloseModal()"
+    icon="pi pi-user-plus"
+    label="Add member"
+    class="p-button-raised"
+    (click)="addMember.toggle($event)"
   ></button>
 </div>
 
