@@ -217,7 +217,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       private: [false],
       color: [random_colors.bg_color, [Validators.required]],
       title: [
-        this.workspace.workspace,
+        '',
         [
           Validators.required,
           Validators.minLength(4),

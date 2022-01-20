@@ -5,7 +5,7 @@
   icon="pi pi-users"
   class="p-button-raised add-btn"
   label="Create a new workspace"
-  (click)="onSetFormNewWorkspace(); new_dashboard.toggle($event)"
+  (click)="onSetFormNewWorkspace(); new_workspace.toggle($event)"
 ></button>
 <div class="workspace" *ngFor="let workspace of workspaces">
   <div class="workspace-flex">
@@ -143,14 +143,13 @@
 
 <p-toast></p-toast>
 
-<p-overlayPanel #new_dashboard>
+<p-overlayPanel #new_workspace>
   <ng-template pTemplate>
     <form
-      (submit)="onAddWorkspace(newWorkspaceForm); new_dashboard.hide()"
+      (submit)="onAddWorkspace(newWorkspaceForm); new_workspace.hide()"
       [formGroup]="newWorkspaceForm"
     >
       <h2 class="create-form-title">Workspace title</h2>
-      <br />
       <input
         type="text"
         pInputText
@@ -195,7 +194,7 @@
           label="Go back"
           type="button"
           class="p-button-raised p-button-text p-button-secondary"
-          (click)="new_dashboard.hide()"
+          (click)="new_workspace.hide()"
         ></button>
       </div>
     </form>
