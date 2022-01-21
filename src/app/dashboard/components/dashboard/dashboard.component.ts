@@ -160,16 +160,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       event.previousIndex,
       event.currentIndex
     );
-    const lowest_number: number = Math.min(
-      event.currentIndex,
-      event.previousIndex
-    );
+    let lowest_number: number =
+      Math.min(event.currentIndex, event.previousIndex) - 1;
+    lowest_number < 0 ? (lowest_number = 0) : undefined;
     this.dashboard.lists.forEach((list: List, index: number) => {
-      if (index < lowest_number) {
-        return;
+      if (index >= lowest_number) {
+        list.index = index;
+        this.socketDashboardService.updateList(list);
       }
-      list.index = index;
-      this.socketDashboardService.updateList(list);
     });
   }
 
@@ -178,16 +176,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this._onIsInactive();
       return;
     }
-    let filteredCards = this.filteredCards(event.container.id);
     if (event.previousContainer === event.container) {
-      if (event.previousIndex === event.currentIndex) {
-        return;
-      }
-      moveItemInArray(filteredCards, event.previousIndex, event.currentIndex);
-      filteredCards.forEach((card: Card, index: number) => {
-        card.index = index;
-        this.socketDashboardService.updateCard(card);
-      });
+      event.previousIndex === event.currentIndex
+        ? undefined
+        : this._onTransferArrayItemsSameContainer(
+            this.filteredCards(event.container.id),
+            event.previousIndex,
+            event.currentIndex
+          );
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -195,13 +191,58 @@ export class DashboardComponent implements OnInit, OnDestroy {
         event.previousIndex,
         event.currentIndex
       );
-      event.container.data.forEach((card: Card, index: number) => {
-        card.list_id !== event.container.id
-          ? (card.list_id = event.container.id)
-          : (card.index = index);
-        this.socketDashboardService.updateCard(card);
-      });
+      this._onTransferArrayItemsNewContainer(
+        event.container,
+        event.currentIndex
+      );
+      this._onTransferArrayItemsOldContainer(
+        event.previousContainer,
+        event.previousIndex
+      );
     }
+  }
+
+  private _onTransferArrayItemsOldContainer(
+    container: any,
+    previous_index: number
+  ): void {
+    previous_index < 0 ? (previous_index = 0) : undefined;
+    container.data.forEach((card: Card, index: number) => {
+      if (index >= previous_index) {
+        card.index = index;
+        this.socketDashboardService.updateCard(card);
+      }
+    });
+  }
+
+  private _onTransferArrayItemsNewContainer(
+    container: any,
+    current_index: number
+  ): void {
+    current_index < 0 ? (current_index = 0) : undefined;
+    container.data.forEach((card: Card, index: number) => {
+      if (index >= current_index) {
+        index === current_index ? (card.list_id = container.id) : undefined;
+        card.index = index;
+        this.socketDashboardService.updateCard(card);
+      }
+    });
+  }
+
+  private _onTransferArrayItemsSameContainer(
+    filteredCards: Array<Card>,
+    previous_index: number,
+    current_index: number
+  ): void {
+    moveItemInArray(filteredCards, previous_index, current_index);
+    let lowest_number: number = Math.min(current_index, previous_index) - 1;
+    lowest_number < 0 ? (lowest_number = 0) : undefined;
+    filteredCards.forEach((card: Card, index: number) => {
+      if (index >= lowest_number) {
+        card.index = index;
+        this.socketDashboardService.updateCard(card);
+      }
+    });
   }
 
   public filteredCards(id: string): Array<Card> {
