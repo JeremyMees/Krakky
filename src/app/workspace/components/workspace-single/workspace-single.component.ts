@@ -77,7 +77,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       created_by: this.current_user?._id as string,
       private: form.value.private ? form.value.private : false,
       inactive: false,
-      team: [{ _id: this.current_user!._id as string, role: 'Admin' }],
+      team: this._onGetMembers(form.value.private ? form.value.private : false),
       color: this.sharedService.onGenerateOppositeColor(form.value.color),
       bg_color: form.value.color,
     };
@@ -90,6 +90,20 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
         this._showSnackbar('error', 'Error while adding dashboard');
       },
     });
+  }
+
+  private _onGetMembers(private_dashboard: boolean): Array<Member> {
+    let team: Array<Member> = [];
+    if (!private_dashboard) {
+      this.workspace.team.forEach((member: Member) => {
+        if (member._id !== this.current_user!._id) {
+          team.push({ _id: member._id, role: 'Member' });
+        } else {
+          team.push({ _id: this.current_user!._id as string, role: 'Admin' });
+        }
+      });
+    }
+    return team;
   }
 
   private _onFilterDashboardMember(): void {

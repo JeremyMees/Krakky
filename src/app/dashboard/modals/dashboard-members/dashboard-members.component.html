@@ -4,7 +4,7 @@
   </div>
   <p-table
     *ngIf="!loading"
-    [value]="dashboard_members"
+    [value]="data.dashboard.private ? dashboard_members : workspace_members"
     responsiveLayout="scroll"
   >
     <ng-template pTemplate="header">
@@ -33,10 +33,13 @@
         <td>{{ member.username }}</td>
         <td>
           <button
+            [disabled]="member.role === undefined"
             (click)="onSetSelectedMember(member); opTeam.toggle($event)"
             pButton
             pRipple
-            [label]="member.role"
+            [label]="
+              member.role === undefined ? 'Workspace member' : member.role
+            "
             class="p-button-raised"
           ></button>
         </td>

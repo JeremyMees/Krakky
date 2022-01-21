@@ -48,7 +48,17 @@
       </div>
       <div class="card" (click)="onCheckUsers()">
         <i class="pi pi-users icon"></i>
-        Members ({{ dashboard.team.length }})
+        Members
+        <span *ngIf="!loading_workspace && workspace"
+          >({{
+            private_checked ? dashboard.team.length : workspace.team.length
+          }})</span
+        >
+        <i
+          *ngIf="loading_workspace"
+          class="pi pi-spin pi-spinner"
+          style="font-size: 5rem"
+        ></i>
       </div>
       <div
         class="card"

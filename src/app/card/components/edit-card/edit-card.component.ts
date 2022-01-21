@@ -21,6 +21,8 @@ import { THEMES } from 'src/app/shared/data/themes.data';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
+import { Member } from 'src/app/workspace/models/member.model';
+import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { Comment } from '../../models/comment.model';
 
 @Component({
@@ -54,6 +56,7 @@ export class EditCardComponent implements OnInit {
     public data: {
       card: Card;
       dashboard: AggregatedDashboard;
+      workspace: Workspace;
     },
     private cardService: CardService,
     private messageService: MessageService,
@@ -127,8 +130,11 @@ export class EditCardComponent implements OnInit {
   }
 
   private _getMemberInfo(): void {
+    const team: Array<Member> = this.data.dashboard.private
+      ? this.data.dashboard.team
+      : this.data.workspace.team;
     this.cardService
-      .getMemberInfo(this.data.dashboard.team)
+      .getMemberInfo(team)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {

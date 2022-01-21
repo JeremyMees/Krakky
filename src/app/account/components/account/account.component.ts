@@ -157,14 +157,14 @@ export class AccountComponent implements OnInit, OnDestroy {
           if (res.statusCode === 200) {
             this.workspaces = res.data;
           } else {
-            this._showSnackbar('error', "Couldn't fetch cards");
+            this._showSnackbar('error', "Couldn't fetch workspace");
           }
           this.loading_workspaces = false;
         },
         error: () => {
           this.loading_workspaces = false;
 
-          this._showSnackbar('error', "Couldn't fetch cards");
+          this._showSnackbar('error', "Couldn't fetch workspace");
         },
       });
   }

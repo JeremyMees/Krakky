@@ -4,7 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -18,6 +18,8 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Member } from 'src/app/workspace/models/member.model';
+import { Workspace } from 'src/app/workspace/models/workspace.model';
+import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
 import { EditCardComponent } from '../../../card/components/edit-card/edit-card.component';
 import { DashboardMembersComponent } from '../../modals/dashboard-members/dashboard-members.component';
 import { AggregatedDashboard } from '../../models/aggregated-dashboard.model';
@@ -33,8 +35,10 @@ import { SocketDashboardService } from '../../service/socket-dashboard.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
   is_loading: boolean = true;
+  loading_workspace: boolean = true;
   found: boolean = false;
   dashboard!: AggregatedDashboard;
+  workspace: Workspace | undefined;
   user!: User;
   connected_to: Array<string> = [];
   max_index_list: number = 0;
@@ -56,7 +60,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private workspaceService: WorkspaceService
   ) {}
 
   public ngOnInit(): void {
@@ -90,6 +95,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.private_checked = res.data.private;
             this.inactive_checked = res.data.inactive;
             this.dashboard = this._onTransformData(res.data);
+            this.workspace === undefined
+              ? this._onGetWorkspace(res.data.workspace_id)
+              : undefined;
             this._onFinish(true);
           } else {
             this._showSnackbar('error', 'Error while updating dashboard');
@@ -97,6 +105,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this._notFound();
+        },
+      });
+  }
+
+  private _onGetWorkspace(id: string): void {
+    this.workspaceService
+      .getWorkspaces(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: HttpResponse) => {
+          if (res.statusCode === 200) {
+            this.workspace = res.data[0];
+          } else {
+            this._showSnackbar('error', "Couldn't fetch workspace");
+          }
+          this.loading_workspace = false;
+        },
+        error: () => {
+          this.loading_workspace = false;
+          this._showSnackbar('error', "Couldn't fetch workspace");
         },
       });
   }
@@ -323,7 +351,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return;
     }
     this.dialog.open(EditCardComponent, {
-      data: { card, dashboard: this.dashboard },
+      data: { card, dashboard: this.dashboard, workspace: this.workspace },
       maxWidth: '850px',
       width: '100%',
       autoFocus: false,
@@ -389,11 +417,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const user: Member = this.dashboard.team.filter(
       (member: Member) => member._id === this.user._id
     )[0];
-    if (user) {
-      return user.role === 'Admin' || user.role === 'Owner' ? true : false;
-    } else {
-      return false;
-    }
+    return user
+      ? user.role === 'Admin' || user.role === 'Owner'
+        ? true
+        : false
+      : false;
   }
 
   private _onIsNotAdmin(): void {

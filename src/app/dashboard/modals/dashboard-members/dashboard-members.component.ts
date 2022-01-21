@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Assignee } from 'src/app/card/models/assignee.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
-import { UserService } from 'src/app/user/services/user.service';
 import { Member } from 'src/app/workspace/models/member.model';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
@@ -114,7 +113,7 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
         (already_member: Member) => already_member._id === member._id
       );
       if (already_members.length > 0) {
-        this._showSnackbar('error', 'Member already joined dashboard');
+        this._showSnackbar('info', 'Member already joined dashboard');
       } else {
         this.data.dashboard.team.push({
           _id: member._id as string,
@@ -186,7 +185,7 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
     const user: Assignee = this.dashboard_members.filter(
       (member: Assignee) => member._id === this.data.user._id
     )[0];
-    return user.role === 'Admin' ? true : false;
+    return user ? (user.role === 'Admin' ? true : false) : false;
   }
 
   private _onIsNotAdmin(): void {
