@@ -1,0 +1,51 @@
+* {
+  font-family: retro;
+}
+
+.flex-container {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.right {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.25rem;
+}
+
+h1 {
+  padding: 0;
+  text-align: center;
+  margin: 0;
+}
+
+button {
+  padding: 0.5rem 0.75rem;
+  color: #fff;
+  border: none;
+  background-color: rgb(245, 96, 96);
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: rgb(243, 78, 78);
+  cursor: pointer;
+}
+
+button:active {
+  border: none;
+}
+
+.game-board {
+  border: 1px solid rgb(184, 184, 184);
+}
+
+p {
+  padding: 0.25rem;
+  margin: 0;
+}

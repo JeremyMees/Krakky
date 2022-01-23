@@ -1,0 +1,11 @@
+<div class="flex-container" [ngStyle]="{ width: width ? width + 100 : '100%' }">
+  <canvas #board class="game-board"></canvas>
+  <div class="right">
+    <h1>TETRIS</h1>
+    <canvas #next class="next"></canvas>
+    <p>Score: {{ points }}</p>
+    <p>Lines: {{ lines }}</p>
+    <p>Level: {{ level }}</p>
+    <button (click)="onPlay()">PLAY</button>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="container" *ngIf="!tetris">
+  <div class="text">
+    <h1>Oooops! you weren't supposed to see this</h1>
+    <p>The page you're looking for doesn't or no longer exists.</p>
+    <p>
+      Return to the home page or play some tetris and remeber: you haven't seen
+      anything.
+    </p>
+    <div class="buttons">
+      <button
+        pButton
+        pRipple
+        class="p-button-raised"
+        label="Home"
+        (click)="router.navigateByUrl('home')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        class="p-button-raised"
+        label="Tetris"
+        (click)="onTetris()"
+      ></button>
+    </div>
+  </div>
+
+  <div class="img-container">
+    <img
+      src="../../../../assets/images/not-found-page.svg"
+      alt="page not found image"
+    />
+  </div>
+</div>
+
+<div class="tetris" *ngIf="tetris">
+  <tetris [width]="'350px'" (highscore)="onHighscore($event)"></tetris>
+  <div class="right">
+    <div class="scores">
+      <h1 class="score-title">Highscores</h1>
+      <div class="spinner" *ngIf="loading">
+        <loading-spinner></loading-spinner>
+      </div>
+      <div class="scores-content" *ngIf="!loading">
+        <ol>
+          <li *ngFor="let score of scores">
+            <div class="score-line">
+              <span>{{ score.username }}</span>
+              <span class="score">{{ score.score }}</span>
+            </div>
+          </li>
+        </ol>
+        <h3 class="score-title">Personal highscore</h3>
+        <ul *ngIf="personal_score && current_user">
+          <li>
+            <div class="score-line">
+              <span>{{ personal_score.username }}</span>
+              <span class="score">{{ personal_score.score }}</span>
+            </div>
+          </li>
+        </ul>
+        <ul *ngIf="!personal_score">
+          <li>
+            <div class="score-line">
+              <span>you</span>
+              <span class="score">undefined</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="how">
+      <h1 class="score-title">Tutorial</h1>
+      <div class="score-line">
+        <span>UP</span>
+        <span>Block rotates</span>
+      </div>
+      <div class="score-line">
+        <span>LEFT</span>
+        <span>Block goes left</span>
+      </div>
+      <div class="score-line">
+        <span>RIGHT</span>
+        <span>Block goes right</span>
+      </div>
+      <div class="score-line">
+        <span>DOWN</span>
+        <span>Soft drop</span>
+      </div>
+      <div class="score-line">
+        <span>SPACEBAR</span>
+        <span>Hard drop</span>
+      </div>
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-raised"
+      label="Go to home page"
+      (click)="router.navigateByUrl('home')"
+    ></button>
+  </div>
+</div>

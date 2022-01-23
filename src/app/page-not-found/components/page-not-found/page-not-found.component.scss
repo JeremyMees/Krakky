@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.img-container {
+  max-width: 350px;
+}
+
+.text {
+  max-width: 23rem;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+}
+
+.tetris {
+  display: flex;
+  gap: 2rem;
+  flex-flow: row nowrap;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  align-items: flex-start;
+  transform: translate(-50%, -50%);
+}
+
+.right {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 2rem;
+}
+
+.scores {
+  font-family: retro;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-width: 18rem;
+}
+
+.how {
+  font-family: retro;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  min-width: 18rem;
+}
+
+.score {
+  color: rgb(245, 96, 96);
+}
+
+.score-title {
+  text-align: center;
+}
+
+.score-line {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
