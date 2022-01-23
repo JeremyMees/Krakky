@@ -131,8 +131,9 @@
         </h2>
       </div>
       <div
-        class="dashboard light-grey-bg"
+        class="dashboard create-dashboard"
         *ngIf="workspace.dashboards.length === 0"
+        (click)="router.navigateByUrl('workspace/' + workspace.workspace_id)"
       >
         <h2 class="create-form-title">No joinable dashboards</h2>
       </div>
