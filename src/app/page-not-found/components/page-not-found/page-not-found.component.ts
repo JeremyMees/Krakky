@@ -130,7 +130,7 @@ export class PageNotFoundComponent implements OnInit, OnDestroy {
   }
 
   private _onCheckHighScore(new_score: Score): void {
-    const scores: Array<Score> = [...this.scores];
+    const scores: Array<Score> = this.scores;
     scores.push(new_score);
     scores.reduce((prev: Score, curr: Score) => {
       return prev.score < curr.score ? prev : curr;
