@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
@@ -16,14 +16,18 @@ import { CardService } from 'src/app/card/services/card.service';
 import { AggregatedDashboard } from 'src/app/dashboard/models/aggregated-dashboard.model';
 import { SocketDashboardService } from 'src/app/dashboard/service/socket-dashboard.service';
 import { List } from 'src/app/list/models/list.model';
-import { PRIORITYS } from 'src/app/shared/data/priority.data';
 import { THEMES } from 'src/app/shared/data/themes.data';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { RandomColors } from 'src/app/shared/models/random-colors.model';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { AddTag } from 'src/app/shared/models/add-tag.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Member } from 'src/app/workspace/models/member.model';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { Comment } from '../../models/comment.model';
+import { Tag } from 'src/app/shared/models/tag.model';
+import { LoopObject } from 'src/app/shared/models/loop-object.model';
 
 @Component({
   selector: 'app-edit-card',
@@ -34,13 +38,13 @@ import { Comment } from '../../models/comment.model';
 export class EditCardComponent implements OnInit {
   @ViewChild('description') description!: ElementRef;
   @ViewChild('comment_update') comment_update!: ElementRef;
+  @ViewChild('tag') tag!: ElementRef;
   list!: List;
   members: Array<Assignee> = [];
   assignees: Array<Assignee> = [];
   not_assignees: Array<Assignee> = [];
   destroy$: Subject<boolean> = new Subject();
   themes: Array<string> = THEMES;
-  prioritys: Array<string> = PRIORITYS;
   edit_description: boolean = false;
   checked: boolean = false;
   start_date: Date | undefined;
@@ -49,6 +53,7 @@ export class EditCardComponent implements OnInit {
   user!: User;
   edit_comment: boolean = false;
   selected_comment: Comment | undefined;
+  tagForm!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<EditCardComponent>,
@@ -62,7 +67,9 @@ export class EditCardComponent implements OnInit {
     private messageService: MessageService,
     private socketDashboardService: SocketDashboardService,
     private confirmationService: ConfirmationService,
-    private userService: UserService
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService
   ) {}
 
   public ngOnInit(): void {
@@ -193,13 +200,95 @@ export class EditCardComponent implements OnInit {
     this.socketDashboardService.updateCard(this.data.card);
   }
 
-  public onSetPriority(priority?: string): void {
-    if (priority) {
-      this.data.card.priority = priority;
-    } else {
-      this.data.card.priority = '';
+  public onSaveTag(form: FormGroup): void {
+    if (form.invalid) {
+      form.reset();
+      return;
     }
-    this.socketDashboardService.updateCard(this.data.card);
+    const tag: AddTag = {
+      color: this.sharedService.onGenerateOppositeColor(form.value.color),
+      bg_color: form.value.color,
+      description: form.value.description,
+      board_id: this.data.dashboard.board_id,
+      card_id: this.data.card._id!,
+    };
+    this._onCreateNewTag(tag);
+    this.onSetTagForm();
+  }
+
+  public onRemoveTag(remove_tag: Tag): void {
+    const index: number = this.data.card.tags.findIndex(
+      (tag: Tag) => tag === remove_tag
+    );
+    if (index > -1) {
+      this.data.card.tags.splice(index, 1);
+      this.socketDashboardService.updateCard(this.data.card);
+      this.onSetTagForm();
+    }
+  }
+
+  public onAddTag(tag: Tag): void {
+    const add_tag: any = tag;
+    add_tag.card_id = this.data.card._id;
+    add_tag.board_id = this.data.card.board_id;
+    this._onCreateNewTag(add_tag);
+  }
+
+  private _onCreateNewTag(add_tag: AddTag): void {
+    const tags: LoopObject = {
+      card_tags: this.data.card.tags ? this.data.card.tags : [],
+      board_tags: this.data.dashboard.recent_tags
+        ? this.data.dashboard.recent_tags
+        : [],
+    };
+    for (const key in tags) {
+      const index: number = tags[key].findIndex(
+        (tag: Tag) => tag.description === add_tag.description
+      );
+      if (key === 'card_tags') {
+        if (index > -1) {
+          this._showSnackbar('info', 'Tag already is active on card');
+          return;
+        } else {
+          tags[key] ? tags[key].unshift(add_tag) : (tags[key].tags = [add_tag]);
+          if (tags[key].length > 3) {
+            tags[key].pop();
+            this._showSnackbar('info', 'Card already has 3 active tags');
+          }
+          this.data.card.tags = tags[key];
+        }
+      } else {
+        if (index > -1) {
+          tags[key].splice(index, 1);
+        }
+        tags[key] ? tags[key].unshift(add_tag) : (tags[key].tags = [add_tag]);
+        tags[key].length > 10 ? tags[key].pop() : undefined;
+        this.data.dashboard.recent_tags = tags[key];
+      }
+    }
+    this.socketDashboardService.addTag(add_tag);
+  }
+
+  public onFocusOnTagInput(): void {
+    setTimeout(() => {
+      this.tag?.nativeElement.select();
+    });
+  }
+
+  public onSetTagForm(): void {
+    const random_colors: RandomColors =
+      this.sharedService.onGenerateRandomColors();
+    this.tagForm = this.formBuilder.group({
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(10),
+        ],
+      ],
+      color: [random_colors.bg_color, [Validators.required]],
+    });
   }
 
   public onSaveDates(): void {
@@ -207,7 +296,9 @@ export class EditCardComponent implements OnInit {
       (this.start_date?.getTime() as number) <
       new Date().getTime() - 86400000
     ) {
-      this.start_date = new Date(this.data.card.start_date as Date);
+      this.data.card.start_date
+        ? (this.start_date = new Date(this.data.card.start_date as Date))
+        : (this.start_date = undefined);
       this._showSnackbar(
         'error',
         "Couldn't save start date that is in the past"

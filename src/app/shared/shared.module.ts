@@ -7,6 +7,7 @@ import { TermsComponent } from './modals/terms/terms.component';
 import { PrivacyComponent } from './modals/privacy/privacy.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { CharacterEditorComponent } from './modals/character-editor/character-editor.component';
+import { TagComponent } from './components/tag/tag.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { CharacterEditorComponent } from './modals/character-editor/character-ed
     PrivacyComponent,
     AvatarComponent,
     CharacterEditorComponent,
+    TagComponent,
   ],
   exports: [
     DeleteComponent,
@@ -22,6 +24,7 @@ import { CharacterEditorComponent } from './modals/character-editor/character-ed
     PrivacyComponent,
     AvatarComponent,
     CharacterEditorComponent,
+    TagComponent,
   ],
   imports: [CommonModule, StylingModule, FormsModule, ReactiveFormsModule],
 })

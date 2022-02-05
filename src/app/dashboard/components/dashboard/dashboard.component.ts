@@ -327,6 +327,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       created_by: this.user._id as string,
       created_at: Date.now(),
       color: 'white',
+      tags: [],
     });
   }
 

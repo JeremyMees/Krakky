@@ -8,8 +8,8 @@
         pTooltip="Edit workspace title"
         [showDelay]="500"
       ></i>
-      <div class="badge" [class]="data.card.priority">
-        {{ data.card.priority }}
+      <div class="badges">
+        <card-tag [tag]="tag" *ngFor="let tag of data.card.tags"></card-tag>
       </div>
     </h2>
     <p class="under-text">{{ list.title }}</p>
@@ -70,7 +70,7 @@
         <button
           pRipple
           pButton
-          label="Go back"
+          label="Cancel"
           class="p-button-raised p-button-text p-button-secondary see-trough-btn"
           (click)="edit_description = false"
         ></button>
@@ -197,7 +197,7 @@
         <button
           pRipple
           pButton
-          label="Go back"
+          label="Cancel"
           class="p-button-raised p-button-text p-button-secondary see-trough-btn"
           (click)="edit_comment = false"
         ></button>
@@ -260,9 +260,9 @@
       pRipple
       pButton
       icon="pi pi-tag"
-      label="Priority"
+      label="Tags"
       class="p-button-raised p-button-text p-button-secondary see-trough-btn"
-      (click)="priorityList.toggle($event)"
+      (click)="onSetTagForm(); tagsList.toggle($event)"
     ></button>
     <button
       pRipple
@@ -381,6 +381,8 @@
 
 <p-overlayPanel #themeList>
   <ng-template pTemplate>
+    <h2 class="op-title">Themes</h2>
+
     <div class="container-colors">
       <div
         class="color"
@@ -397,6 +399,7 @@
 <p-overlayPanel #calenderList>
   <ng-template pTemplate>
     <div class="date-inputs">
+      <h2 class="op-title-dates">Dates</h2>
       <span class="p-float-label">
         <p-calendar
           [disabledDates]="invalid_dates"
@@ -436,7 +439,7 @@
       <button
         pButton
         pRipple
-        label="Go back"
+        label="Cancel"
         class="p-button-raised p-button-secondary p-button-text"
         (click)="onResetDates(); calenderList.hide()"
       ></button>
@@ -444,31 +447,112 @@
   </ng-template>
 </p-overlayPanel>
 
-<p-overlayPanel #priorityList>
+<p-overlayPanel #tagsList>
   <ng-template pTemplate>
-    <div class="priority-buttons">
-      <button
-        pButton
-        pRipple
-        *ngFor="let priority of prioritys"
-        [label]="priority"
-        class="p-button-raised p-button-rounded priority-btn"
-        [class]="
-          priority === 'high'
-            ? 'p-button-danger'
-            : priority === 'low'
-            ? 'p-button-primary'
-            : 'p-button-success'
+    <div class="tag-list">
+      <h2 class="op-title-dates">
+        Active tags <span class="small-title">(max 3)</span>
+      </h2>
+      <p
+        class="under-text"
+        *ngIf="!data.card.tags || (data.card.tags && data.card.tags.length < 1)"
+      >
+        No tags selected
+      </p>
+      <div class="tags" *ngIf="data.card.tags && data.card.tags.length > 0">
+        <mat-card
+          class="tag"
+          *ngFor="let tag of data.card.tags | slice: 0:3"
+          [ngStyle]="{ 'background-color': tag.bg_color, color: tag.color }"
+        >
+          {{ tag.description }}
+          <i
+            class="pi pi-times delete-tag"
+            pTooltip="Remove tag"
+            [showDelay]="500"
+            (click)="onRemoveTag(tag)"
+          ></i>
+        </mat-card>
+      </div>
+      <h2 class="create-form-title">Recent tags</h2>
+      <div class="tags" *ngIf="data.dashboard.recent_tags">
+        <mat-card
+          class="tag"
+          *ngFor="let tag of data.dashboard.recent_tags | slice: 0:10"
+          [ngStyle]="{ 'background-color': tag.bg_color, color: tag.color }"
+        >
+          {{ tag.description }}
+          <i
+            class="pi pi-plus delete-tag"
+            pTooltip="Add tag"
+            [showDelay]="500"
+            (click)="onAddTag(tag)"
+          ></i>
+        </mat-card>
+      </div>
+      <p
+        class="under-text"
+        *ngIf="
+          !data.dashboard.recent_tags || data.dashboard.recent_tags.length === 0
         "
-        (click)="onSetPriority(priority)"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="No priority"
-        class="p-button-raised p-button-rounded p-button-text priority-btn p-button-secondary"
-        (click)="onSetPriority()"
-      ></button>
+      >
+        No recent tags available
+      </p>
+      <h2
+        class="create-form-title"
+        *ngIf="data.card.tags && data.card.tags.length > 2"
+      >
+        Create tag
+      </h2>
+      <p class="under-text" *ngIf="data.card.tags && data.card.tags.length > 2">
+        Max 3 tags
+      </p>
+      <p-accordion
+        *ngIf="!data.card.tags || (data.card.tags && data.card.tags.length < 3)"
+      >
+        <p-accordionTab header="Create tag" (click)="onFocusOnTagInput()">
+          <form
+            (submit)="onSaveTag(tagForm)"
+            [formGroup]="tagForm"
+            class="tag-form"
+          >
+            <input
+              #tag
+              type="text"
+              pInputText
+              formControlName="description"
+              placeholder="Tag text"
+              maxlength="10"
+              autofocus
+              autocomplete="off"
+            />
+            <div class="inline-title">
+              <h2 class="create-form-title">Color</h2>
+              <p-colorPicker formControlName="color"></p-colorPicker>
+            </div>
+            <div class="buttons">
+              <button
+                pButton
+                pRipple
+                icon="pi pi-save"
+                type="submit"
+                class="p-button-raised"
+                label="Save"
+                pTooltip="Create a tag"
+                [showDelay]="500"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label="Cancel"
+                type="button"
+                class="p-button-raised p-button-text p-button-secondary"
+                (click)="tagsList.hide()"
+              ></button>
+            </div>
+          </form>
+        </p-accordionTab>
+      </p-accordion>
     </div>
   </ng-template>
 </p-overlayPanel>

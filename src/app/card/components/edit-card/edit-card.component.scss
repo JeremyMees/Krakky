@@ -135,17 +135,8 @@ h2 {
   justify-content: center;
 }
 
-.badge {
+.badges {
   float: right;
-  font-size: 10px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 25px;
-  max-width: 50px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  text-align: center;
 }
 
 .buttons {
@@ -153,6 +144,10 @@ h2 {
   flex-flow: row wrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
+}
+
+.buttons > * {
+  flex-grow: 1;
 }
 
 .date-inputs {
@@ -281,4 +276,69 @@ h2 {
 
 .description-title {
   margin-bottom: 0.5rem;
+}
+
+.op-title {
+  margin: 0;
+  padding: 0 0 0.5rem 0;
+}
+
+.op-title-dates {
+  margin: 0;
+  padding: 0;
+}
+
+.tag-form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.inline-title {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.tags {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  text-align: center;
+}
+
+.badges {
+  float: right;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-end;
+}
+
+.delete-tag {
+  margin-left: 0.25rem;
+  position: relative;
+  top: 2px;
+}
+
+.delete-tag:hover {
+  cursor: pointer;
+}
+
+.tag-list {
+  max-width: 300px;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 0.5rem;
+}
+
+.small-title {
+  font-size: 10px;
+  color: rgb(100, 100, 100);
 }

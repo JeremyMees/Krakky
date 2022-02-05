@@ -286,38 +286,13 @@ body {
   background-color: rgba(126, 71, 0, 0.1);
 }
 
-.cdk-badge {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  font-size: 10px;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 25px;
-  max-width: 50px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  text-align: center;
-}
-
-.high {
-  background-color: #c02929;
-  border: 2px solid #fff;
-  color: #fff;
-}
-
-.normal {
-  background-color: #6fc921;
-  border: 2px solid #fff;
-
-  color: #fff;
-}
-
-.low {
-  background-color: #0d89ec;
-  border: 2px solid #fff;
-  color: #fff;
+.cdk-tags {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  position: relative;
+  bottom: 0.5rem;
 }
 
 .custom-modalbox > mat-dialog-container {
