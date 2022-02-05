@@ -143,6 +143,10 @@ form {
   gap: 0.5rem;
 }
 
+.buttons > * {
+  flex-grow: 1;
+}
+
 @media (max-width: 600px) {
   .dashboard-title-flex {
     flex-flow: column;

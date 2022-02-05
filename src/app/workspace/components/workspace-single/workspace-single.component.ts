@@ -80,6 +80,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       team: this._onGetMembers(form.value.private ? form.value.private : false),
       color: this.sharedService.onGenerateOppositeColor(form.value.color),
       bg_color: form.value.color,
+      recent_tags: [],
     };
     this.dashboardService.addDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {

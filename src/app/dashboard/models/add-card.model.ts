@@ -1,3 +1,5 @@
+import { Tag } from 'src/app/shared/models/tag.model';
+
 export interface AddCard {
   board_id: string;
   title: string;
@@ -6,6 +8,6 @@ export interface AddCard {
   created_by: string;
   created_at: number;
   color?: string;
-  priority?: string;
+  tags: Array<Tag>;
   assignees?: Array<string>;
 }

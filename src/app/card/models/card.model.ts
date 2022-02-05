@@ -1,3 +1,4 @@
+import { Tag } from 'src/app/shared/models/tag.model';
 import { Comment } from './comment.model';
 export interface Card {
   board_id: string;
@@ -12,7 +13,7 @@ export interface Card {
   completion_date?: Date;
   index: number;
   color: string;
-  priority?: string;
+  tags: Array<Tag>;
   assignees?: Array<{ _id: string }>;
   comments?: Array<Comment>;
   _id?: string;

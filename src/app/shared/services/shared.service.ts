@@ -9,6 +9,7 @@ export class SharedService {
 
   public onGenerateRandomColors(): RandomColors {
     const random: string = '#' + ((Math.random() * 0xffffff) << 0).toString(16);
+    if (random.length < 7) random + 0;
     return {
       color: this.onGenerateOppositeColor(random),
       bg_color: random,
@@ -21,6 +22,9 @@ export class SharedService {
     }
     if (hex.length === 3) {
       hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length < 6) {
+      hex = hex + '0';
     }
     const r: number = parseInt(hex.slice(0, 2), 16);
     const g: number = parseInt(hex.slice(2, 4), 16);

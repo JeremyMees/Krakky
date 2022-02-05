@@ -120,8 +120,8 @@
           [class]="card.color"
           (click)="onUpdateCard(card)"
         >
-          <div class="cdk-badge" [class]="card.priority">
-            {{ card.priority }}
+          <div class="cdk-tags">
+            <card-tag [tag]="tag" *ngFor="let tag of card.tags"></card-tag>
           </div>
           <p class="cdk-title-card">
             {{ card.title }}
@@ -216,7 +216,7 @@
         <button
           pButton
           pRipple
-          label="Go back"
+          label="Cancel"
           type="button"
           class="p-button-raised p-button-text p-button-secondary"
           (click)="opTitle.hide()"

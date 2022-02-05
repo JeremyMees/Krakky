@@ -7,6 +7,7 @@ import { AddList } from '../models/add-list.model';
 import { Socket } from 'ngx-socket-io';
 import { AddCard } from '../models/add-card.model';
 import { UpdateDashboard } from '../models/update-dashboard.model';
+import { AddTag } from 'src/app/shared/models/add-tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,5 +72,9 @@ export class SocketDashboardService {
 
   public updateDashboard(dashboard: UpdateDashboard): void {
     this.socket.emit('update-dashboard', dashboard);
+  }
+
+  public addTag(tag: AddTag): void {
+    this.socket.emit('add-tag', tag);
   }
 }
