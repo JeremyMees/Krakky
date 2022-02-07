@@ -39,7 +39,8 @@ export class SocketDashboardService {
 
   public disconnect(): void {
     if (this.socket) {
-      this.socket.disconnect(true);
+      this.socket.disconnect('dashboard');
+      this.socket.removeAllListeners();
     }
   }
 

@@ -26,7 +26,12 @@ import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
-  options: {},
+  options: {
+    reconnection: true,
+    reconnectionDelay: 500,
+    reconnectionAttempts: 10,
+    autoConnect: false,
+  },
 };
 @NgModule({
   declarations: [AppComponent],
