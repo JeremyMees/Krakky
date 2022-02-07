@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
         } else {
           if (result.data) {
             this.user!.username = result.data.username;
-            this._showSnackbar('success', 'Logged in succesfully');
+            this._showSnackbar('success', 'Logged in successfully');
           }
         }
       }
@@ -61,10 +61,19 @@ export class NavbarComponent implements OnInit {
         if (result.redirect) {
           this.openLoginDialog();
         } else {
+          const username: string = result.data.username;
+          delete result.data.username;
           this.authService.login(result.data).subscribe({
             next: (res: HttpResponse) => {
-              this.user!.username = res.data.username;
-              this._showSnackbar('success', result.message);
+              if (res.statusCode === 200) {
+                this._showSnackbar('success', result.message);
+                this.user!.username = username;
+              } else {
+                this._showSnackbar('error', res.message);
+              }
+            },
+            error: () => {
+              this._showSnackbar('error', "Error couldn't log in");
             },
           });
         }
@@ -75,7 +84,7 @@ export class NavbarComponent implements OnInit {
   public onLogout(): void {
     this.user = null;
     this.authService.logout();
-    this._showSnackbar('success', 'Logged out succesfully');
+    this._showSnackbar('success', 'Logged out successfully');
   }
 
   private _navigate(component: string): void {

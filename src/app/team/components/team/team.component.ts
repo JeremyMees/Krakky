@@ -292,7 +292,7 @@ export class TeamComponent implements OnInit, OnDestroy {
             next: () => {
               this._showSnackbar(
                 'success',
-                `Deleted ${this.workspace?.workspace} succesfully`
+                `Deleted ${this.workspace?.workspace} successfully`
               );
               this.router.navigateByUrl('workspace');
             },

@@ -180,7 +180,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         next: (res: HttpResponse) => {
           if (res.statusCode === 200) {
             this._onUpdateUserLocalStorage(res.data);
-            this._showSnackbar('info', 'User settings updated succesfully');
+            this._showSnackbar('info', 'User settings updated successfully');
           } else {
             this._showSnackbar('error', "Couldn't update user settings");
           }

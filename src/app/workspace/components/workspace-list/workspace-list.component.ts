@@ -80,7 +80,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
               this.workspaces.splice(removeIndex, 1);
               this._showSnackbar(
                 'success',
-                `Deleted ${this.selected_workspace?.workspace} succesfully`
+                `Deleted ${this.selected_workspace?.workspace} successfully`
               );
             },
             error: () => {

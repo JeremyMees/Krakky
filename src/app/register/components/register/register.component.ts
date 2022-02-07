@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { CharacterService } from 'src/app/account/services/character.service';
+import { PARTICLES } from 'src/app/shared/data/particles-options.data';
 import { containsNumberValidator } from 'src/app/shared/directives/contains-number/contains-number.directive';
 import { CharacterEditorComponent } from 'src/app/shared/modals/character-editor/character-editor.component';
 import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
@@ -24,6 +25,8 @@ export class RegisterComponent implements OnInit {
   terms_accept: boolean = false;
   privacy_accept: boolean = false;
   img_query!: string;
+  particles_options = PARTICLES;
+  particles: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -52,12 +55,19 @@ export class RegisterComponent implements OnInit {
     this.userService.register(newUser).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 201) {
-          this._showSnackbar('succes', res.message);
-          this.dialogRef.close({
-            redirect: false,
-            message: 'Welcome to the club',
-            data: { email: newUser.email, password: newUser.password },
-          });
+          this.particles = true;
+          setTimeout(() => {
+            this.particles = false;
+            this.dialogRef.close({
+              redirect: false,
+              message: 'Welcome to the club',
+              data: {
+                email: newUser.email,
+                password: newUser.password,
+                username: newUser.username,
+              },
+            });
+          }, 3000);
         } else {
           this._showSnackbar('error', 'Email address already in use');
         }

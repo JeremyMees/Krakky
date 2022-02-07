@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(form.value).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 200) {
-          this._showSnackbar('succes', res.message);
+          this._showSnackbar('success', res.message);
           this.dialogRef.close({
             redirect: false,
             message: res.message,
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
           });
         } else {
           form.reset();
-          this._showSnackbar('error', res.message);
+          this._showSnackbar('error', 'Password or email address incorrect');
         }
       },
       error: (res: HttpResponse) => {
