@@ -67,7 +67,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params.id) {
-        console.log('paramsssssssssssssss', params.id);
         this._subscribeDashboard(params.id as string);
         this.userService
           .getCurrentUser()
