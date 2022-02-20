@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from '../models/add_user.model';
@@ -12,7 +14,7 @@ import { User } from '../models/user.model';
 })
 export class UserService {
   current_user$ = new BehaviorSubject<User | null>(null);
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   public onGetUser(): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(`http://localhost:3000/auth/profile`);

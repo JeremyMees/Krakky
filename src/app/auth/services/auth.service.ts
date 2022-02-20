@@ -66,37 +66,4 @@ export class AuthService {
     this.userService.onSetCurrentUser(null);
     this.router.navigateByUrl('home');
   }
-
-  // private _setAuthTimer(duration: number): void {
-  //   this.token_timer = setTimeout(() => {
-  //     this.logout();
-  //   }, duration);
-  // }
-
-  // public saveAuthData(user: User): void {
-  //   this.userService.onSetCurrentUser(user);
-  //   localStorage.setItem(
-  //     'krakky-token',
-  //     JSON.stringify({
-  //       access_token: user.access_token,
-  //       expires_in: user.token_expire_time,
-  //     })
-  //   );
-  // }
-
-  // private _clearAuthData(): void {
-  //   localStorage.removeItem('krakky-token');
-  // }
-
-  // public getAuthData(): AuthData {
-  //   const token = JSON.parse(localStorage.getItem('krakky-token') as string);
-  //   if (0 > token.token_expire_time - Date.now()) {
-  //     token.valid_token = false;
-  //     this.is_authenticated = false;
-  //   } else {
-  //     token.valid_token = true;
-  //     this.is_authenticated = true;
-  //   }
-  //   return token;
-  // }
 }

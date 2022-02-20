@@ -44,8 +44,7 @@ export class VerifyUserComponent implements OnInit, OnDestroy {
   private _onGetParamId(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params.id) {
-        // kijk of de persoon is ingelogd en dan kan de current user worden opgehaald
-        // this._onGetCurrentUser(params.id);
+        this._onGetCurrentUser();
       } else {
         this.router.navigateByUrl('home');
       }
@@ -100,6 +99,9 @@ export class VerifyUserComponent implements OnInit, OnDestroy {
         next: (res: HttpResponse) => {
           if (res.statusCode === 200) {
             this._showSnackbar('info', 'User successfully verified');
+            const user = this.userService.onGetCurrentUser().value;
+            user!.verified = true;
+            this.userService.onSetCurrentUser(user);
           } else {
             this._showSnackbar('error', "User doesn't exist");
             this.router.navigateByUrl('home');
