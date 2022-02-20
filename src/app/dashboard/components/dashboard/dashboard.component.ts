@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (params.id) {
         this._subscribeDashboard(params.id as string);
         this.userService
-          .getCurrentUser()
+          .onGetCurrentUser()
           .pipe(takeUntil(this.destroy$))
           .subscribe((user) => {
             this.user = user as User;

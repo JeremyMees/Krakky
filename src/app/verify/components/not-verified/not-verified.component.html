@@ -1,0 +1,35 @@
+<div class="img-container">
+  <img src="../../../assets/images/rock.svg" alt="not a member image" />
+</div>
+
+<div class="text">
+  <h1>You're almost ready to start rocking your planning!</h1>
+  But first you need to verify your email address by clicking the verify link in
+  the mail we send you.
+  <br />
+  If you don't see our mail in your mailbox be sure too also look in the spam
+  folder.
+  <br />
+  <br />
+  <br />
+  <div class="buttons">
+    <button
+      pButton
+      pRipple
+      icon="pi pi-home"
+      class="p-button-raised"
+      label="Back to home page"
+      (click)="router.navigateByUrl('home')"
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-send"
+      class="p-button-text"
+      label="Send new verify email"
+      (click)="onNewVerifyEmail()"
+    ></button>
+  </div>
+</div>
+
+<p-toast></p-toast>

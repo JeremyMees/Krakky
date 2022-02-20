@@ -53,7 +53,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   private _onGetCurrentUser(): void {
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user as User;
@@ -192,7 +192,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   private _onUpdateUserLocalStorage(user: User): void {
-    this.userService.setCurrentUser(user);
+    this.userService.onSetCurrentUser(user);
     const local_user: string = localStorage.getItem('user') as string;
     const updated_user: User = JSON.parse(local_user);
     updated_user.marketing = user.marketing;

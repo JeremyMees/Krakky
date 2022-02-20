@@ -54,14 +54,13 @@ export class LoginComponent implements OnInit {
           this.dialogRef.close({
             redirect: false,
             message: res.message,
-            data: res.data,
           });
         } else {
           form.reset();
           this._showSnackbar('error', 'Password or email address incorrect');
         }
       },
-      error: (res: HttpResponse) => {
+      error: () => {
         form.reset();
         this._showSnackbar('error', "Error couldn't log in");
       },

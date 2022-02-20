@@ -14,11 +14,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    const expiration_date_token: number = Number(
-      localStorage.getItem('token_expiration')
-    );
-    if (expiration_date_token > Date.now() && localStorage.getItem('user')) {
-      this.authService.autoLogin();
-    }
+    this.authService.autoLogin();
   }
 }

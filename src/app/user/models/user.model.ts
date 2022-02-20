@@ -8,6 +8,6 @@ export interface User {
   img_query?: string;
   verified?: boolean;
   marketing?: boolean;
-  acces_token?: string;
+  access_token?: string;
   token_expire_time?: number;
 }

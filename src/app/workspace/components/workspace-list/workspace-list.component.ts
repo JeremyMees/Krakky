@@ -46,7 +46,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.current_user = user;

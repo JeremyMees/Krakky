@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="img-container">
+    <img src="../../../assets/images/verify.svg" alt="verify image" />
+  </div>
+
+  <div class="text">
+    <div *ngIf="logged_in">
+      <h2 class="title-margin">Welcome to the club!</h2>
+      <p class="under-text">Your account was successfully verified.</p>
+      <button
+        pButton
+        pRipple
+        icon="pi pi-home"
+        label="Home"
+        class="p-button-raised"
+        (click)="router.navigateByUrl('home')"
+      ></button>
+    </div>
+    <div *ngIf="!logged_in">
+      <h2 class="title-margin">You're almost there!</h2>
+      <p class="under-text">
+        Log in to verify your account and start using krakky directly
+      </p>
+      <form (submit)="onLogin(loginForm)" [formGroup]="loginForm">
+        <input
+          pInputText
+          placeholder="Email address"
+          formControlName="email"
+          email
+          type="email"
+          name="email"
+        />
+        <span class="p-inputgroup">
+          <input
+            type="text"
+            pInputText
+            placeholder="Password"
+            formControlName="password"
+            [type]="inputType"
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            pButton
+            pRipple
+            [icon]="inputIcon"
+            (click)="onChangeInputType()"
+          ></button>
+        </span>
+        <div class="buttons">
+          <button
+            label="Log in"
+            pRipple
+            pButton
+            type="submit"
+            class="login-btn p-button-raised"
+          ></button>
+          <button
+            icon="pi pi-google"
+            pRipple
+            pButton
+            type="button"
+            class="p-button-raised p-button-info p-button-text"
+            pTooltip="Log in with Google"
+            [showDelay]="500"
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

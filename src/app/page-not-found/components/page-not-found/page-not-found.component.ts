@@ -47,7 +47,7 @@ export class PageNotFoundComponent implements OnInit, OnDestroy {
 
   private _onGetCurrentUser(): void {
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.current_user = user;

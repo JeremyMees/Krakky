@@ -62,7 +62,7 @@ export class TeamComponent implements OnInit, OnDestroy {
             this.workspace = res.data[0];
             this.getMembers(this.workspace);
             this.userService
-              .getCurrentUser()
+              .onGetCurrentUser()
               .pipe(takeUntil(this.destroy$))
               .subscribe((user) => {
                 this.current_user = user;

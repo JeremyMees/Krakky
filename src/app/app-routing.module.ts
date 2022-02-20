@@ -8,11 +8,15 @@ import { ParentComponent } from './docs/components/parent/parent.component';
 import { LoginGuard } from './guards/login/login.guard';
 import { MemberDashboardGuard } from './guards/member-dashboard/member-dashboard.guard';
 import { MemberWorkspaceGuard } from './guards/member-workspace/member-workspace.guard';
+import { VerifiedGuard } from './guards/verified/verified.guard';
 import { LandingComponent } from './landing/components/landing/landing.component';
 import { NotMemberComponent } from './not-member/component/not-member.component';
+import { NotVerifiedComponent } from './verify/components/not-verified/not-verified.component';
 import { PageNotFoundComponent } from './page-not-found/components/page-not-found/page-not-found.component';
 import { TeamComponent } from './team/components/team/team.component';
 import { WorkspaceComponent } from './workspace/components/workspace-parent/workspace.component';
+import { NotVerifiedGuard } from './guards/not-verified/not-verified.guard';
+import { VerifyUserComponent } from './verify/components/verify-user/verify-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,36 +26,46 @@ const routes: Routes = [
     path: 'docs',
     component: ParentComponent,
   },
+  {
+    path: 'notverified',
+    component: NotVerifiedComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: 'users/verify/:id',
+    component: VerifyUserComponent,
+    canActivate: [NotVerifiedGuard],
+  },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
     path: 'workspace',
     component: WorkspaceComponent,
-    canActivate: [LoginGuard],
+    canActivate: [LoginGuard, VerifiedGuard],
   },
   {
     path: 'workspace/:id',
     component: WorkspaceComponent,
-    canActivate: [LoginGuard, MemberWorkspaceGuard],
+    canActivate: [LoginGuard, VerifiedGuard, MemberWorkspaceGuard],
   },
   {
     path: 'dashboard/statistics/:id',
     component: StatisticsComponent,
-    canActivate: [LoginGuard, MemberDashboardGuard],
+    canActivate: [LoginGuard, VerifiedGuard, MemberDashboardGuard],
   },
   {
     path: 'dashboard/:id',
     component: DashboardComponent,
-    canActivate: [LoginGuard, MemberDashboardGuard],
+    canActivate: [LoginGuard, VerifiedGuard, MemberDashboardGuard],
   },
   {
     path: 'team/:id',
     component: TeamComponent,
-    canActivate: [LoginGuard, MemberWorkspaceGuard],
+    canActivate: [LoginGuard, VerifiedGuard, MemberWorkspaceGuard],
   },
   {
     path: 'notmember',
     component: NotMemberComponent,
-    canActivate: [LoginGuard],
+    canActivate: [LoginGuard, VerifiedGuard],
   },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
   {

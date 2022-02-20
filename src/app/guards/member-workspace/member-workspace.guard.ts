@@ -17,7 +17,7 @@ export class MemberWorkspaceGuard implements CanActivate {
     private workspaceService: WorkspaceService
   ) {}
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    const user = this.userService.getCurrentUser().value as User;
+    const user = this.userService.onGetCurrentUser().value as User;
     return this.workspaceService
       .checkIfMember({
         user_id: user._id as string,

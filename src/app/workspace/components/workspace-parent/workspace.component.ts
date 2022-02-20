@@ -32,7 +32,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.current_user_sub$ = this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .subscribe((user) => {
         this.current_user = user;
       });
@@ -59,12 +59,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         } else {
           this._showSnackbar('error', res.message);
         }
+        this.is_loading = false;
       },
-      error: (res: HttpResponse) => {
+      error: () => {
+        this.is_loading = false;
         this._showSnackbar('error', "Error couldn't fetch workspace");
       },
     });
-    this.is_loading = false;
   }
 
   public getAggregatedWorkspaces(user_id: string): void {
@@ -75,12 +76,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         } else {
           this._showSnackbar('error', res.message);
         }
+        this.is_loading = false;
       },
-      error: (res: HttpResponse) => {
+      error: () => {
+        this.is_loading = false;
         this._showSnackbar('error', "Error couldn't fetch workspace");
       },
     });
-    this.is_loading = false;
   }
 
   private _showSnackbar(severity: string, detail: string): void {

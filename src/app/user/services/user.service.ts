@@ -14,11 +14,15 @@ export class UserService {
   current_user$ = new BehaviorSubject<User | null>(null);
   constructor(private http: HttpClient) {}
 
-  public getCurrentUser(): BehaviorSubject<User | null> {
+  public onGetUser(): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(`http://localhost:3000/auth/profile`);
+  }
+
+  public onGetCurrentUser(): BehaviorSubject<User | null> {
     return this.current_user$;
   }
 
-  public setCurrentUser(user: User | null): void {
+  public onSetCurrentUser(user: User | null): void {
     this.current_user$.next(user);
   }
 
@@ -37,7 +41,13 @@ export class UserService {
     );
   }
 
-  public register(user: UserAdd): Observable<HttpResponse> {
+  public onRegister(user: UserAdd): Observable<HttpResponse> {
     return this.http.post<HttpResponse>('http://localhost:3000/user', user);
+  }
+
+  public onVerify(id: string): Observable<HttpResponse> {
+    return this.http.get<HttpResponse>(
+      `http://localhost:3000/user/verify/${id}`
+    );
   }
 }

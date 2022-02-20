@@ -9,7 +9,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AuthData } from 'src/app/auth/services/models/auth-data.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
@@ -124,8 +123,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
           if (data.statusCode === 200) {
             this.data.img = this.img;
             this.data.img_query = this.img_query;
-            this.userService.setCurrentUser(this.data);
-            this._onSetLocalStorage();
+            this.userService.onSetCurrentUser(this.data);
             this.dialogRef.close();
           } else {
             this._showSnackbar('error', `Couldn't update avatar`);
@@ -135,15 +133,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
           this._showSnackbar('error', `Couldn't update avatar`);
         },
       });
-  }
-
-  private _onSetLocalStorage(): void {
-    let localstorage_item: AuthData = JSON.parse(
-      localStorage.getItem('user') as string
-    );
-    localstorage_item.img = this.img;
-    localstorage_item.img_query = this.img_query;
-    localStorage.setItem('user', JSON.stringify(localstorage_item));
   }
 
   public goBack(): void {

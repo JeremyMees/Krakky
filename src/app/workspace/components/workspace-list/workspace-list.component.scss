@@ -131,6 +131,18 @@ i:hover {
   font-size: 0.75rem;
 }
 
+.first {
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 2rem auto;
+}
+
+.btn-bottom-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 550px) {
   .workspace-flex {
     flex-flow: column;

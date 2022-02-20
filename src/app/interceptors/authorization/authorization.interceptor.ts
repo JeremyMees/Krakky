@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
-  HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { filter, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthorizationInterceptor implements HttpInterceptor {
@@ -14,15 +15,19 @@ export class AuthorizationInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<unknown>,
-    next: HttpHandler
+    next: any
   ): Observable<HttpEvent<unknown>> {
-    const is_logged_in = this.authService.getIsAuth();
-    if (is_logged_in) {
-      const token = this.authService.getToken();
-      request = request.clone({
-        setHeaders: { Authorization: `Bearer ${token}` },
-      });
-    }
-    return next.handle(request);
+    request = request.clone({
+      withCredentials: true,
+    });
+    return next.handle(request).pipe(
+      filter((event) => event instanceof HttpResponse),
+      tap((event: any) => {
+        if (event.message && event.message === 'Unauthorized') {
+          console.log('token expired');
+          this.authService.logout();
+        }
+      })
+    );
   }
 }

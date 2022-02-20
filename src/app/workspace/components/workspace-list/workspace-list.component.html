@@ -6,7 +6,27 @@
   class="p-button-raised add-btn"
   label="Create a new workspace"
   (click)="onSetFormNewWorkspace(); new_workspace.toggle($event)"
+  *ngIf="workspaces.length > 0"
 ></button>
+<mat-card class="first" *ngIf="workspaces.length < 1">
+  <h2>Create your first workspace</h2>
+  <p>
+    A workspace is required to create a board and start planning. Workspaces are
+    ideal for teams or just by yourself it doesn't matter. Workspaces can have
+    multiple planning boards so that you can plan everything you ever wanted.
+  </p>
+  <div class="btn-bottom-right">
+    <button
+      type="button"
+      pButton
+      pRipple
+      icon="pi pi-users"
+      class="p-button-raised"
+      label="Create a new workspace"
+      (click)="onSetFormNewWorkspace(); new_workspace.toggle($event)"
+    ></button>
+  </div>
+</mat-card>
 <div class="workspace" *ngFor="let workspace of workspaces">
   <div class="workspace-flex">
     <div class="team">
@@ -157,6 +177,7 @@
         placeholder="krakky"
         maxlength="20"
         autocomplete="off"
+        autofocus
       />
       <p
         class="error"

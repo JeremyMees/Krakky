@@ -143,7 +143,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   private _onGetCurrentUser(): void {
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user as User;

@@ -75,7 +75,7 @@ export class EditCardComponent implements OnInit {
   public ngOnInit(): void {
     this._getMemberInfo();
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user as User;

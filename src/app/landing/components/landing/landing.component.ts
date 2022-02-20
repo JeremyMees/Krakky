@@ -24,7 +24,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.userService
-      .getCurrentUser()
+      .onGetCurrentUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user as User;

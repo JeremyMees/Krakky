@@ -19,7 +19,7 @@ export class MemberDashboardGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
-    const current_user = this.userService.getCurrentUser().value as User;
+    const current_user = this.userService.onGetCurrentUser().value as User;
     return this.dashboardService.getDashboard(route.params.id).pipe(
       map((res: HttpResponse) => {
         if (res.data) {

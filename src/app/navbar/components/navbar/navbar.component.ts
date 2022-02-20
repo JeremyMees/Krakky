@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { User } from 'src/app/user/models/user.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -27,7 +28,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    const current_user = this.userService.getCurrentUser();
+    const current_user = this.userService.onGetCurrentUser();
     current_user.subscribe((user) => {
       user ? (this.user = user) : null;
     });
@@ -42,10 +43,7 @@ export class NavbarComponent implements OnInit {
         if (result.redirect) {
           this.openRegisterDialog();
         } else {
-          if (result.data) {
-            this.user!.username = result.data.username;
-            this._showSnackbar('success', 'Logged in successfully');
-          }
+          this._onGetCurrentUser();
         }
       }
     });
@@ -85,6 +83,22 @@ export class NavbarComponent implements OnInit {
     this.user = null;
     this.authService.logout();
     this._showSnackbar('success', 'Logged out successfully');
+  }
+
+  private _onGetCurrentUser(): void {
+    this.userService
+      .onGetUser()
+      .pipe(take(1))
+      .subscribe({
+        next: (res: HttpResponse) => {
+          this.user = res.data;
+          this.userService.onSetCurrentUser(res.data);
+        },
+        error: () => {
+          this.authService.logout();
+          this._showSnackbar('error', "Coudn't find user");
+        },
+      });
   }
 
   private _navigate(component: string): void {

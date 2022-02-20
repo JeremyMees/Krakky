@@ -86,7 +86,7 @@ export class EditAccountComponent implements OnInit, OnDestroy {
   private _onUpdateUserLocalStorage(user: User): void {
     this.data.user.email = user.email;
     this.data.user.username = user.username;
-    this.userService.setCurrentUser(this.data.user);
+    this.userService.onSetCurrentUser(this.data.user);
     const local_user: string = localStorage.getItem('user') as string;
     const updated_user: User = JSON.parse(local_user);
     updated_user.email = user.email;

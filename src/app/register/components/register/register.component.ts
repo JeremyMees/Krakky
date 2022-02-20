@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
     newUser.verified = false;
     newUser.img = 'krakky';
     newUser.img_query = this.img_query;
-    this.userService.register(newUser).subscribe({
+    this.userService.onRegister(newUser).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 201) {
           this.particles = true;

@@ -23,6 +23,7 @@ import { CardModule } from './card/card.module';
 import { ContactModule } from './contact/contact.module';
 import { FooterModule } from './footer/footer.module';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
+import { VerifyModule } from './verify/verify.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
@@ -56,6 +57,7 @@ const config: SocketIoConfig = {
     ContactModule,
     FooterModule,
     PageNotFoundModule,
+    VerifyModule,
   ],
   bootstrap: [AppComponent],
   providers: [
