@@ -52,4 +52,8 @@ export class UserService {
       `http://localhost:3000/user/verify/${id}`
     );
   }
+
+  public onDeleteUser(id: string): Observable<HttpResponse> {
+    return this.http.delete<HttpResponse>(`http://localhost:3000/user/${id}`);
+  }
 }

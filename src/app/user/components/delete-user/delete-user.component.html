@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="img-container">
+    <img src="../../../assets/images/delete.svg" alt="delete image" />
+  </div>
+
+  <div class="text">
+    <h2 class="title-margin">Delete account</h2>
+    <p class="under-text">
+      Did you not make this account and you want it deleted just press the
+      button and we will do the rest.
+    </p>
+    <div class="buttons">
+      <button
+        icon="pi pi-trash"
+        label="Delete"
+        pRipple
+        pButton
+        class="p-button-raised p-button-danger"
+        (click)="onDeleteUser()"
+      ></button>
+      <button
+        label="Cancel"
+        pRipple
+        pButton
+        class="p-button-text p-button-secondary"
+        (click)="onGoBack()"
+      ></button>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

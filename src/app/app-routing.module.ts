@@ -17,6 +17,7 @@ import { TeamComponent } from './team/components/team/team.component';
 import { WorkspaceComponent } from './workspace/components/workspace-parent/workspace.component';
 import { NotVerifiedGuard } from './guards/not-verified/not-verified.guard';
 import { VerifyUserComponent } from './verify/components/verify-user/verify-user.component';
+import { DeleteUserComponent } from './user/components/delete-user/delete-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -35,6 +36,10 @@ const routes: Routes = [
     path: 'users/verify/:id',
     component: VerifyUserComponent,
     canActivate: [NotVerifiedGuard],
+  },
+  {
+    path: 'users/delete/:id',
+    component: DeleteUserComponent,
   },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
