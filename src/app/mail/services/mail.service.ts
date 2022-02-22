@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { environment } from 'src/environments/environment.prod';
 import { WelcomeMail } from './models/welcome-mail.model';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class MailService {
 
   public onSendVerifyEmail(mail: WelcomeMail): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
-      'http://localhost:3000/mail/welcome',
+      `${environment.base_url}/mail/welcome`,
       mail
     );
   }

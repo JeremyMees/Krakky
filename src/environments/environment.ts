@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   SOCKET_ENDPOINT: 'ws://localhost:80/dashboard',
+  base_url: 'http://localhost:3000',
 };
 
 /*

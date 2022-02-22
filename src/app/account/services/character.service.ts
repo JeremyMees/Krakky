@@ -6,6 +6,7 @@ import { UpdateUserImg } from '../models/update-img.model';
 import { CUSTOM_CHARACTER } from '../data/custom-character';
 import { CustomCharacter } from '../models/character-customization.model';
 import { Character } from '../models/character.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -115,7 +116,7 @@ export class CharacterService {
 
   public updateUserImage(user: UpdateUserImg): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
-      'http://localhost:3000/user/img',
+      `${environment.base_url}/user/img`,
       user
     );
   }

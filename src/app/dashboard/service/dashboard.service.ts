@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
+import { environment } from 'src/environments/environment.prod';
 import { AddDashboard } from '../models/add-dashboard.model';
 import { Dashboard } from '../models/dashboard.model';
 import { IfMemberDashboard } from '../models/if-member-dashboard.model';
@@ -13,45 +14,45 @@ export class DashboardService {
 
   public addDashboard(dashboard: AddDashboard): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
-      `http://localhost:3000/dashboard`,
+      `${environment.base_url}/dashboard`,
       dashboard
     );
   }
 
   public deleteDashboard(id: string): Observable<HttpResponse> {
     return this.http.delete<HttpResponse>(
-      `http://localhost:3000/dashboard/${id}`
+      `${environment.base_url}/dashboard/${id}`
     );
   }
 
   public updateDashboard(dashboard: Dashboard): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
-      `http://localhost:3000/dashboard`,
+      `${environment.base_url}/dashboard`,
       dashboard
     );
   }
 
   public getDashboard(board_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
-      `http://localhost:3000/dashboard?board_id=${board_id}`
+      `${environment.base_url}/dashboard?board_id=${board_id}`
     );
   }
 
   public getDashboardsFromMember(user_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
-      `http://localhost:3000/dashboard?member=${user_id}`
+      `${environment.base_url}/dashboard?member=${user_id}`
     );
   }
 
   public getAggregatedDashboard(board_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
-      `http://localhost:3000/dashboard?board_id=${board_id}`
+      `${environment.base_url}/dashboard?board_id=${board_id}`
     );
   }
 
   public checkIfMember(payload: IfMemberDashboard): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
-      `http://localhost:3000/dashboard/is_member`,
+      `${environment.base_url}/dashboard/is_member`,
       payload
     );
   }

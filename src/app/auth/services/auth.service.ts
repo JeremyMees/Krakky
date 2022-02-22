@@ -6,6 +6,7 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { LoginCredentials } from '../../login/models/login-credentials.model';
 import { map, take } from 'rxjs/operators';
 import { UserService } from 'src/app/user/services/user.service';
+import { environment } from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +29,7 @@ export class AuthService {
 
   public login(credentials: LoginCredentials): Observable<HttpResponse> {
     return this.http
-      .post<HttpResponse>('http://localhost:3000/auth/login', credentials)
+      .post<HttpResponse>(`${environment.base_url}/auth/login`, credentials)
       .pipe(
         map((res: HttpResponse) => {
           if (res.statusCode === 200) {
