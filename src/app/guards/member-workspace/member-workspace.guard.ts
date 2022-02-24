@@ -25,7 +25,7 @@ export class MemberWorkspaceGuard implements CanActivate {
         }
       });
     return this.workspaceService
-      .checkIfMember({
+      .onCheckIfMember({
         user_id: current_user._id as string,
         workspace_id: route.params.id,
       })

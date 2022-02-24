@@ -52,7 +52,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   public getWorkspace(id: string): void {
-    this.workspaceService.getAggregatedWorkspace(id).subscribe({
+    this.workspaceService.onGetAggregatedWorkspace(id).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 200) {
           this.selected_workspace = res.data[0];
@@ -69,7 +69,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
   }
 
   public getAggregatedWorkspaces(user_id: string): void {
-    this.workspaceService.getAggregatedWorkspaces(user_id).subscribe({
+    this.workspaceService.onGetAggregatedWorkspaces(user_id).subscribe({
       next: (res: HttpResponse) => {
         if (res.statusCode === 200) {
           this.workspaces = res.data;

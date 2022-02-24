@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment.prod';
 import { IfMemberWorkspace } from '../models/check-if-member-workspace.model';
+import { JoinWorkspace } from '../models/join-workspace.model';
 import { Member } from '../models/member.model';
 import { Workspace } from '../models/workspace.model';
 
@@ -13,31 +14,31 @@ import { Workspace } from '../models/workspace.model';
 export class WorkspaceService {
   constructor(private http: HttpClient) {}
 
-  public getWorkspaces(id: string): Observable<HttpResponse> {
+  public onGetWorkspaces(id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/workspace?workspace_id=${id}`
     );
   }
 
-  public getAggregatedWorkspace(id: string): Observable<HttpResponse> {
+  public onGetAggregatedWorkspace(id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/workspace/aggregated?workspace_id=${id}`
     );
   }
 
-  public getAggregatedWorkspaces(user_id: string): Observable<HttpResponse> {
+  public onGetAggregatedWorkspaces(user_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/workspace/aggregated?member=${user_id}`
     );
   }
 
-  public deleteWorkspace(id: string): Observable<HttpResponse> {
+  public onDeleteWorkspace(id: string): Observable<HttpResponse> {
     return this.http.delete<HttpResponse>(
       `${environment.base_url}/workspace/${id}`
     );
   }
 
-  public updateWorkspace(workspace: Workspace): Observable<HttpResponse> {
+  public onUpdateWorkspace(workspace: Workspace): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
       `${environment.base_url}/workspace`,
       workspace
@@ -51,23 +52,32 @@ export class WorkspaceService {
     );
   }
 
-  public getMembersInfo(members: Array<Member>): Observable<HttpResponse> {
+  public onGetMembersInfo(members: Array<Member>): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/workspace/members`,
       members
     );
   }
 
-  public checkIfMember(payload: IfMemberWorkspace): Observable<HttpResponse> {
+  public onCheckIfMember(payload: IfMemberWorkspace): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/workspace/is_member`,
       payload
     );
   }
 
-  public getWorkspacesFromMember(user_id: string): Observable<HttpResponse> {
+  public onGetWorkspacesFromMember(user_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/workspace?member=${user_id}`
+    );
+  }
+
+  public onJoinWorkspace(
+    join_workspace: JoinWorkspace
+  ): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/workspace/join_workspace`,
+      join_workspace
     );
   }
 }

@@ -18,6 +18,7 @@ import { WorkspaceComponent } from './workspace/components/workspace-parent/work
 import { NotVerifiedGuard } from './guards/not-verified/not-verified.guard';
 import { VerifyUserComponent } from './verify/components/verify-user/verify-user.component';
 import { DeleteUserComponent } from './user/components/delete-user/delete-user.component';
+import { WorkspaceJoinMemberComponent } from './workspace/components/workspace-join-member/workspace-join-member.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'workspace',
     component: WorkspaceComponent,
+    canActivate: [LoginGuard, VerifiedGuard],
+  },
+  {
+    path: 'workspace/join/:workspace_id/:token',
+    component: WorkspaceJoinMemberComponent,
     canActivate: [LoginGuard, VerifiedGuard],
   },
   {

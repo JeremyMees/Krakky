@@ -150,7 +150,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private _onGetWorkspaces(): void {
     this.loading_workspaces = true;
     this.workspaceService
-      .getWorkspacesFromMember(this.user._id as string)
+      .onGetWorkspacesFromMember(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {

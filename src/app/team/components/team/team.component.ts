@@ -57,7 +57,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params.id) {
-        this.workspaceService.getAggregatedWorkspace(params.id).subscribe({
+        this.workspaceService.onGetAggregatedWorkspace(params.id).subscribe({
           next: (res: HttpResponse) => {
             this.workspace = res.data[0];
             this.getMembers(this.workspace);
@@ -89,7 +89,7 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   public getMembers(workspace: Workspace): any {
     this.workspaceService
-      .getMembersInfo(workspace.team)
+      .onGetMembersInfo(workspace.team)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {
@@ -229,7 +229,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     workspace.color = opposite_color;
     workspace.workspace = form.value.title;
     const { dashboards, ...payload } = workspace!;
-    this.workspaceService.updateWorkspace(payload).subscribe({
+    this.workspaceService.onUpdateWorkspace(payload).subscribe({
       next: () => {
         this.workspace = workspace;
       },
@@ -287,7 +287,7 @@ export class TeamComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.workspaceService
-          .deleteWorkspace(this.workspace.workspace_id)
+          .onDeleteWorkspace(this.workspace.workspace_id)
           .subscribe({
             next: () => {
               this._showSnackbar(

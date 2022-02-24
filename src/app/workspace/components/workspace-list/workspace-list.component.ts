@@ -70,7 +70,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.workspaceService
-          .deleteWorkspace(workspace.workspace_id)
+          .onDeleteWorkspace(workspace.workspace_id)
           .subscribe({
             next: () => {
               const removeIndex: number = this.workspaces.findIndex(
@@ -105,7 +105,7 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
     workspace.color = opposite_color;
     workspace.workspace = form.value.title;
     const { dashboards, ...payload } = workspace!;
-    this.workspaceService.updateWorkspace(payload).subscribe({
+    this.workspaceService.onUpdateWorkspace(payload).subscribe({
       next: () => {
         const updateIndex: number = this.workspaces.findIndex(
           (item) => item.workspace_id === this.selected_workspace!.workspace_id

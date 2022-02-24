@@ -111,7 +111,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private _onGetWorkspace(id: string): void {
     this.workspaceService
-      .getWorkspaces(id)
+      .onGetWorkspaces(id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {

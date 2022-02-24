@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="img-container">
+    <img
+      src="../../../assets/images/join-workspace-member.svg"
+      alt="join workspace image"
+    />
+  </div>
+
+  <div class="text">
+    <h2 class="title-margin" *ngIf="loading">
+      We're loading your new workspace!
+    </h2>
+    <loading-spinner class="spinner" *ngIf="loading"></loading-spinner>
+    <div *ngIf="!loading">
+      <h2 class="title-margin">
+        Welcome to <span class="primary">{{ workspace.workspace }}</span
+        >!
+      </h2>
+      <p>
+        With great pleasure I can report that you have been invited to join the
+        workspace {{ workspace.workspace }}! <br />
+        If you accept, you can still leave the workspace later.
+      </p>
+      <div class="buttons">
+        <button
+          pButton
+          pRipple
+          label="Decline"
+          class="p-button-raised p-button-warning"
+          style="color: #fff"
+          (click)="onRouteToHome()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Accept"
+          class="p-button-raised"
+          (click)="onJoinWorkspace()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>

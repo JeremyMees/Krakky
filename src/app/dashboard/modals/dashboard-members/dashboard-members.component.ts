@@ -50,7 +50,7 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
 
   private _onGetWorkspace(): void {
     this.workspaceService
-      .getWorkspaces(this.data.dashboard.workspace_id)
+      .onGetWorkspaces(this.data.dashboard.workspace_id)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: HttpResponse) => {
         if (res) {
@@ -64,7 +64,7 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
 
   private _onGetMembers(workspace: Workspace): void {
     this.workspaceService
-      .getMembersInfo(workspace.team)
+      .onGetMembersInfo(workspace.team)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {

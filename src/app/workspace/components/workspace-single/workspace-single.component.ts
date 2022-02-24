@@ -141,7 +141,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     workspace.color = opposite_color;
     workspace.workspace = form.value.title;
     const { dashboards, ...payload } = workspace!;
-    this.workspaceService.updateWorkspace(payload).subscribe({
+    this.workspaceService.onUpdateWorkspace(payload).subscribe({
       next: () => {
         this.workspace = workspace;
       },
@@ -264,7 +264,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.workspaceService
-          .deleteWorkspace(this.workspace.workspace_id)
+          .onDeleteWorkspace(this.workspace.workspace_id)
           .subscribe({
             next: () => {
               this._showSnackbar(
