@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
   public ngOnInit(): void {
     const current_user = this.userService.onGetCurrentUser();
     current_user.subscribe((user) => {
-      user ? (this.user = user) : null;
+      this.user = user;
     });
   }
 
@@ -59,13 +59,11 @@ export class NavbarComponent implements OnInit {
         if (result.redirect) {
           this.openLoginDialog();
         } else {
-          const username: string = result.data.username;
           delete result.data.username;
           this.authService.login(result.data).subscribe({
             next: (res: HttpResponse) => {
               if (res.statusCode === 200) {
-                this._showSnackbar('success', result.message);
-                this.user!.username = username;
+                this._onGetCurrentUser();
               } else {
                 this._showSnackbar('error', res.message);
               }

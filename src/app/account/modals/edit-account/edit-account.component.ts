@@ -9,7 +9,6 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UpdateUser } from 'src/app/user/models/update-user.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
-import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-edit-account',

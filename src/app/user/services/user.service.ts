@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment.prod';
@@ -53,6 +54,14 @@ export class UserService {
   }
 
   public onDeleteUser(id: string): Observable<HttpResponse> {
-    return this.http.delete<HttpResponse>(`${environment.base_url}/user/${id}`);
+    return this.http
+      .delete<HttpResponse>(`${environment.base_url}/user/${id}`)
+      .pipe(
+        map((res) => {
+          console.log('tester');
+          this.onSetCurrentUser(null);
+          return res;
+        })
+      );
   }
 }

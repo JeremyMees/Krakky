@@ -5,6 +5,7 @@
       pRipple
       class="p-button-text p-button-danger p-button-rounded delete-button"
       icon="pi pi-trash"
+      (click)="onConfirmDelete($event)"
     ></button>
     <div class="image-container">
       <p-image
@@ -148,3 +149,6 @@
 </section>
 
 <app-footer></app-footer>
+
+<p-confirmPopup></p-confirmPopup>
+<p-toast></p-toast>

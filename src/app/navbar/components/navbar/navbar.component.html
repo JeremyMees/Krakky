@@ -23,7 +23,7 @@
       routerLinkActive="underline"
       routerLink="/workspace"
       aria-hidden="false"
-      *ngIf="user"
+      *ngIf="user !== null"
     >
       Workspaces
     </p>
@@ -36,7 +36,7 @@
       Account
     </p>
   </div>
-  <div class="right" *ngIf="!user">
+  <div class="right" *ngIf="user === null">
     <p (click)="openLoginDialog()">Log in</p>
     <button
       (click)="openRegisterDialog()"
@@ -46,7 +46,7 @@
       label="Sign up"
     ></button>
   </div>
-  <div class="right" *ngIf="user">
+  <div class="right" *ngIf="user !== null">
     <p (click)="onLogout()">Log out</p>
     <div class="image-container">
       <p-image
@@ -62,15 +62,20 @@
     </div>
   </div>
   <div class="hamburger">
-    <p-menu #menu [popup]="true" [model]="items" [hidden]="user"></p-menu>
+    <p-menu
+      #menu
+      [popup]="true"
+      [model]="items"
+      [hidden]="user !== null"
+    ></p-menu>
     <p-menu
       #menuLogged
       [popup]="true"
       [model]="itemsLoggedin"
-      [hidden]="!user"
+      [hidden]="user === null"
     ></p-menu>
     <button
-      *ngIf="!user"
+      *ngIf="user === null"
       pButton
       pRipple
       type="button"
@@ -79,7 +84,7 @@
       (click)="menu.toggle($event)"
     ></button>
     <button
-      *ngIf="user"
+      *ngIf="user !== null"
       pButton
       pRipple
       type="button"

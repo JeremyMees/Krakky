@@ -52,7 +52,7 @@ export class AuthService {
             this.auth_status_listener$.next(true);
             this.userService.onSetCurrentUser(res.data);
           } else {
-            this.logout();
+            this.router.navigateByUrl('home');
           }
         },
         error: () => {

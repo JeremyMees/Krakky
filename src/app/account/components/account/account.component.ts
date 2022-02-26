@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
 import { CardService } from 'src/app/card/services/card.service';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
@@ -19,7 +20,7 @@ import { EditAccountComponent } from '../../modals/edit-account/edit-account.com
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class AccountComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
@@ -40,7 +41,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private messageService: MessageService,
     private cardService: CardService,
-    private workspaceService: WorkspaceService
+    private workspaceService: WorkspaceService,
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -62,6 +65,38 @@ export class AccountComponent implements OnInit, OnDestroy {
         this._onGetCreatedCards();
         this._onGetAssignedCards();
         this._onGetWorkspaces();
+      });
+  }
+
+  public onConfirmDelete(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to delete your account?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this._onDeleteUser();
+      },
+    });
+  }
+
+  private _onDeleteUser(): void {
+    this.userService
+      .onDeleteUser(this.user._id!)
+      .pipe(take(1))
+      .subscribe({
+        next: (res: HttpResponse) => {
+          if (res.statusCode === 200) {
+            this._showSnackbar('info', 'Deleted user successfully');
+            setTimeout(() => {
+              this.router.navigateByUrl('home');
+            }, 2000);
+          } else {
+            this._showSnackbar('info', "User doesn't exist");
+          }
+        },
+        error: () => {
+          this._showSnackbar('error', "Couldn't delete user");
+        },
       });
   }
 
@@ -179,7 +214,6 @@ export class AccountComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: HttpResponse) => {
           if (res.statusCode === 200) {
-            this._onUpdateUserLocalStorage(res.data);
             this._showSnackbar('info', 'User settings updated successfully');
           } else {
             this._showSnackbar('error', "Couldn't update user settings");
@@ -189,14 +223,6 @@ export class AccountComponent implements OnInit, OnDestroy {
           this._showSnackbar('error', "Couldn't update user settings");
         },
       });
-  }
-
-  private _onUpdateUserLocalStorage(user: User): void {
-    this.userService.onSetCurrentUser(user);
-    const local_user: string = localStorage.getItem('user') as string;
-    const updated_user: User = JSON.parse(local_user);
-    updated_user.marketing = user.marketing;
-    localStorage.setItem('user', JSON.stringify(updated_user));
   }
 
   private _showSnackbar(severity: string, detail: string): void {
