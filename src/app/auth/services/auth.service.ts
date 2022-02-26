@@ -66,5 +66,8 @@ export class AuthService {
     this.auth_status_listener$.next(false);
     this.userService.onSetCurrentUser(null);
     this.router.navigateByUrl('home');
+    this.http
+      .get<HttpResponse>(`${environment.base_url}/auth/logout`)
+      .subscribe();
   }
 }
