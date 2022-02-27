@@ -132,10 +132,12 @@ export class PageNotFoundComponent implements OnInit, OnDestroy {
   private _onCheckHighScore(new_score: Score): void {
     const scores: Array<Score> = this.scores;
     scores.push(new_score);
-    scores.reduce((prev: Score, curr: Score) => {
-      return prev.score < curr.score ? prev : curr;
-    });
-    if (scores.length >= 10) {
+    scores
+      .sort((a: Score, b: Score) => {
+        return a.score - b.score;
+      })
+      .reverse();
+    if (scores.length > 10) {
       scores.pop();
     }
     this.scores = scores;
