@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MailService } from 'src/app/mail/services/mail.service';
+import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 
@@ -20,7 +22,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private mailService: MailService
   ) {}
 
   public ngOnInit(): void {
@@ -87,7 +90,20 @@ export class ContactComponent implements OnInit, OnDestroy {
       this._showSnackbar('error', "Form wasn't filled correctly");
       return;
     }
-    this._showSnackbar('info', 'Email was sent correctly');
+    const { message, ...mail } = form.value;
+    mail.text = message;
+    this.mailService.onSendContactEmail(mail).subscribe({
+      next: (res: HttpResponse) => {
+        if (res.statusCode === 200) {
+          this._showSnackbar('info', 'Email was sent correctly');
+        } else {
+          this._showSnackbar('error', `Couldn't send verify email`);
+        }
+      },
+      error: () => {
+        this._showSnackbar('error', `Couldn't send verify email`);
+      },
+    });
     this._onSetForm();
   }
 

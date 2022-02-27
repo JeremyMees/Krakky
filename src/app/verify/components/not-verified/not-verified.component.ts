@@ -57,7 +57,6 @@ export class NotVerifiedComponent implements OnInit, OnDestroy {
       })
       .subscribe({
         next: (res: HttpResponse) => {
-          console.log(res);
           if (res.statusCode === 200) {
             this._showSnackbar(
               'info',
@@ -68,8 +67,7 @@ export class NotVerifiedComponent implements OnInit, OnDestroy {
             this._showSnackbar('error', `Couldn't send verify email`);
           }
         },
-        error: (err) => {
-          console.log(err);
+        error: () => {
           this._showSnackbar('error', `Couldn't send verify email`);
         },
       });

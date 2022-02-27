@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment.prod';
-import { WelcomeMail } from './models/welcome-mail.model';
+import { ContactMail } from '../models/contact-mail.model';
+import { WelcomeMail } from '../models/welcome-mail.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,13 @@ export class MailService {
   public onSendVerifyEmail(mail: WelcomeMail): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/mail/welcome`,
+      mail
+    );
+  }
+
+  public onSendContactEmail(mail: ContactMail): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/mail/contact`,
       mail
     );
   }
