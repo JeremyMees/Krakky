@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["tsparticles"],
+            "allowedCommonJsDependencies": ["tsparticles", "chart.js"],
             "outputPath": "dist/Krakky",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,7 +29,7 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/chart.js/dist/chart.js",
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
