@@ -431,17 +431,17 @@
       <button
         pButton
         pRipple
-        icon="pi pi-save"
-        label="Save"
-        class="p-button-raised"
-        (click)="onSaveDates(); calenderList.hide()"
+        label="Cancel"
+        class="p-button-raised p-button-secondary p-button-text"
+        (click)="onResetDates(); calenderList.hide()"
       ></button>
       <button
         pButton
         pRipple
-        label="Cancel"
-        class="p-button-raised p-button-secondary p-button-text"
-        (click)="onResetDates(); calenderList.hide()"
+        icon="pi pi-save"
+        label="Save"
+        class="p-button-raised"
+        (click)="onSaveDates(); calenderList.hide()"
       ></button>
     </div>
   </ng-template>
@@ -498,61 +498,51 @@
       >
         No recent tags available
       </p>
-      <h2
-        class="create-form-title"
-        *ngIf="data.card.tags && data.card.tags.length > 2"
-      >
-        Create tag
-      </h2>
+      <h2 class="create-form-title">Create tag</h2>
       <p class="under-text" *ngIf="data.card.tags && data.card.tags.length > 2">
         Max 3 tags
       </p>
-      <p-accordion
+      <form
         *ngIf="!data.card.tags || (data.card.tags && data.card.tags.length < 3)"
+        (submit)="onSaveTag(tagForm)"
+        [formGroup]="tagForm"
+        class="tag-form"
       >
-        <p-accordionTab header="Create tag" (click)="onFocusOnTagInput()">
-          <form
-            (submit)="onSaveTag(tagForm)"
-            [formGroup]="tagForm"
-            class="tag-form"
-          >
-            <input
-              #tag
-              type="text"
-              pInputText
-              formControlName="description"
-              placeholder="Tag text"
-              maxlength="10"
-              autofocus
-              autocomplete="off"
-            />
-            <div class="inline-title">
-              <h2 class="create-form-title">Color</h2>
-              <p-colorPicker formControlName="color"></p-colorPicker>
-            </div>
-            <div class="buttons">
-              <button
-                pButton
-                pRipple
-                icon="pi pi-save"
-                type="submit"
-                class="p-button-raised"
-                label="Save"
-                pTooltip="Create a tag"
-                [showDelay]="500"
-              ></button>
-              <button
-                pButton
-                pRipple
-                label="Cancel"
-                type="button"
-                class="p-button-raised p-button-text p-button-secondary"
-                (click)="tagsList.hide()"
-              ></button>
-            </div>
-          </form>
-        </p-accordionTab>
-      </p-accordion>
+        <input
+          #tag
+          type="text"
+          pInputText
+          formControlName="description"
+          placeholder="Tag text"
+          maxlength="10"
+          autofocus
+          autocomplete="off"
+        />
+        <div class="inline-title">
+          <h2 class="create-form-title">Color</h2>
+          <p-colorPicker formControlName="color"></p-colorPicker>
+        </div>
+        <div class="buttons">
+          <button
+            pButton
+            pRipple
+            label="Cancel"
+            type="button"
+            class="p-button-raised p-button-text p-button-secondary"
+            (click)="tagsList.hide()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-save"
+            type="submit"
+            class="p-button-raised"
+            label="Save"
+            pTooltip="Create a tag"
+            [showDelay]="500"
+          ></button>
+        </div>
+      </form>
     </div>
   </ng-template>
 </p-overlayPanel>
