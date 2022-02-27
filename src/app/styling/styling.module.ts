@@ -30,7 +30,6 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import { PanelModule } from 'primeng/panel';
 
 @NgModule({
   declarations: [LoadingComponent],
@@ -67,7 +66,6 @@ import { PanelModule } from 'primeng/panel';
     ChartModule,
     CheckboxModule,
     ColorPickerModule,
-    PanelModule,
   ],
 })
 export class StylingModule {}
