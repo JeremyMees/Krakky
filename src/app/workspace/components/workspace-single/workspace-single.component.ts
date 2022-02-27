@@ -77,7 +77,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       created_by: this.current_user?._id as string,
       private: form.value.private ? form.value.private : false,
       inactive: false,
-      team: this._onGetMembers(form.value.private ? form.value.private : false),
+      team: this._onGetMembers(form.value.private),
       color: this.sharedService.onGenerateOppositeColor(form.value.color),
       bg_color: form.value.color,
       recent_tags: [],
@@ -97,12 +97,12 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     let team: Array<Member> = [];
     if (!private_dashboard) {
       this.workspace.team.forEach((member: Member) => {
-        if (member._id !== this.current_user!._id) {
-          team.push({ _id: member._id, role: 'Member' });
-        } else {
-          team.push({ _id: this.current_user!._id as string, role: 'Admin' });
-        }
+        member._id !== this.current_user!._id
+          ? team.push({ _id: member._id, role: 'Member' })
+          : team.push({ _id: this.current_user!._id as string, role: 'Admin' });
       });
+    } else {
+      team.push({ _id: this.current_user!._id as string, role: 'Admin' });
     }
     return team;
   }
@@ -112,6 +112,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     this.workspace.dashboards.forEach((dashboard: Dashboard) => {
       if (dashboard.private) {
         dashboard.team.forEach((member: Member) => {
+          console.log(this.current_user?._id);
           if (member._id === (this.current_user?._id as string)) {
             this.dashboards.push(dashboard);
           }
