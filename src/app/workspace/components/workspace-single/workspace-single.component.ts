@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AddDashboard } from 'src/app/dashboard/models/add-dashboard.model';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DashboardService } from 'src/app/dashboard/service/dashboard.service';
-import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { RandomColors } from 'src/app/shared/models/random-colors.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
@@ -157,7 +157,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       this._onIsNotAdminOrOwner('admins');
       return;
     }
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       data: { name: this.selected_dashboard?.title, title: 'dashboard' },
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -259,7 +259,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       this._onIsNotAdminOrOwner('owners');
       return;
     }
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       data: { name: this.workspace.workspace, title: 'workspace' },
     });
     dialogRef.afterClosed().subscribe((result) => {

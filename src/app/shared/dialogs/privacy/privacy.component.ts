@@ -7,10 +7,10 @@ import { PRIVACY } from '../../data/privacy.data';
   templateUrl: './privacy.component.html',
   styleUrls: ['./privacy.component.scss'],
 })
-export class PrivacyComponent {
+export class PrivacyDialog {
   privacy: string = PRIVACY;
 
-  constructor(public dialogRef: MatDialogRef<PrivacyComponent>) {}
+  constructor(public dialogRef: MatDialogRef<PrivacyDialog>) {}
 
   public onClose(): void {
     this.dialogRef.close();

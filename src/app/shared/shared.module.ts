@@ -1,29 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DeleteComponent } from './modals/delete/delete.component';
+import { DeleteDialog } from './dialogs/delete/delete.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StylingModule } from '../styling/styling.module';
-import { TermsComponent } from './modals/terms/terms.component';
-import { PrivacyComponent } from './modals/privacy/privacy.component';
+import { TermsDialog } from './dialogs/terms/terms.component';
+import { PrivacyDialog } from './dialogs/privacy/privacy.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
-import { CharacterEditorComponent } from './modals/character-editor/character-editor.component';
+import { CharacterEditorDialog } from './dialogs/character-editor/character-editor.component';
 import { TagComponent } from './components/tag/tag.component';
 
 @NgModule({
   declarations: [
-    DeleteComponent,
-    TermsComponent,
-    PrivacyComponent,
+    DeleteDialog,
+    TermsDialog,
+    PrivacyDialog,
     AvatarComponent,
-    CharacterEditorComponent,
+    CharacterEditorDialog,
     TagComponent,
   ],
   exports: [
-    DeleteComponent,
-    TermsComponent,
-    PrivacyComponent,
+    DeleteDialog,
+    TermsDialog,
+    PrivacyDialog,
     AvatarComponent,
-    CharacterEditorComponent,
+    CharacterEditorDialog,
     TagComponent,
   ],
   imports: [CommonModule, StylingModule, FormsModule, ReactiveFormsModule],

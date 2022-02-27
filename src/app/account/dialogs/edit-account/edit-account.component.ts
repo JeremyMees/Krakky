@@ -16,7 +16,7 @@ import { UserService } from 'src/app/user/services/user.service';
   styleUrls: ['./edit-account.component.scss'],
   providers: [MessageService],
 })
-export class EditAccountComponent implements OnInit, OnDestroy {
+export class EditAccountDialog implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
   userForm!: FormGroup;
   inputType: string = 'password';
@@ -27,7 +27,7 @@ export class EditAccountComponent implements OnInit, OnDestroy {
   change_password: boolean = false;
 
   constructor(
-    public dialogRef: MatDialogRef<EditAccountComponent>,
+    public dialogRef: MatDialogRef<EditAccountDialog>,
     @Inject(MAT_DIALOG_DATA) public data: { user: User },
     private messageService: MessageService,
     private formBuilder: FormBuilder,

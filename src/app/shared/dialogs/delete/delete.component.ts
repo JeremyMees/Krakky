@@ -6,11 +6,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './delete.component.html',
   styleUrls: ['./delete.component.scss'],
 })
-export class DeleteComponent {
+export class DeleteDialog {
   blocked: boolean = true;
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<DeleteDialog>,
     @Inject(MAT_DIALOG_DATA) public data: { name: string; title: string }
   ) {}
 

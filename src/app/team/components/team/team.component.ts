@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
@@ -281,7 +281,7 @@ export class TeamComponent implements OnInit, OnDestroy {
       this._onIsNotAdminOrOwner('owners');
       return;
     }
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       data: { name: this.workspace.workspace, title: 'workspace' },
     });
     dialogRef.afterClosed().subscribe((result) => {

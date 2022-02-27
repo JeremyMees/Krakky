@@ -7,10 +7,10 @@ import { TERMS } from '../../data/terms_conditions.data';
   templateUrl: './terms.component.html',
   styleUrls: ['./terms.component.scss'],
 })
-export class TermsComponent {
+export class TermsDialog {
   terms: string = TERMS;
 
-  constructor(public dialogRef: MatDialogRef<TermsComponent>) {}
+  constructor(public dialogRef: MatDialogRef<TermsDialog>) {}
 
   public onClose(): void {
     this.dialogRef.close();

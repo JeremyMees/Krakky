@@ -12,7 +12,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
 import { List } from 'src/app/list/models/list.model';
-import { DeleteComponent } from 'src/app/shared/modals/delete/delete.component';
+import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { User } from 'src/app/user/models/user.model';
@@ -21,7 +21,7 @@ import { Member } from 'src/app/workspace/models/member.model';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
 import { EditCardComponent } from '../../../card/components/edit-card/edit-card.component';
-import { DashboardMembersComponent } from '../../modals/dashboard-members/dashboard-members.component';
+import { DashboardMembersDialog } from '../../dialogs/dashboard-members/dashboard-members.component';
 import { AggregatedDashboard } from '../../models/aggregated-dashboard.model';
 import { DashboardService } from '../../service/dashboard.service';
 import { SocketDashboardService } from '../../service/socket-dashboard.service';
@@ -336,7 +336,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this._onIsInactive();
       return;
     }
-    const dialogRef = this.dialog.open(DeleteComponent, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       data: { name: list.title, title: 'list' },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -370,7 +370,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onCheckUsers(): void {
-    this.dialog.open(DashboardMembersComponent, {
+    this.dialog.open(DashboardMembersDialog, {
       data: { dashboard: this.dashboard, user: this.user },
       maxWidth: '650px',
       width: '100%',

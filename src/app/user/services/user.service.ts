@@ -58,7 +58,6 @@ export class UserService {
       .delete<HttpResponse>(`${environment.base_url}/user/${id}`)
       .pipe(
         map((res) => {
-          console.log('tester');
           this.onSetCurrentUser(null);
           return res;
         })

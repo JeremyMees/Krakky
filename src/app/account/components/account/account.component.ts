@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
@@ -13,14 +13,15 @@ import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { Workspace } from 'src/app/workspace/models/workspace.model';
 import { WorkspaceService } from 'src/app/workspace/services/workspace.service';
-import { CharacterComponent } from '../../modals/character/character.component';
-import { EditAccountComponent } from '../../modals/edit-account/edit-account.component';
+import { CharacterDialog } from '../../dialogs/character/character.component';
+import { DeleteAccountDialog } from '../../dialogs/delete-account/delete-account.component';
+import { EditAccountDialog } from '../../dialogs/edit-account/edit-account.component';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
-  providers: [MessageService, ConfirmationService],
+  providers: [MessageService],
 })
 export class AccountComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
@@ -42,7 +43,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private cardService: CardService,
     private workspaceService: WorkspaceService,
-    private confirmationService: ConfirmationService,
     private router: Router
   ) {}
 
@@ -68,14 +68,16 @@ export class AccountComponent implements OnInit, OnDestroy {
       });
   }
 
-  public onConfirmDelete(event: Event) {
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Are you sure that you want to delete your account?',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+  public onConfirmDelete() {
+    const dialogRef = this.dialog.open(DeleteAccountDialog, {
+      width: '100%',
+      maxWidth: '600px',
+      data: this.user,
+    });
+    dialogRef.afterClosed().subscribe((result: boolean | undefined) => {
+      if (result) {
         this._onDeleteUser();
-      },
+      }
     });
   }
 
@@ -89,7 +91,7 @@ export class AccountComponent implements OnInit, OnDestroy {
             this._showSnackbar('info', 'Deleted user successfully');
             setTimeout(() => {
               this.router.navigateByUrl('home');
-            }, 2000);
+            }, 1500);
           } else {
             this._showSnackbar('info', "User doesn't exist");
           }
@@ -101,7 +103,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public openDialogCharacter(): void {
-    this.dialog.open(CharacterComponent, {
+    this.dialog.open(CharacterDialog, {
       width: '100%',
       maxWidth: '600px',
       data: this.user,
@@ -109,7 +111,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   public openDialogUpdateAccount(): void {
-    this.dialog.open(EditAccountComponent, {
+    this.dialog.open(EditAccountDialog, {
       width: '100%',
       maxWidth: '600px',
       data: { user: this.user },

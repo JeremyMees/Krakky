@@ -5,9 +5,9 @@ import { MessageService } from 'primeng/api';
 import { CharacterService } from 'src/app/account/services/character.service';
 import { PARTICLES } from 'src/app/shared/data/particles-options.data';
 import { containsNumberValidator } from 'src/app/shared/directives/contains-number/contains-number.directive';
-import { CharacterEditorComponent } from 'src/app/shared/modals/character-editor/character-editor.component';
-import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
-import { TermsComponent } from 'src/app/shared/modals/terms/terms.component';
+import { CharacterEditorDialog } from 'src/app/shared/dialogs/character-editor/character-editor.component';
+import { PrivacyDialog } from 'src/app/shared/dialogs/privacy/privacy.component';
+import { TermsDialog } from 'src/app/shared/dialogs/terms/terms.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserAdd } from 'src/app/user/models/add_user.model';
 import { UserService } from '../../../user/services/user.service';
@@ -94,11 +94,11 @@ export class RegisterComponent implements OnInit {
   }
 
   public openDialogTerms(): void {
-    this.dialog.open(TermsComponent, { autoFocus: false });
+    this.dialog.open(TermsDialog, { autoFocus: false });
   }
 
   public openDialogPrivacy(): void {
-    this.dialog.open(PrivacyComponent, { autoFocus: false });
+    this.dialog.open(PrivacyDialog, { autoFocus: false });
   }
 
   private _onSetForm(): void {
@@ -130,7 +130,7 @@ export class RegisterComponent implements OnInit {
   }
 
   public onOpenAvatarEditor(): void {
-    const dialog_ref = this.dialog.open(CharacterEditorComponent, {
+    const dialog_ref = this.dialog.open(CharacterEditorDialog, {
       width: '100%',
       maxWidth: '600px',
       data: { img_query: this.img_query },

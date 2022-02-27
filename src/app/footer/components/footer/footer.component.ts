@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PrivacyComponent } from 'src/app/shared/modals/privacy/privacy.component';
-import { TermsComponent } from 'src/app/shared/modals/terms/terms.component';
+import { PrivacyDialog } from 'src/app/shared/dialogs/privacy/privacy.component';
+import { TermsDialog } from 'src/app/shared/dialogs/terms/terms.component';
 
 @Component({
   selector: 'app-footer',
@@ -12,10 +12,10 @@ export class FooterComponent {
   constructor(public dialog: MatDialog) {}
 
   public openDialogTerms(): void {
-    this.dialog.open(TermsComponent, { autoFocus: false });
+    this.dialog.open(TermsDialog, { autoFocus: false });
   }
 
   public openDialogPrivacy(): void {
-    this.dialog.open(PrivacyComponent, { autoFocus: false });
+    this.dialog.open(PrivacyDialog, { autoFocus: false });
   }
 }

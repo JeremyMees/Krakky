@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteComponent } from './delete.component';
+import { PrivacyDialog } from './privacy.component';
 
-describe('DeleteComponent', () => {
-  let component: DeleteComponent;
-  let fixture: ComponentFixture<DeleteComponent>;
+describe('PrivacyDialog', () => {
+  let component: PrivacyDialog;
+  let fixture: ComponentFixture<PrivacyDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteComponent ]
-    })
-    .compileComponents();
+      declarations: [PrivacyDialog],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteComponent);
+    fixture = TestBed.createComponent(PrivacyDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

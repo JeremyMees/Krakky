@@ -18,7 +18,7 @@ import { SocketDashboardService } from '../../service/socket-dashboard.service';
   styleUrls: ['./dashboard-members.component.scss'],
   providers: [MessageService, ConfirmationService],
 })
-export class DashboardMembersComponent implements OnInit, OnDestroy {
+export class DashboardMembersDialog implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject();
   workspace!: Workspace;
   workspace_members: Array<Assignee> = [];
@@ -28,7 +28,7 @@ export class DashboardMembersComponent implements OnInit, OnDestroy {
   loading: boolean = true;
 
   constructor(
-    public dialogRef: MatDialogRef<DashboardMembersComponent>,
+    public dialogRef: MatDialogRef<DashboardMembersDialog>,
     @Inject(MAT_DIALOG_DATA)
     public data: {
       dashboard: AggregatedDashboard;

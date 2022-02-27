@@ -6,13 +6,13 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardService } from './service/dashboard.service';
 import { CardModule } from '../card/card.module';
-import { DashboardMembersComponent } from './modals/dashboard-members/dashboard-members.component';
+import { DashboardMembersDialog } from './dialogs/dashboard-members/dashboard-members.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardMembersComponent,
+    DashboardMembersDialog,
     StatisticsComponent,
   ],
   imports: [

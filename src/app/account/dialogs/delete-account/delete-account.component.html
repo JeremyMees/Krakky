@@ -1,0 +1,41 @@
+<h1 class="title-margin">Delete account</h1>
+<p>
+  Are you sure you want to delete your account?
+  <br />
+  Once your account has been deleted you can't go back and all your coherent
+  data is deleted.
+  <br />
+  You can always make a new account when you want to come back again.
+</p>
+<p>
+  To delete your account and all coherent data, type
+  <span class="warn-text">{{ data.email }}</span> to confirm
+</p>
+<input
+  type="text"
+  pInputText
+  #input
+  autocomplete="off"
+  placeholder="Email"
+  (keyup)="onCheckName(input.value)"
+/>
+<div class="buttons">
+  <button
+    label="Cancel"
+    pRipple
+    pButton
+    type="button"
+    name="username"
+    (click)="onGoBack()"
+    class="p-button-raised p-button-secondary p-button-text"
+  ></button>
+  <button
+    label="Delete"
+    pRipple
+    pButton
+    type="submit"
+    (click)="onDelete()"
+    [disabled]="blocked"
+    class="p-button-raised p-button-danger"
+  ></button>
+</div>
