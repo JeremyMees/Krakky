@@ -99,6 +99,10 @@ export class NavbarComponent implements OnInit {
       });
   }
 
+  public onNotImplemented(): void {
+    this._showSnackbar('info', 'Coming soon');
+  }
+
   private _navigate(component: string): void {
     this.router.navigateByUrl(component);
   }
