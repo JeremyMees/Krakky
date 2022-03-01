@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.model';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { UserAdd } from '../models/add_user.model';
 import { User } from '../models/user.model';
 

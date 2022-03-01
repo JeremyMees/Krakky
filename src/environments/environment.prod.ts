@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  SOCKET_ENDPOINT: 'ws://localhost:80/dashboard',
-  base_url: 'http://localhost:3000',
+  SOCKET_ENDPOINT: 'ws://www.api.krakky.com/dashboard',
+  base_url: 'https://www.api.krakky.com',
 };

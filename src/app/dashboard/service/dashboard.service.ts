@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { AddDashboard } from '../models/add-dashboard.model';
 import { Dashboard } from '../models/dashboard.model';
 import { IfMemberDashboard } from '../models/if-member-dashboard.model';

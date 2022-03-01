@@ -6,7 +6,7 @@ import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { LoginCredentials } from '../../login/models/login-credentials.model';
 import { map, take } from 'rxjs/operators';
 import { UserService } from 'src/app/user/services/user.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })

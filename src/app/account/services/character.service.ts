@@ -6,7 +6,7 @@ import { UpdateUserImg } from '../models/update-img.model';
 import { CUSTOM_CHARACTER } from '../data/custom-character';
 import { CustomCharacter } from '../models/character-customization.model';
 import { Character } from '../models/character.model';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
