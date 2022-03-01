@@ -25,6 +25,7 @@ import { FooterModule } from './footer/footer.module';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { VerifyModule } from './verify/verify.module';
 import { UserModule } from './user/user.module';
+import { CoffeeModule } from './coffee/coffee.module';
 
 const config: SocketIoConfig = {
   url: environment.SOCKET_ENDPOINT,
@@ -60,6 +61,7 @@ const config: SocketIoConfig = {
     PageNotFoundModule,
     VerifyModule,
     UserModule,
+    CoffeeModule,
   ],
   bootstrap: [AppComponent],
   providers: [

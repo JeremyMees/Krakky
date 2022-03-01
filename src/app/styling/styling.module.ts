@@ -30,7 +30,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ColorPickerModule } from 'primeng/colorpicker';
-
+import {MatButtonModule} from '@angular/material/button'
 @NgModule({
   declarations: [LoadingComponent],
   imports: [ProgressSpinnerModule, BrowserAnimationsModule],
@@ -66,6 +66,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
     ChartModule,
     CheckboxModule,
     ColorPickerModule,
+    MatButtonModule
   ],
 })
 export class StylingModule {}
