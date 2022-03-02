@@ -39,24 +39,13 @@
           (click)="changeInputType()"
         ></button>
       </span>
-      <div class="buttons">
-        <button
-          label="Log in"
-          pRipple
-          pButton
-          type="submit"
-          class="login-btn p-button-raised"
-        ></button>
-        <button
-          icon="pi pi-google"
-          pRipple
-          pButton
-          type="button"
-          class="p-button-raised p-button-info p-button-text"
-          pTooltip="Log in with Google"
-          [showDelay]="500"
-        ></button>
-      </div>
+      <button
+        label="Log in"
+        pRipple
+        pButton
+        type="submit"
+        class="login-btn p-button-raised"
+      ></button>
     </form>
     <form
       (submit)="onChangeToResetPassword(resetForm)"

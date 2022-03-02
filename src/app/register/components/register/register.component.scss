@@ -1,13 +1,9 @@
 .left {
   width: 100%;
-  max-width: 250px;
+  max-width: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.img-container {
-  position: relative;
 }
 
 img {
@@ -21,7 +17,7 @@ img {
   flex-flow: column nowrap;
   gap: 0.5rem;
   margin-top: 0.5rem;
-  position: absolute;
+  position: relatiev;
   bottom: 0;
   right: -1rem;
 }

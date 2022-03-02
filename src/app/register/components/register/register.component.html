@@ -1,32 +1,26 @@
 <div class="flex">
   <div class="left">
-    <div>
-      <div class="img-container">
-        <img
-          [src]="
-            'https://avatars.dicebear.com/api/micah/krakky.svg' + img_query
-          "
-          alt="avatar"
-        />
-        <div class="img-buttons">
-          <button
-            pButton
-            pRipple
-            icon="pi pi-user-edit"
-            pTooltip="Edit avatar"
-            class="p-button-raised p-button-rounded"
-            (click)="onOpenAvatarEditor()"
-          ></button>
-          <button
-            pButton
-            pRipple
-            (click)="onRandomizeAvatar()"
-            icon="pi pi-refresh"
-            pTooltip="Randomize avatar"
-            class="p-button-raised p-button-secondary p-button-rounded"
-          ></button>
-        </div>
-      </div>
+    <img
+      [src]="'https://avatars.dicebear.com/api/micah/krakky.svg' + img_query"
+      alt="avatar"
+    />
+    <div class="img-buttons">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-user-edit"
+        pTooltip="Edit avatar"
+        class="p-button-raised p-button-rounded"
+        (click)="onOpenAvatarEditor()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        (click)="onRandomizeAvatar()"
+        icon="pi pi-refresh"
+        pTooltip="Randomize avatar"
+        class="p-button-raised p-button-secondary p-button-rounded"
+      ></button>
     </div>
   </div>
   <div class="right">
@@ -114,23 +108,12 @@
             >Privacy Policy</span
           >
         </div>
-        <div class="buttons">
-          <button
-            label="Sign up"
-            pRipple
-            pButton
-            class="login-btn p-button-raised"
-          ></button>
-          <button
-            icon="pi pi-google"
-            pRipple
-            pButton
-            type="button"
-            class="p-button-raised p-button-info p-button-text"
-            pTooltip="Sign up with Google"
-            [showDelay]="500"
-          ></button>
-        </div>
+        <button
+          label="Sign up"
+          pRipple
+          pButton
+          class="login-btn p-button-raised"
+        ></button>
       </form>
       <div class="footer">
         <p class="footer-text" (click)="onLogin()">Already a user</p>
