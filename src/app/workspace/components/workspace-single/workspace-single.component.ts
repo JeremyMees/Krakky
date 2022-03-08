@@ -12,6 +12,7 @@ import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { RandomColors } from 'src/app/shared/models/random-colors.model';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { TeamService } from 'src/app/team/services/team.service';
 import { User } from 'src/app/user/models/user.model';
 import { UserService } from 'src/app/user/services/user.service';
 import { AggregatedWorkspace } from '../../models/aggregated-workspace.model';
@@ -42,7 +43,8 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     private dashboardService: DashboardService,
     private userService: UserService,
     private sharedService: SharedService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private teamService: TeamService
   ) {}
 
   public ngOnInit(): void {
@@ -282,6 +284,39 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     });
   }
 
+  private _onLeaveWorkspace(): void {
+    if (!this._onCheckIfMultipleOwners() && this._onCheckIfOwner()) {
+      this._showSnackbar(
+        'info',
+        `You are the only owner and can't leave the workspace, make someone else owner or delete the workspace`
+      );
+      return;
+    }
+    this.teamService
+      .deleteMember(
+        this.workspace.workspace_id,
+        this.current_user!._id as string
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl('workspace');
+        },
+        error: () => {
+          this._showSnackbar('error', "Could't leave workspace");
+        },
+      });
+  }
+
+  private _onCheckIfMultipleOwners(): boolean {
+    let owners: Array<Member> = [];
+    this.workspace.team.forEach((member: Member) => {
+      if (member.role === 'Owner') {
+        owners.push(member);
+      }
+    });
+    return owners.length < 2 ? false : true;
+  }
+
   items: Array<MenuItem> = [
     {
       label: 'Dashboard',
@@ -316,6 +351,13 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       icon: 'pi pi-fw pi-trash',
       command: () => {
         this._onDeleteWorkspace();
+      },
+    },
+    {
+      label: 'Leave workspace',
+      icon: 'pi pi-fw pi-sign-out',
+      command: () => {
+        this._onLeaveWorkspace();
       },
     },
   ];

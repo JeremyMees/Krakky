@@ -12,6 +12,13 @@ import { UpdateMember } from '../models/update-member.model';
 export class TeamService {
   constructor(private http: HttpClient) {}
 
+  public addMember(payload: CreateMemberToken): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/workspace/create_token`,
+      payload
+    );
+  }
+
   public updateMember(payload: UpdateMember): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
       `${environment.base_url}/workspace/member`,
@@ -19,10 +26,12 @@ export class TeamService {
     );
   }
 
-  public addMember(payload: CreateMemberToken): Observable<HttpResponse> {
-    return this.http.post<HttpResponse>(
-      `${environment.base_url}/workspace/create_token`,
-      payload
+  public deleteMember(
+    workspace_id: string,
+    user_id: string
+  ): Observable<HttpResponse> {
+    return this.http.delete<HttpResponse>(
+      `${environment.base_url}/workspace/member/${workspace_id}/${user_id}`
     );
   }
 }
