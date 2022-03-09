@@ -408,6 +408,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onLeaveDashboard(): void {
+    if (!this._onCheckIfMultipleAdmins() && this._onCheckIfAdmin()) {
+      this._showSnackbar(
+        'info',
+        `You are the only admin and can't leave the dashboard, make someone else admin or delete the dashboard`
+      );
+      return;
+    }
     this.dashboardService
       .onLeaveDashboard(this.dashboard._id, this.user!._id as string)
       .pipe(take(1))
@@ -428,6 +435,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this._showSnackbar('error', 'Error while leaving dashboard');
         },
       });
+  }
+
+  private _onCheckIfMultipleAdmins(): boolean {
+    let admins: Array<Member> = [];
+    this.dashboard.team.forEach((member: Member) => {
+      if (member.role === 'Admin') {
+        admins.push(member);
+      }
+    });
+    return admins.length < 2 ? false : true;
   }
 
   private _onUpdateDashboard(obj: { [key: string]: any }): void {
