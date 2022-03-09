@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Card } from 'src/app/card/models/card.model';
 import { List } from 'src/app/list/models/list.model';
 import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       form.value.color
     );
     const { cards, lists, ...payload } = this.dashboard;
-    this.dashboardService.updateDashboard(payload).subscribe({
+    this.dashboardService.onUpdateDashboard(payload).subscribe({
       error: () => {
         this._showSnackbar('error', 'Error while updating dashboard');
       },
@@ -405,6 +405,29 @@ export class DashboardComponent implements OnInit, OnDestroy {
           break;
       }
     }
+  }
+
+  public onLeaveDashboard(): void {
+    this.dashboardService
+      .onLeaveDashboard(this.dashboard._id, this.user!._id as string)
+      .pipe(take(1))
+      .subscribe({
+        next: (res: HttpResponse) => {
+          if (res.statusCode === 200) {
+            this.dashboard.team = this.dashboard.team.filter(
+              (member: Member) => member._id !== this.user!._id
+            );
+            this.router.navigateByUrl(
+              `workspace/${this.dashboard.workspace_id}`
+            );
+          } else {
+            this._showSnackbar('error', 'Error while leaving dashboard');
+          }
+        },
+        error: () => {
+          this._showSnackbar('error', 'Error while leaving dashboard');
+        },
+      });
   }
 
   private _onUpdateDashboard(obj: { [key: string]: any }): void {

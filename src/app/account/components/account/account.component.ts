@@ -123,7 +123,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private _onGetDashboards(): void {
     this.loading_dashboards = true;
     this.dashboardService
-      .getDashboardsFromMember(this.user._id as string)
+      .onGetDashboardsFromMember(this.user._id as string)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: HttpResponse) => {

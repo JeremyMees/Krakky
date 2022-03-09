@@ -84,7 +84,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       bg_color: form.value.color,
       recent_tags: [],
     };
-    this.dashboardService.addDashboard(dashboard).subscribe({
+    this.dashboardService.onAddDashboard(dashboard).subscribe({
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
         this._onFilterDashboardMember();
@@ -114,7 +114,6 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     this.workspace.dashboards.forEach((dashboard: Dashboard) => {
       if (dashboard.private) {
         dashboard.team.forEach((member: Member) => {
-          console.log(this.current_user?._id);
           if (member._id === (this.current_user?._id as string)) {
             this.dashboards.push(dashboard);
           }
@@ -165,7 +164,7 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.dashboardService
-          .deleteDashboard(id)
+          .onDeleteDashboard(id)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {

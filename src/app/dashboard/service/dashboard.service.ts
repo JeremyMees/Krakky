@@ -12,48 +12,57 @@ import { IfMemberDashboard } from '../models/if-member-dashboard.model';
 export class DashboardService {
   constructor(private http: HttpClient) {}
 
-  public addDashboard(dashboard: AddDashboard): Observable<HttpResponse> {
+  public onAddDashboard(dashboard: AddDashboard): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/dashboard`,
       dashboard
     );
   }
 
-  public deleteDashboard(id: string): Observable<HttpResponse> {
+  public onDeleteDashboard(id: string): Observable<HttpResponse> {
     return this.http.delete<HttpResponse>(
       `${environment.base_url}/dashboard/${id}`
     );
   }
 
-  public updateDashboard(dashboard: Dashboard): Observable<HttpResponse> {
+  public onUpdateDashboard(dashboard: Dashboard): Observable<HttpResponse> {
     return this.http.patch<HttpResponse>(
       `${environment.base_url}/dashboard`,
       dashboard
     );
   }
 
-  public getDashboard(board_id: string): Observable<HttpResponse> {
+  public onGetDashboard(board_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/dashboard?board_id=${board_id}`
     );
   }
 
-  public getDashboardsFromMember(user_id: string): Observable<HttpResponse> {
+  public onGetDashboardsFromMember(user_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/dashboard?member=${user_id}`
     );
   }
 
-  public getAggregatedDashboard(board_id: string): Observable<HttpResponse> {
+  public onGetAggregatedDashboard(board_id: string): Observable<HttpResponse> {
     return this.http.get<HttpResponse>(
       `${environment.base_url}/dashboard?board_id=${board_id}`
     );
   }
 
-  public checkIfMember(payload: IfMemberDashboard): Observable<HttpResponse> {
+  public onCheckIfMember(payload: IfMemberDashboard): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/dashboard/is_member`,
       payload
+    );
+  }
+
+  public onLeaveDashboard(
+    dashboard_id: string,
+    user_id: string
+  ): Observable<HttpResponse> {
+    return this.http.delete<HttpResponse>(
+      `${environment.base_url}/dashboard/member/${dashboard_id}/${user_id}`
     );
   }
 }

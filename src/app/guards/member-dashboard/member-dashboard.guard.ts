@@ -27,7 +27,7 @@ export class MemberDashboardGuard implements CanActivate {
         }
       });
     return this.dashboardService
-      .getDashboard(route.params.id)
+      .onGetDashboard(route.params.id)
       .toPromise()
       .then((res: HttpResponse) => {
         if (res.data) {
