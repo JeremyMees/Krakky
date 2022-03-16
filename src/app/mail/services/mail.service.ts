@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment';
 import { ContactMail } from '../models/contact-mail.model';
+import { ForgotMail } from '../models/forgot-mail.model';
 import { WelcomeMail } from '../models/welcome-mail.model';
 
 @Injectable({
@@ -22,6 +23,13 @@ export class MailService {
   public onSendContactEmail(mail: ContactMail): Observable<HttpResponse> {
     return this.http.post<HttpResponse>(
       `${environment.base_url}/mail/contact`,
+      mail
+    );
+  }
+
+  public onSendForgetEmail(mail: ForgotMail): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/mail/forgot`,
       mail
     );
   }

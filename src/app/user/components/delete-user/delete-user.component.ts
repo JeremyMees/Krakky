@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { UserService } from '../../services/user.service';
 
@@ -12,8 +11,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./delete-user.component.scss'],
   providers: [MessageService],
 })
-export class DeleteUserComponent implements OnInit, OnDestroy {
-  destroy$: Subject<boolean> = new Subject();
+export class DeleteUserComponent implements OnInit {
   user_id!: string;
 
   constructor(
@@ -27,14 +25,10 @@ export class DeleteUserComponent implements OnInit, OnDestroy {
     this._onGetParamId();
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-  }
-
   public onDeleteUser(): void {
     this.userService
       .onDeleteUser(this.user_id)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(take(1))
       .subscribe({
         next: (res: HttpResponse) => {
           if (res.statusCode === 200) {
@@ -53,7 +47,7 @@ export class DeleteUserComponent implements OnInit, OnDestroy {
   }
 
   private _onGetParamId(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+    this.route.params.pipe(take(1)).subscribe((params) => {
       if (params.id) {
         this.user_id = params.id;
       } else {

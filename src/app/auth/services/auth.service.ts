@@ -55,9 +55,6 @@ export class AuthService {
             this.router.navigateByUrl('home');
           }
         },
-        error: () => {
-          this.router.navigateByUrl('home');
-        },
       });
   }
 

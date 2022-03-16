@@ -7,6 +7,7 @@ import { UpdateUserSettings } from 'src/app/account/models/update-user-setting.m
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment';
 import { UserAdd } from '../models/add_user.model';
+import { ResetPassword } from '../models/reset-password.model';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -62,5 +63,19 @@ export class UserService {
           return res;
         })
       );
+  }
+
+  public onCreateResetPasswordToken(email: string): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/user/create_token`,
+      { email }
+    );
+  }
+
+  public onResetPassword(reset: ResetPassword): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(
+      `${environment.base_url}/user/password_reset`,
+      reset
+    );
   }
 }

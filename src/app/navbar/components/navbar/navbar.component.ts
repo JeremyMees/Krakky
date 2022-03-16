@@ -43,7 +43,11 @@ export class NavbarComponent implements OnInit {
         if (result.redirect) {
           this.openRegisterDialog();
         } else {
-          this._onGetCurrentUser();
+          if (result.message.includes('Reset token')) {
+            this._showSnackbar('info', result.message);
+          } else {
+            this._onGetCurrentUser();
+          }
         }
       }
     });
@@ -93,7 +97,6 @@ export class NavbarComponent implements OnInit {
           this.userService.onSetCurrentUser(res.data);
         },
         error: () => {
-          this.authService.logout();
           this._showSnackbar('error', "Coudn't find user");
         },
       });

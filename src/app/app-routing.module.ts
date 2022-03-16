@@ -19,6 +19,7 @@ import { NotVerifiedGuard } from './guards/not-verified/not-verified.guard';
 import { VerifyUserComponent } from './verify/components/verify-user/verify-user.component';
 import { DeleteUserComponent } from './user/components/delete-user/delete-user.component';
 import { WorkspaceJoinMemberComponent } from './workspace/components/workspace-join-member/workspace-join-member.component';
+import { ResetPasswordComponent } from './user/components/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'users/delete/:id',
     component: DeleteUserComponent,
+  },
+  {
+    path: 'users/reset-password/:token',
+    component: ResetPasswordComponent,
   },
   { path: 'account', component: AccountComponent, canActivate: [LoginGuard] },
   {
