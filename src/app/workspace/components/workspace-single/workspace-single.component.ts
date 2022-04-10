@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AddDashboard } from 'src/app/dashboard/models/add-dashboard.model';
 import { Dashboard } from 'src/app/dashboard/models/dashboard.model';
 import { DashboardService } from 'src/app/dashboard/service/dashboard.service';
+import { SocketDashboardService } from 'src/app/dashboard/service/socket-dashboard.service';
 import { DeleteDialog } from 'src/app/shared/dialogs/delete/delete.component';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { RandomColors } from 'src/app/shared/models/random-colors.model';
@@ -88,10 +89,23 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse) => {
         this.workspace.dashboards.push(res.data);
         this._onFilterDashboardMember();
+        this._onAddBasicLists(res.data.board_id);
       },
       error: () => {
         this._showSnackbar('error', 'Error while adding dashboard');
       },
+    });
+  }
+
+  private _onAddBasicLists(id: string): void {
+    const titles: Array<string> = ['done', 'in progress', 'to do'];
+    titles.forEach((title: string) => {
+      this.dashboardService
+        .onAddList({
+          board_id: id,
+          title,
+        })
+        .subscribe();
     });
   }
 

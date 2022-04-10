@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from 'src/app/shared/models/http-response.model';
 import { environment } from 'src/environments/environment';
 import { AddDashboard } from '../models/add-dashboard.model';
+import { AddList } from '../models/add-list.model';
 import { Dashboard } from '../models/dashboard.model';
 import { IfMemberDashboard } from '../models/if-member-dashboard.model';
 @Injectable({
@@ -17,6 +18,10 @@ export class DashboardService {
       `${environment.base_url}/dashboard`,
       dashboard
     );
+  }
+
+  public onAddList(list: AddList): Observable<HttpResponse> {
+    return this.http.post<HttpResponse>(`${environment.base_url}/list`, list);
   }
 
   public onDeleteDashboard(id: string): Observable<HttpResponse> {
