@@ -32,19 +32,26 @@ export class LoginComponent implements OnInit {
   }
 
   private _onSetLoginForm(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
+    this.loginForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   private _onSetResetForm(): void {
-    this.resetForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-    });
+    this.resetForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onLogin(form: FormGroup): void {
+    console.log(form.value);
     if (form.invalid) {
       form.reset();
       this._showSnackbar('error', "Form wasn't filled correctly");

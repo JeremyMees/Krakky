@@ -175,20 +175,43 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
 
   public onSetForm(): void {
     if (this.selected_workspace) {
-      this.workspaceForm = this.formBuilder.group({
-        color: [this.selected_workspace.bg_color],
-        title: [
-          this.selected_workspace.workspace,
-          [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(20),
+      this.workspaceForm = this.formBuilder.group(
+        {
+          color: [this.selected_workspace.bg_color],
+          title: [
+            this.selected_workspace.workspace,
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(20),
+            ],
           ],
-        ],
-      });
+        },
+        { updateOn: 'submit' }
+      );
     } else {
-      this.workspaceForm = this.formBuilder.group({
-        color: ['#ffffff'],
+      this.workspaceForm = this.formBuilder.group(
+        {
+          color: ['#ffffff'],
+          title: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(20),
+            ],
+          ],
+        },
+        { updateOn: 'submit' }
+      );
+    }
+  }
+
+  public onSetFormNewWorkspace(): void {
+    const random_colors: RandomColors =
+      this.sharedService.onGenerateRandomColors();
+    this.newWorkspaceForm = this.formBuilder.group(
+      {
         title: [
           '',
           [
@@ -197,24 +220,10 @@ export class WorkspaceListComponent implements OnInit, OnDestroy {
             Validators.maxLength(20),
           ],
         ],
-      });
-    }
-  }
-
-  public onSetFormNewWorkspace(): void {
-    const random_colors: RandomColors =
-      this.sharedService.onGenerateRandomColors();
-    this.newWorkspaceForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
-        ],
-      ],
-      color: [random_colors.bg_color, [Validators.required]],
-    });
+        color: [random_colors.bg_color, [Validators.required]],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onAddWorkspace(form: FormGroup): void {

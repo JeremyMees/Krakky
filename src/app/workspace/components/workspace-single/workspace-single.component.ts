@@ -228,34 +228,40 @@ export class WorkspaceSingleComponent implements OnInit, OnDestroy {
   }
 
   public onSetFormWorkspace(): void {
-    this.workspaceForm = this.formBuilder.group({
-      color: [this.workspace.bg_color],
-      title: [
-        this.workspace.workspace,
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
+    this.workspaceForm = this.formBuilder.group(
+      {
+        color: [this.workspace.bg_color],
+        title: [
+          this.workspace.workspace,
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
         ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onSetFormDashboard(): void {
     const random_colors: RandomColors =
       this.sharedService.onGenerateRandomColors();
-    this.dashboardForm = this.formBuilder.group({
-      private: [false],
-      color: [random_colors.bg_color, [Validators.required]],
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
+    this.dashboardForm = this.formBuilder.group(
+      {
+        private: [false],
+        color: [random_colors.bg_color, [Validators.required]],
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
         ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   private _showSnackbar(severity: string, detail: string): void {

@@ -85,18 +85,21 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   private _onSetForm(): void {
-    this.resetForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-          containsNumberValidator,
+    this.resetForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+            containsNumberValidator,
+          ],
         ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   private _showSnackbar(severity: string, detail: string): void {

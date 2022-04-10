@@ -475,20 +475,41 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public onSetFormDashboard(): void {
     if (this.dashboard) {
-      this.dashboardForm = this.formBuilder.group({
-        color: [this.dashboard.bg_color],
-        title: [
-          this.dashboard.title,
-          [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(20),
+      this.dashboardForm = this.formBuilder.group(
+        {
+          color: [this.dashboard.bg_color],
+          title: [
+            this.dashboard.title,
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(20),
+            ],
           ],
-        ],
-      });
+        },
+        { updateOn: 'submit' }
+      );
     } else {
-      this.dashboardForm = this.formBuilder.group({
-        color: ['#ffffff'],
+      this.dashboardForm = this.formBuilder.group(
+        {
+          color: ['#ffffff'],
+          title: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(20),
+            ],
+          ],
+        },
+        { updateOn: 'submit' }
+      );
+    }
+  }
+
+  public onSetFormList(): void {
+    this.listForm = this.formBuilder.group(
+      {
         title: [
           '',
           [
@@ -497,34 +518,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
             Validators.maxLength(20),
           ],
         ],
-      });
-    }
-  }
-
-  public onSetFormList(): void {
-    this.listForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
-        ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onSetFormCard(): void {
-    this.cardForm = this.formBuilder.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(100),
+    this.cardForm = this.formBuilder.group(
+      {
+        title: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(100),
+          ],
         ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   private _showSnackbar(severity: string, detail: string): void {

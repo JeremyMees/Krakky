@@ -106,22 +106,25 @@ export class EditAccountDialog implements OnInit, OnDestroy {
   }
 
   private _onSetForm(): void {
-    this.userForm = this.formBuilder.group({
-      username: [
-        this.data.user.username,
-        [Validators.minLength(4), Validators.maxLength(12)],
-      ],
-      email: [this.data.user.email, [Validators.email]],
-      new_password: [
-        '',
-        [
-          Validators.minLength(6),
-          Validators.maxLength(20),
-          containsNumberValidator,
+    this.userForm = this.formBuilder.group(
+      {
+        username: [
+          this.data.user.username,
+          [Validators.minLength(4), Validators.maxLength(12)],
         ],
-      ],
-      password: ['', Validators.required],
-    });
+        email: [this.data.user.email, [Validators.email]],
+        new_password: [
+          '',
+          [
+            Validators.minLength(6),
+            Validators.maxLength(20),
+            containsNumberValidator,
+          ],
+        ],
+        password: ['', Validators.required],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public changeInputType(): void {

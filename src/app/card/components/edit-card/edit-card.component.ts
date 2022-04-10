@@ -278,17 +278,20 @@ export class EditCardComponent implements OnInit {
   public onSetTagForm(): void {
     const random_colors: RandomColors =
       this.sharedService.onGenerateRandomColors();
-    this.tagForm = this.formBuilder.group({
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(10),
+    this.tagForm = this.formBuilder.group(
+      {
+        description: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(1),
+            Validators.maxLength(10),
+          ],
         ],
-      ],
-      color: [random_colors.bg_color, [Validators.required]],
-    });
+        color: [random_colors.bg_color, [Validators.required]],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onSaveDates(): void {

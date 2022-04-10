@@ -194,23 +194,29 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   public onSetFormWorkspace(): void {
-    this.workspaceForm = this.formBuilder.group({
-      color: [this.workspace.bg_color],
-      title: [
-        this.workspace.workspace,
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(20),
+    this.workspaceForm = this.formBuilder.group(
+      {
+        color: [this.workspace.bg_color],
+        title: [
+          this.workspace.workspace,
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(20),
+          ],
         ],
-      ],
-    });
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onSetFormMember(): void {
-    this.memberForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-    });
+    this.memberForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onSaveWorkspaceTitle(form: FormGroup): void {

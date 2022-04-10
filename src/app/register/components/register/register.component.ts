@@ -102,27 +102,30 @@ export class RegisterComponent implements OnInit {
   }
 
   private _onSetForm(): void {
-    this.registerForm = this.formBuilder.group({
-      username: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(12),
+    this.registerForm = this.formBuilder.group(
+      {
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(12),
+          ],
         ],
-      ],
-      email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-          containsNumberValidator,
+        email: ['', [Validators.required, Validators.email]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20),
+            containsNumberValidator,
+          ],
         ],
-      ],
-      marketing: [false],
-    });
+        marketing: [false],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onRandomizeAvatar(): void {

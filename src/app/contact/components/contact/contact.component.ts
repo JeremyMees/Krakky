@@ -42,45 +42,51 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private _onSetForm(): void {
     if (this.user) {
-      this.contactForm = this.formBuilder.group({
-        username: [
-          this.user.username,
-          [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(12),
+      this.contactForm = this.formBuilder.group(
+        {
+          username: [
+            this.user.username,
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(12),
+            ],
           ],
-        ],
-        email: [this.user.email, [Validators.required, Validators.email]],
-        message: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(1),
-            Validators.maxLength(500),
+          email: [this.user.email, [Validators.required, Validators.email]],
+          message: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(1),
+              Validators.maxLength(500),
+            ],
           ],
-        ],
-      });
+        },
+        { updateOn: 'submit' }
+      );
     } else {
-      this.contactForm = this.formBuilder.group({
-        username: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(12),
+      this.contactForm = this.formBuilder.group(
+        {
+          username: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(4),
+              Validators.maxLength(12),
+            ],
           ],
-        ],
-        email: ['', [Validators.required, Validators.email]],
-        message: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(1),
-            Validators.maxLength(500),
+          email: ['', [Validators.required, Validators.email]],
+          message: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(1),
+              Validators.maxLength(500),
+            ],
           ],
-        ],
-      });
+        },
+        { updateOn: 'submit' }
+      );
     }
   }
 

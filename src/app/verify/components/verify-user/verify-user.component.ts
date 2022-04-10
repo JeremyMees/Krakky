@@ -114,10 +114,13 @@ export class VerifyUserComponent implements OnInit, OnDestroy {
   }
 
   private _onSetLoginForm(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
+    this.loginForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+      },
+      { updateOn: 'submit' }
+    );
   }
 
   public onChangeInputType(): void {
