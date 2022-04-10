@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
           containsNumberValidator,
         ],
       ],
-      marketing: [true],
+      marketing: [false],
     });
   }
 
