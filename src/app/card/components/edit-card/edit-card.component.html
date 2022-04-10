@@ -387,7 +387,7 @@
       <div
         class="color"
         *ngFor="let theme of themes"
-        [style]="{ 'background-color': theme }"
+        [class]="theme"
         (click)="onChangeColor(theme)"
         [pTooltip]="theme"
         [showDelay]="500"
